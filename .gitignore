@@ -1,0 +1,9 @@
+OpenGL_SDK/
+BaseOriginal/*.rar
+**/.vs/
+**/bin/
+**/bin-int/
+**/*.user
+**/imgui.ini
+**/OpenGL_Info.txt
+logs/
