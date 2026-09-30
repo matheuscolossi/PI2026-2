@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <OpenGL_SDK>$(MSBuildThisFileDirectory)..\OpenGL_SDK</OpenGL_SDK>
+    <LocalDebuggerWorkingDirectory>$(MSBuildThisFileDirectory)</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+</Project>

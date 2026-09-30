@@ -182,4 +182,12 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ItemGroup>
+    <ClInclude Include="Scenes\UltimoSinal\Investigation.h" />
+    <ClInclude Include="Scenes\UltimoSinal\Geometry.h" />
+    <ClInclude Include="Scenes\UltimoSinal\UltimoSinal.h" />
+    <ClCompile Include="Scenes\UltimoSinal\UltimoSinal.cpp" />
+    <None Include="Scenes\UltimoSinal\Prototype.vert" />
+    <None Include="Scenes\UltimoSinal\Prototype.frag" />
+  </ItemGroup>
 </Project>

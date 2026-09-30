@@ -1,4 +1,5 @@
-#include "CSceneManager.h"
+﻿#include "CSceneManager.h"
+#include "Scenes/UltimoSinal/UltimoSinal.h"
 
 // Construtor
 	
@@ -11,7 +12,7 @@ CSceneManager::CSceneManager()
 
 	// Inicializa ponteiros das cenas	
 	// Cria a cena principal
-	uiCurrentScene = 5;
+	uiCurrentScene = 2; // Cena do grupo; aulas 0, 1 e 5 preservadas.
 	iMenuCurrentScene = uiCurrentScene;
 	ChangeScene(uiCurrentScene);
 }
@@ -72,6 +73,9 @@ void CSceneManager::ProcessSceneInput(GLFWwindow* window, float deltaTime)
 	if (input.IsKeyJustPressed(GLFW_KEY_1))
 		ChangeScene(1);
 	
+	if (input.IsKeyJustPressed(GLFW_KEY_2))
+		ChangeScene(2);
+
 	// Seleciona a cena 5
 	if (input.IsKeyJustPressed(GLFW_KEY_5))
 		ChangeScene(5);
@@ -103,6 +107,10 @@ void CSceneManager::ChangeScene(unsigned int _uiCurrentScene)
 
 	switch (uiCurrentScene)
 	{
+	case 2:
+		this->Scene = new UltimoSinal();
+		break;
+
 	case 0:
 		this->Scene = new Scene0();
 		break;

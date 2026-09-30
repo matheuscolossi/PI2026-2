@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Engine\CAsset.cpp">
@@ -253,5 +253,14 @@
     <Filter Include="Scenes\Scene5">
       <UniqueIdentifier>{5d317557-bb35-4b22-b8bd-8c6e1573a86e}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup><Filter Include="Scenes\UltimoSinal"><UniqueIdentifier>{2B55CC3B-6037-4FE6-BBA4-16813E012A72}</UniqueIdentifier></Filter></ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scenes\UltimoSinal\Investigation.h"><Filter>Scenes\UltimoSinal</Filter></ClInclude>
+    <ClInclude Include="Scenes\UltimoSinal\Geometry.h"><Filter>Scenes\UltimoSinal</Filter></ClInclude>
+    <ClInclude Include="Scenes\UltimoSinal\UltimoSinal.h"><Filter>Scenes\UltimoSinal</Filter></ClInclude>
+    <ClCompile Include="Scenes\UltimoSinal\UltimoSinal.cpp"><Filter>Scenes\UltimoSinal</Filter></ClCompile>
+    <None Include="Scenes\UltimoSinal\Prototype.vert"><Filter>Scenes\UltimoSinal</Filter></None>
+    <None Include="Scenes\UltimoSinal\Prototype.frag"><Filter>Scenes\UltimoSinal</Filter></None>
   </ItemGroup>
 </Project>
