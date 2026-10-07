@@ -1,0 +1,17 @@
+{
+  "executable_sha256": "865ed3ff8e01017d6c3b9185ae638e146f2965a834f8183be704cb64fca0bbb8",
+  "runs": [
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=17278 median_ms=6.9426 p95_ms=7.1527",
+      "GPU=NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2 Driver=4.6.0 NVIDIA 610.74"
+    ],
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=17292 median_ms=6.9427 p95_ms=7.3066",
+      "GPU=NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2 Driver=4.6.0 NVIDIA 610.74"
+    ],
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=17291 median_ms=6.9449 p95_ms=7.2148",
+      "GPU=NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2 Driver=4.6.0 NVIDIA 610.74"
+    ]
+  ]
+}

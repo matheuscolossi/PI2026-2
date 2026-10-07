@@ -1,5 +1,7 @@
 # Planejamento Matheus
 
+> **Atualização de 07/10/2026:** narrativa de Augusto/Helena definida e implementação autorizada; base atualizada para 06/10, controles, conclusão e técnicas gráficas integrados. Este documento preserva o diagnóstico histórico. Consulte STATUS.md, REQUISITOS.md, NARRATIVA.md e VALIDACAO.md para o estado atual.
+
 > **Atualização de 29/09/2026:** Matheus autorizou iniciar a produção do zero nesta pasta. O texto abaixo preserva o diagnóstico original; seu estado de espera por aprovação foi superado por essa instrução. Consulte `STATUS.md` para o progresso atual. Nenhuma tarefa futura deve ser considerada concluída sem evidência.
 
 ## O Último Sinal — plano do estado atual à conclusão

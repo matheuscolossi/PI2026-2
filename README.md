@@ -1,77 +1,58 @@
 # O Último Sinal
 
-Produção reiniciada em 29/09/2026 sobre uma cópia limpa da BaseAppOGL 2024T2, atualizada pelo professor em 22/09/2026 (UTC). Esta pasta da Área de Trabalho é o novo projeto. O protótipo antigo permanece separado.
+Jogo investigativo C++/OpenGL para Projeto Integrador VI e Computação Gráfica. Projeto na Área de Trabalho: `C:\Users\mlc17\Desktop\O Último Sinal`. Base 2024T2 de 06/10/2026 UTC, com aulas 0, 1, 5 e 6 preservadas; jogo na cena 2.
 
-## Abrir no Visual Studio Community
+## Abrir e executar
 
 1. Abra `BaseAppOGL/BaseAppOGL.sln` no Visual Studio Community 2026.
-2. Selecione **Debug** e **x64**.
-3. Pressione **Ctrl+F5** (executar) ou **F5** (depurar).
-4. Na tela inicial do jogo, pressione **Enter**.
+2. Selecione **Release | x64** para jogar ou **Debug | x64** para depurar.
+3. Use **Ctrl+F5**. Para abrir a versão já compilada, execute `Jogar.cmd`.
 
-O nome da solução e da janela ainda segue a base do professor: BaseAppOGL / OpenGL BaseApp. O jogo é a cena 2.
+O SDK está ao lado da solução em `OpenGL_SDK`. Release usa `OpenGL_SDK/release`, compilado dos fontes locais; Debug mantém a configuração do professor. O executável encontra os recursos pela própria localização e pode ser iniciado de outra pasta.
 
-O SDK está em `OpenGL_SDK`, ao lado de `BaseAppOGL`. O caminho e a pasta de execução são definidos em `BaseAppOGL/Directory.Build.props`, sem alterar variáveis globais do Windows. Não separar essas pastas.
-
-**Release ainda não está preparado.** Use Debug x64 nesta etapa. Não executar o .exe isoladamente por duplo clique em sua subpasta: os recursos ainda dependem da pasta do projeto. `Jogar.cmd` inicia a versão já compilada com a pasta correta.
+O pacote local está em `dist/O-Ultimo-Sinal-Windows-x64`. Extraia/copie a pasta inteira, incluindo Scenes, Fonts e DLLs. Teste também no computador de apresentação. Requer Windows x64, driver com OpenGL 4.6 e Microsoft Visual C++ Runtime x64 compatível; o pacote não instala componentes automaticamente.
 
 ## Controles
 
-| Controle | Ação |
+| Tecla | Ação |
 |---|---|
-| Enter na tela inicial | Começar |
+| Enter na abertura | Iniciar |
 | WASD / mouse | Andar / olhar |
-| E | Examinar pista indicada pela mira / fechar leitura |
-| J | Abrir ou fechar caderno; clique numa descoberta para reler |
-| Tab | Pausar / continuar |
-| R em pausa ou encerramento | Reiniciar |
-| Enter depois das cinco pistas | Encerrar o teste do percurso |
-| Esc | Sair, conforme a base |
-| 0, 1 e 5 | Cenas do professor |
-| 2 | Reiniciar a cena do grupo |
-| V / Caps Lock | VSync / wireframe da base |
+| E | Examinar / fechar leitura |
+| J | Caderno; clique numa pista descoberta para reler |
+| Tab | Pausa / voltar à tela anterior |
+| R na pausa ou no resultado | Reiniciar |
+| Enter após cinco pistas | Abrir formulário de conclusão |
+| Esc | Sair; durante digitação de justificativa os atalhos globais são bloqueados |
+| 0, 1, 5, 6 | Aulas do professor |
+| 2 | Recriar a cena do jogo |
+| V / Caps Lock | VSync / wireframe, herdados da base |
 
-As pistas são objetos coloridos provisórios. Aproxime-se e mire neles. A chave fica na primeira sala e libera a passagem central para a segunda.
+As opções de câmera estão na abertura e na pausa: sensibilidade, inversão vertical e restaurar padrão. As configurações duram até fechar/recriar a cena. A pausa oferece comparações dos efeitos gráficos.
+
+## Investigação
+
+Augusto morreu após uma queda no farol. A chave encontrada perto das pegadas abre a sala da lente. Examine diário, ferramenta, pegadas, chave e fotografia. Ao reunir tudo, escolha uma hipótese, marque duas evidências e explique sua conclusão antes de receber o feedback. O programa não corrige semanticamente a justificativa; no piloto, o observador registra e avalia a resposta.
 
 ## Organização
 
-- `BaseAppOGL/Scenes/UltimoSinal`: cena, estado da investigação e geometria de interação do grupo.
-- `BaseAppOGL/Scenes/Scene0`, `Scene1`, `Scene5`: aulas preservadas.
-- `BaseOriginal`: arquivo original, origem e hash SHA-256.
-- `docs/Planejamento_Matheus.md`: planejamento e diagnóstico de referência.
-- `docs/STATUS.md`: estado atual de cada frente e evidências de verificação.
-- `docs/REQUISITOS.md`: checklist completo de PI e CG.
-- `tests`: testes das regras, estados e interseção geométrica, sem janela OpenGL.
-- `logs`: saídas locais de compilação, não versionadas.
+- `Scenes/UltimoSinal/Narrative.h`: conteúdo e hipóteses.
+- `Investigation.h`: regras e estados.
+- `UltimoSinal.cpp`: entrada, movimento, colisão e seleção.
+- `Interface.cpp`: menus, caderno, opções e relatório.
+- `World.cpp` e shaders: geometria e materiais.
+- `Engine/MouseMotion.h`: acumulação de eventos, testável sem janela.
+- `tests`: 5.068 verificações de regras e geometria.
+- `docs`: requisitos, narrativa, origem da base, resultados e pendências.
 
-## Verificações em 29/09/2026
+## Testes
 
-- Base limpa e cena do grupo compiladas com MSBuild do Visual Studio Community 2026, Debug x64.
-- Aviso C4244 preexistente em `Scenes/Scene5/Scene5.cpp`, sem erro de compilação.
-- Testes: 120 permutações das pistas; contagem única; passagem por chave; bloqueio de coleta em menus; reinício; releitura; interseção com parede fina e raio de colisão.
-- Conferência visual: tela inicial, início, caderno e cenas 0/1/5/2.
-- GPU observada: NVIDIA GeForce RTX 3050 Laptop GPU, OpenGL 4.6.
-- **Ainda não validado:** percurso manual das cinco pistas nesta nova cena, duração de 5–10 minutos, desempenho segundo o protocolo acadêmico e piloto.
+`tools/Testar.ps1` ou o projeto `tests/Testes.vcxproj`: testes puros. O executável aceita `--verify-game` para percorrer automaticamente a geometria real e renderizar todas as cenas. Aceita `--benchmark` para 30 s de aquecimento e 120 s de coleta em 1280×720, VSync ligado; escreve `benchmark_frames.csv` na raiz dos recursos. O modo de benchmark usa uma trajetória técnica repetível e não é piloto com jogadores.
 
-Para repetir os testes: abra `tests/Testes.vcxproj` no Visual Studio e execute Debug x64; o resultado aparece no console. Alternativamente, execute `tools/Testar.ps1` num terminal de desenvolvimento. Esses testes não substituem a validação visual e o percurso.
+Consulte `docs/VALIDACAO.md`, `docs/DESEMPENHO.md` e `docs/STATUS.md` para evidências e limites.
 
-## Limite desta versão
+## O que ainda falta
 
-Fundação inicial: menu, cenário em blocos, cinco pistas, caderno, chave, pausa e reinício. Os shaders são cópias dos shaders de primitivas da aula; a cena do jogo ainda não demonstra as técnicas gráficas finais. A mensagem de encerramento comprova somente o estado das cinco pistas, não é a solução narrativa do mistério.
+Modelagem autoral no 3DS Max, Unwrap UVW, sombras por bake, detalhes finais das pistas, comparação visual rigorosa dos efeitos, validação manual completa e piloto com cinco participantes. Os gráficos melhoraram, mas os modelos atuais continuam provisórios. A duração de 5–10 minutos ainda não foi confirmada.
 
-Gabarito, alternativas e feedback narrativo dependem da definição do grupo. Modelagem no 3DS Max, UVW, iluminação, multitextura no jogo, skybox, environment mapping/reflexão/refração, normal mapping, fog, blending e bake permanecem no checklist.
-
-## Atualizações das aulas
-
-1. Guardar cada novo arquivo da turma em `BaseOriginal` com data e hash.
-2. Extrair em uma pasta de comparação, sem sobrescrever o projeto.
-3. Comparar com a referência Git da base anterior (`professor-2026-09-22` nesta versão).
-4. Incorporar mudanças do professor e preservar `Scenes/UltimoSinal`.
-5. Reaplicar o registro da cena 2 no gerenciador se necessário.
-6. Compilar e conferir aulas e jogo; registrar resultado em STATUS.
-
-A base fica concentrada nas cenas de aula e engine. Neste início, a integração do grupo altera somente o registro da cena em `CSceneManager.cpp`, a lista de arquivos do projeto e a configuração local do SDK.
-
-## Backup e colaboração
-
-Há histórico Git local, sem remoto configurado e sem publicação feita. A pasta está no OneDrive; sincronização em nuvem não foi verificada. Não assumir que ela substitui uma cópia de segurança ou a entrega no forge.
+Há repositório Git local, sem envio ao forge. Os créditos e limitações de licença estão em `docs/CREDITOS.md`. Nenhum resultado de participante foi simulado.

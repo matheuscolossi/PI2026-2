@@ -1,8 +1,8 @@
 @echo off
 cd /d "%~dp0BaseAppOGL"
-if not exist "bin\Debug\BaseAppOGL.exe" (
-  echo Compile BaseAppOGL.sln em Debug x64 no Visual Studio primeiro.
-  pause
-  exit /b 1
+if exist "bin\Release\BaseAppOGL.exe" (
+  "bin\Release\BaseAppOGL.exe"
+) else (
+  "bin\Debug\BaseAppOGL.exe"
 )
-start "O Ultimo Sinal" "bin\Debug\BaseAppOGL.exe"
+if errorlevel 1 pause

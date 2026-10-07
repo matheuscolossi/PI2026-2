@@ -7,3 +7,7 @@ BaseOriginal/*.rar
 **/imgui.ini
 **/OpenGL_Info.txt
 logs/
+
+backups/
+dist/
+**/benchmark_frames.csv

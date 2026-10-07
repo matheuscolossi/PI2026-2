@@ -1,47 +1,40 @@
-# Acompanhamento — Planejamento Matheus
+# Acompanhamento — 07/10/2026
 
-## Reinício autorizado em 29/09/2026
+## Versão atual
 
-Matheus solicitou começar do zero na pasta O Último Sinal da Área de Trabalho, seguindo o planejamento e a base. Essa instrução autoriza este início de implementação e substitui o estado de espera descrito no diagnóstico histórico.
+Implementação local na Área de Trabalho, autorizada por Matheus. Debug e Release x64 compilados no Visual Studio Community 2026. Não é a entrega acadêmica final.
 
-## Estado por tarefa
-
-| Tarefa | Estado | Evidência ou pendência |
+| Frente | Estado | Evidência e limite |
 |---|---|---|
-| F0.1 — Requisitos e prazos | Parcial | Checklist criado; faltam datas específicas de PI, horas disponíveis e responsabilidades. |
-| F0.2 — Comparar base | Concluída | Comparação com 14/09 identificou novo Scene5 e alterações no projeto/gerenciador; arquivo atual preservado com hash. |
-| F0.3 — Base atual funcional | Validada nesta máquina | Cópia limpa de 22/09, build Debug x64 e cenas 0/1/5/2 conferidas. |
-| F1.1 — Narrativa/gabarito | Pendente | Conteúdo provisório; nenhuma solução do mistério definida como final. |
-| F1.2 — Mapa | Em desenvolvimento | Ilha, duas salas, mesas e porta em blocos; precisa revisão do percurso. |
-| F1.3 — Estados | Implementado e testado em lógica | Menu, exploração, leitura, caderno, pausa e encerramento do protótipo, sem booleanos de menus sobrepostos. |
-| F2.1 — Regras e IDs | Implementado e testado | IDs nomeados, chave independente da ordem, 120 permutações testadas. |
-| F2.2 — Movimento/mira | Implementado; validação parcial | Colisão, segmento/AABB e pausa ao perder foco; percurso completo ainda pendente. |
-| F2.3 — Leitura/caderno | Implementado; validação parcial | Releitura disponível, caderno inicial conferido; textos finais pendentes. |
-| F2.4 — Conclusão/feedback | Pendente | Apenas encerramento técnico após cinco pistas. Não confundir com conclusão narrativa. |
-| F2.5 — Percurso integral | Pendente | Testes de lógica não substituem jogar até a última pista. |
-| F3.1–F3.8 — Arte e gráficos | Pendente | Matriz em REQUISITOS; nenhuma técnica final certificada na cena do grupo. |
-| F4.1 — Erros de recursos | Pendente | Diagnósticos herdados da base; tratamento robusto ainda falta. |
-| F4.2 — Release/pacote | Pendente | Debug configurado; iniciador local facilita a execução, mas não é pacote de distribuição. |
-| F4.3–F4.4 — Desempenho e versão candidata | Pendente | Sem benchmark ou validação de distribuição. |
-| F5.1–F5.3 — Piloto | Pendente | Sem coleta com participantes. |
-| F6.1 — Forge | Pendente | Git local; nenhum remoto ou envio. |
-| F6.2 — Documentação final | Em desenvolvimento | Planejamento, README, checklist e status presentes; resultados finais faltam. |
-| F6.3–F6.4 — Entrega/polimento | Pendente | Não é versão final. |
+| Base da turma | Integrada e testada em renderização | Base de 06/10 UTC: aulas 0, 1, 5 e 6; jogo separado na cena 2. `BASE_2026-10-06.md`. |
+| Narrativa | Implementada | Morte de Augusto, naufrágio de Helena e sinal clandestino. `NARRATIVA.md` e `Narrative.h`. |
+| Mouse | Corrigido e testado em lógica | Soma de todos os eventos, limpeza por quadro, reset na captura/foco; movimento sem multiplicar por deltaTime. |
+| Ajustes de câmera | Implementados; painel conferido na janela | Sensibilidade 0,015–0,20, padrão 0,06; inversão vertical e restauração. Falta avaliação de conforto com Matheus e outros jogadores. |
+| Estados e conclusão | Implementados e testados | Hipótese + duas evidências + justificativa antes do feedback; releitura retorna ao caderno; pausa restaura tela anterior. |
+| Percurso geométrico | Testado automaticamente no executável | 27 verificações: deslocamento real com colisões, mira nas cinco posições, chave, conclusão e reinício. Não substitui uma sessão humana completa. |
+| Cenário | Melhorado, arte provisória | Texturas, céu, farol detalhado, móveis com pernas, cais, botas e representações distintas de pistas. |
+| Técnicas gráficas | Implementadas parcialmente e renderizadas | Ver matriz em `REQUISITOS.md`; comparação visual sistemática de cada efeito ainda pendente. |
+| Release | Compilado e testado nesta máquina | Bibliotecas Release compiladas do SDK local; sem dependência dos DLLs Debug. |
+| Distribuição | Testado nesta máquina | Pacote separado passou no percurso/cenas a partir de pasta externa; recurso ausente diagnosticado e restaurado. `VALIDACAO.md`. |
+| Desempenho | Medido nesta máquina | Três execuções de 30 s + 120 s; p95 de 7,15–7,31 ms. Limites em `DESEMPENHO.md`. |
+| Piloto acadêmico | Pendente | Nenhum participante ou resultado de compreensão inventado. |
+| Max / UVW / bake | Pendente | Nenhum modelo autoral .max/.3ds ou bake do grupo produzido nesta etapa; 3DS Max não localizado nas instalações consultadas. |
+| Entrega no forge | Pendente | Repositório local; nenhum envio ou publicação. |
 
-## Testes executados
+## Testes concluídos
 
-Build da base original e build da cena nova passaram. O aviso C4244 da Scene5 já aparece na base limpa e foi preservado.
+- 5.068 verificações de regras, geometria, estados, resposta e movimento do mouse; 120 permutações de coleta.
+- Debug e Release x64 compilados. Aviso C4244 preexistente em Scene5 preservado.
+- 27 verificações do percurso geométrico no executável em ambas as configurações.
+- Cenas 0, 1, 5, 6 e 2 carregadas e renderizadas com erro OpenGL igual a zero; após recuperar Castle.obj, sem erro de carregamento registrado nos logs finais.
+- Inspeção da janela: cenário renderizado, pausa e opções de câmera visíveis e operantes.
 
-O executável de testes informou 4096 verificações aprovadas, incluindo as 120 ordens de coleta. Cobertura: contagem sem duplicação, chave, estados de menu, releitura somente após descoberta, bloqueio de conclusão antecipada, reinício, segmento contra parede fina, segmento paralelo e colisão com raio.
+## Próximos critérios de aceite
 
-Na janela: tela inicial, Enter para iniciar, J para caderno e troca entre cenas 5, 1, 0 e 2. O caderno manteve a visão do cenário nessa verificação. Isso não prova todos os casos de foco e movimentação.
+1. Jogar o percurso completo manualmente e avaliar a sensibilidade em diferentes taxas de quadros e DPIs.
+2. Produzir modelos do grupo no 3DS Max, Unwrap UVW e sombras estáticas por bake; integrar pelo importador existente.
+3. Conferir isoladamente Point, Spot, multitextura, normal mapping, fog, reflexão, refração e blending; guardar evidências comparativas.
+4. Executar o pacote no computador de apresentação e revisar origem/licença dos recursos antes de redistribuição externa.
+5. Realizar o piloto com cinco adultos, registrar respostas antes do feedback e analisar resultados reais.
 
-## Próximas tarefas
-
-1. Definir narrativa e matriz pista–conclusão (F1.1).
-2. Realizar o percurso manual, ajustar posições e testar chave/releitura/reinício em execução (F2.2/F2.5).
-3. Confirmar acesso ao 3DS Max e validar um objeto exportado em .3DS (F3.1).
-4. Integrar a multitextura ensinada na Scene5 ao terreno do jogo, preservando evidência separada de autoria e aplicação (F3.4).
-5. Completar conclusão narrativa e feedback após fixar o gabarito (F2.4).
-
-Modelos e conteúdo não devem ser considerados prontos apenas por aparecerem no planejamento.
+O diagnóstico original está preservado em `Planejamento_Matheus.md`; estados antigos estão em `historico_2026-09-29`.

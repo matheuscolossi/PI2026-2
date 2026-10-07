@@ -1,0 +1,87 @@
+[
+  {
+    "path": "BaseAppOGL.vcxproj",
+    "new": false,
+    "bytes": 10248
+  },
+  {
+    "path": "BaseAppOGL.vcxproj.filters",
+    "new": false,
+    "bytes": 9624
+  },
+  {
+    "path": "Engine\\CSceneManager.cpp",
+    "new": false,
+    "bytes": 2451
+  },
+  {
+    "path": "Engine\\CSceneManager.h",
+    "new": false,
+    "bytes": 646
+  },
+  {
+    "path": "Scenes\\Common\\SkyBox.frag",
+    "new": true,
+    "bytes": 164
+  },
+  {
+    "path": "Scenes\\Common\\SkyBox.vert",
+    "new": true,
+    "bytes": 239
+  },
+  {
+    "path": "Scenes\\Scene6\\Assets.frag",
+    "new": true,
+    "bytes": 173
+  },
+  {
+    "path": "Scenes\\Scene6\\Assets.vert",
+    "new": true,
+    "bytes": 465
+  },
+  {
+    "path": "Scenes\\Scene6\\Scene6.cpp",
+    "new": true,
+    "bytes": 7274
+  },
+  {
+    "path": "Scenes\\Scene6\\Scene6.h",
+    "new": true,
+    "bytes": 811
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue.3ds",
+    "new": true,
+    "bytes": 11964
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue.fbx",
+    "new": true,
+    "bytes": 36080
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue.max",
+    "new": true,
+    "bytes": 745472
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue.mtl",
+    "new": true,
+    "bytes": 314
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue.obj",
+    "new": true,
+    "bytes": 18932
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue_D.jpg",
+    "new": true,
+    "bytes": 2990771
+  },
+  {
+    "path": "Scenes\\Scene6\\Statue\\Statue_N.jpg",
+    "new": true,
+    "bytes": 6113519
+  }
+]

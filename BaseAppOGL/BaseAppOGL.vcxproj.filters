@@ -263,4 +263,20 @@
     <None Include="Scenes\UltimoSinal\Prototype.vert"><Filter>Scenes\UltimoSinal</Filter></None>
     <None Include="Scenes\UltimoSinal\Prototype.frag"><Filter>Scenes\UltimoSinal</Filter></None>
   </ItemGroup>
+<ItemGroup>
+    <ClInclude Include="Engine\MouseMotion.h" />
+    <ClInclude Include="Scenes\Scene6\Scene6.h" />
+    <ClInclude Include="Scenes\UltimoSinal\Narrative.h" />
+    <ClInclude Include="Scenes\UltimoSinal\Settings.h" />
+    <ClCompile Include="Scenes\Scene6\Scene6.cpp" />
+    <None Include="Scenes\Common\SkyBox.vert" />
+    <None Include="Scenes\Common\SkyBox.frag" />
+    <None Include="Scenes\Scene6\Assets.vert" />
+    <None Include="Scenes\Scene6\Assets.frag" />
+    <ClCompile Include="Scenes\UltimoSinal\World.cpp" />
+    <ClCompile Include="Scenes\UltimoSinal\Interface.cpp" />
+    <None Include="Scenes\UltimoSinal\Sky.frag" />
+    <ClCompile Include="Scenes\UltimoSinal\RuntimeChecks.cpp" />
+    <ClInclude Include="Engine\ResourceRoot.h" />
+</ItemGroup>
 </Project>

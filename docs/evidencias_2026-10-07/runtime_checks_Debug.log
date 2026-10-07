@@ -1,0 +1,74 @@
+OpenGL info written to OpenGL_Info.txt
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Successfully loaded shader: 'Prototype'
+Successfully loaded shader: 'SkyBox'
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Successfully loaded shader: 'Prototype'
+Successfully loaded shader: 'SkyBox'
+PASS porta trancada antes da chave
+PASS parede bloqueia jogador
+PASS fotografia nao selecionavel atraves da porta
+PASS velocidade diagonal normalizada
+PASS percurso por movimento e colisoes
+PASS mira seleciona pista real no alcance sem obstrucao
+PASS pista registrada
+PASS percurso por movimento e colisoes
+PASS mira seleciona pista real no alcance sem obstrucao
+PASS pista registrada
+PASS chave libera a passagem
+PASS percurso por movimento e colisoes
+PASS percurso por movimento e colisoes
+PASS mira seleciona pista real no alcance sem obstrucao
+PASS pista registrada
+PASS percurso por movimento e colisoes
+PASS percurso por movimento e colisoes
+PASS mira seleciona pista real no alcance sem obstrucao
+PASS pista registrada
+PASS percurso por movimento e colisoes
+PASS percurso por movimento e colisoes
+PASS percurso por movimento e colisoes
+PASS mira seleciona pista real no alcance sem obstrucao
+PASS pista registrada
+PASS formulario liberado apos percurso
+PASS percurso chega ao feedback
+PASS reinicio restaura pistas e porta
+Runtime geometry: 27 checks; failures=0
+Successfully loaded shader: 'Grid'
+Successfully loaded shader: 'Axis'
+Successfully loaded shader: 'Text2D'
+Successfully loaded shader: 'SolidColor'
+Successfully loaded shader: 'Color'
+Successfully loaded shader: 'TextureColor'
+Successfully loaded shader: 'Textured'
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Scene 0 rendered; GL error=0
+Successfully loaded shader: 'Grid'
+Successfully loaded shader: 'Axis'
+Successfully loaded shader: 'Text2D'
+Successfully loaded shader: 'Primitives'
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Scene 1 rendered; GL error=0
+Successfully loaded shader: 'Grid'
+Successfully loaded shader: 'Axis'
+Successfully loaded shader: 'Text2D'
+Successfully loaded shader: 'MultiTexture'
+Successfully loaded shader: 'LightMapping'
+Successfully loaded shader: 'MaskTexture'
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Scene 5 rendered; GL error=0
+Successfully loaded shader: 'Grid'
+Successfully loaded shader: 'Axis'
+Successfully loaded shader: 'Text2D'
+Successfully loaded shader: 'SkyBox'
+Successfully loaded shader: 'Asset'
+Scene 6 rendered; GL error=0
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Successfully loaded shader: 'Prototype'
+Successfully loaded shader: 'SkyBox'
+Scene 2 rendered; GL error=0

@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <map>
+#include "MouseMotion.h"
 #include <glm/glm.hpp>
 
 class InputManager
@@ -23,6 +24,7 @@ public:
         glfwSetCursorPosCallback(window, MouseCallback);
         glfwSetMouseButtonCallback(window, MouseButtonCallback);
         glfwSetScrollCallback(window, ScrollCallback);
+        glfwSetWindowFocusCallback(window, FocusCallback);
         
         // Initialize mouse position
         double xpos, ypos;
@@ -62,7 +64,7 @@ public:
     // Get mouse delta (change since last frame)
     glm::vec2 GetMouseDelta() const
     {
-        return glm::vec2(m_MouseDeltaX, m_MouseDeltaY);
+        return glm::vec2(float(m_Motion.dx), float(m_Motion.dy));
     }
 
     // Get scroll offset
@@ -76,6 +78,7 @@ public:
     {
         // Reset per-frame state
         m_KeysJustPressed.clear();
+        m_Motion.Clear();
         m_MouseDeltaX = 0.0f;
         m_MouseDeltaY = 0.0f;
         m_ScrollOffset = 0.0f;
@@ -84,11 +87,12 @@ public:
     // Set cursor mode (normal, hidden, disabled)
     void SetCursorMode(int mode)
     {
+        if (!m_Window || glfwGetInputMode(m_Window,GLFW_CURSOR)==mode)return;
+        m_Motion.Reset();
         glfwSetInputMode(m_Window, GLFW_CURSOR, mode);
-        if (mode == GLFW_CURSOR_DISABLED)
-        {
-            m_FirstMouse = true;
-        }
+        if(glfwRawMouseMotionSupported())
+            glfwSetInputMode(m_Window,GLFW_RAW_MOUSE_MOTION,mode==GLFW_CURSOR_DISABLED?GLFW_TRUE:GLFW_FALSE);
+        m_Motion.Reset();
     }
 
 private:
@@ -128,21 +132,13 @@ private:
     {
         InputManager& input = GetInstance();
         
-        if (input.m_FirstMouse)
-        {
-            input.m_LastMouseX = (float)xpos;
-            input.m_LastMouseY = (float)ypos;
-            input.m_FirstMouse = false;
-        }
+        input.m_Motion.Add(xpos,ypos);
+        input.m_MouseX=float(xpos);input.m_MouseY=float(ypos);
+    }
 
-        input.m_MouseDeltaX = (float)xpos - input.m_LastMouseX;
-        input.m_MouseDeltaY = input.m_LastMouseY - (float)ypos; // Reversed since y-coordinates range from bottom to top
-
-        input.m_LastMouseX = (float)xpos;
-        input.m_LastMouseY = (float)ypos;
-        
-        input.m_MouseX = (float)xpos;
-        input.m_MouseY = (float)ypos;
+    static void FocusCallback(GLFWwindow*,int focused) {
+        auto& input=GetInstance(); input.m_Motion.Reset();
+        if(!focused){input.m_Keys.clear();input.m_KeysJustPressed.clear();input.m_MouseButtons.clear();input.m_ScrollOffset=0;}
     }
 
     static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
@@ -162,9 +158,10 @@ private:
     static void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
     {
         InputManager& input = GetInstance();
-        input.m_ScrollOffset = (float)yoffset;
+        input.m_ScrollOffset += (float)yoffset;
     }
 
+    MouseMotion m_Motion;
     GLFWwindow* m_Window;
     std::map<int, bool> m_Keys;
     std::map<int, bool> m_KeysJustPressed;

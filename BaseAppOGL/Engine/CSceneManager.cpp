@@ -1,4 +1,5 @@
-﻿#include "CSceneManager.h"
+#include "CSceneManager.h"
+#include "Scenes/Scene6/Scene6.h"
 #include "Scenes/UltimoSinal/UltimoSinal.h"
 
 // Construtor
@@ -36,6 +37,8 @@ void CSceneManager::DrawScene(float deltaTime)
 void CSceneManager::ProcessSceneInput(GLFWwindow* window, float deltaTime)
 {
 	InputManager& input = InputManager::GetInstance();
+
+	if (ImGui::GetIO().WantTextInput) { Scene->ProcessSceneInput(window, deltaTime); return; }
 
 	// Close window on ESC
 	if (input.IsKeyJustPressed(GLFW_KEY_ESCAPE))
@@ -75,6 +78,8 @@ void CSceneManager::ProcessSceneInput(GLFWwindow* window, float deltaTime)
 	
 	if (input.IsKeyJustPressed(GLFW_KEY_2))
 		ChangeScene(2);
+
+	if (input.IsKeyJustPressed(GLFW_KEY_6)) ChangeScene(6);
 
 	// Seleciona a cena 5
 	if (input.IsKeyJustPressed(GLFW_KEY_5))
@@ -117,6 +122,10 @@ void CSceneManager::ChangeScene(unsigned int _uiCurrentScene)
 
 	case 1:
 		this->Scene = new Scene1();
+		break;
+
+	case 6:
+		this->Scene = new Scene6();
 		break;
 
 	case 5:

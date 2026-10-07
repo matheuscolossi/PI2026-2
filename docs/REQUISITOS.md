@@ -1,50 +1,43 @@
-# Checklist de requisitos
+# Requisitos e evidências — 07/10/2026
 
-## Produto / PI
+Origem oficial de CG: [rubrica 2024T2](https://drive.google.com/file/d/1ysIhN584aX6Ye_HJ-5MpSdSHo0grpPk3/view). Data consultada para CG: 23/11/2026. Prazos específicos de PI continuam pendentes de confirmação.
 
-| Requisito | Estado | Critério de aceite |
-|---|---|---|
-| Ilha e duas salas navegáveis | Implementado em blocos; teste integral pendente | Percurso sem bloqueios indevidos. |
-| Cinco pistas distintas | Regras implementadas e testadas | Todas alcançáveis e examináveis na cena. |
-| Caderno com releitura | Implementado | Consultar textos descobertos; reinício limpa estado. |
-| Chave para segunda sala | Regra testada; percurso pendente | Porta bloqueia antes e libera após chave. |
-| Conclusão e feedback | Pendente | Alternativas e explicação baseadas em gabarito revisado. |
-| Duração de 5–10 minutos | Pendente | Medir sessões reais, incluindo leituras. |
-| Piloto com cinco adultos propostos | Pendente | Protocolo, participantes elegíveis e registros reais. |
-| Resultados e limitações | Pendente | Relatório coerente com versão e dados coletados. |
-| Fonte no forge | Pendente | Destino e prazo confirmados; entrega verificada. |
+## Computação Gráfica na cena do grupo
 
-## Computação Gráfica — na cena do grupo
+| Requisito | Origem | Implementação | Estado / evidência |
+|---|---|---|---|
+| Modelagem no 3DS Max / .3DS | Oficial | Importador Assimp da base preservado; objetos próprios ainda procedurais | **Pendente**: arquivos autorais .max/.3ds |
+| Unwrap UVW | Oficial | Materiais atuais usam coordenadas por posição | **Pendente**: UVs produzidas no Max; projeção no shader não comprova UVW |
+| Point e Spot | Rubrica Point/Spot; grupo assume ambas | Duas luzes locais nas salas e foco junto à câmera | Implementado e renderizado; comparação separada ainda pendente |
+| Multitextura | Oficial | Grass + rock com mistura pelo caminho e bordas da ilha | Implementado em `Prototype.frag`; cenário conferido |
+| Skybox | Oficial | Cubemap de seis faces e classe CSkybox do professor | Implementado e visível na execução |
+| Environment mapping | Oficial | Amostragem direcional do cubemap em materiais | Implementado; não representa reflexão dos objetos locais |
+| Reflexão e refração | Oficial | `reflect` na água; `refract` e Fresnel na lente | Implementado; validação visual isolada pendente |
+| Bump ou normal | Oficial; grupo assume normal | Mapa normal de rocha e base tangente calculada por derivadas | Implementado; comparação ligado/desligado disponível |
+| Fog | Oficial | Atenuação por distância e cor do horizonte | Implementado e renderizado; comparação disponível |
+| Blending | Oficial | Água e lente depois dos opacos, mistura alfa, escrita de profundidade desativada | Implementado; revisar sobreposição e transparência em diferentes posições |
+| Bake de sombras estáticas | Oficial | Nenhuma textura de bake autoral aplicada | **Pendente**: produzir no Max; iluminação dinâmica não substitui |
 
-| Requisito | Estado | Evidência necessária |
-|---|---|---|
-| Modelagem no 3DS Max / .3DS | Pendente | Arquivo de produção e exportação funcional. |
-| Unwrap UVW | Pendente | UVs no Max e textura correta no jogo. |
-| Point e Spot | Pendente | Comparação com fontes ligadas/desligadas. |
-| Multitextura | Pendente no jogo; exemplo na Scene5 preservado | Mistura/composição aplicada ao cenário próprio. |
-| Skybox | Pendente | Céu contínuo durante rotação. |
-| Environment mapping | Pendente | Material reage à direção de observação. |
-| Reflexão e refração | Pendente | Efeitos distintos, não somente transparência. |
-| Normal mapping | Pendente | Comparação do mesmo material com/sem mapa. |
-| Fog | Pendente | Neblina varia com distância sem impedir leitura. |
-| Blending | Pendente | Transparências corretamente ordenadas. |
-| Bake de sombras estáticas | Pendente | Produção no 3DS Max e aplicação no jogo. |
+As cenas de aula demonstram conteúdo do professor. O `.max` e o `.3ds` da estátua da cena 6 não são produção do grupo.
 
-Recursos adicionais como PhysX, partículas, animações, som e sombras dinâmicas não substituem os requisitos obrigatórios.
+## Projeto Integrador e escopo do grupo
 
-## Engenharia e entrega
+| Requisito | Origem | Implementação / evidência | Estado |
+|---|---|---|---|
+| Ilha e duas salas | Planejamento do grupo | Volumes do cenário; percurso com colisão testado no executável | Testado automaticamente; sessão manual completa pendente |
+| Cinco pistas e chave | Planejamento | IDs estáveis; 120 ordens em testes; porta antes/depois da chave | Testado |
+| Caderno e releitura | Planejamento | Retorno ao caderno ao fechar uma releitura | Testado em lógica |
+| Escolha e justificativa antes de feedback | Metodologia do grupo | Três alternativas, duas evidências e texto obrigatório | Testado em lógica e no percurso automatizado |
+| 5–10 minutos | Meta do grupo | Cronômetro inclui leitura e pausa até envio | Pendente de piloto |
+| Cinco adultos / acerto / clareza | Protocolo do grupo | Formulário do observador; sem participantes nesta etapa | Pendente |
+| Resultado e limitações | PI | Documentação técnica atualizada | Relatório do piloto pendente |
+| Fonte no forge | Entrega acadêmica | Git local, sem remoto configurado | Pendente |
 
-- [x] Base original preservada com identificação e SHA-256.
-- [x] SDK local configurado para Debug x64.
-- [x] Cena do grupo separada das cenas de aula.
-- [x] Testes de regras e interseção geométrica.
-- [x] Compilação e verificação visual inicial.
-- [ ] Release x64 e bibliotecas redistribuíveis compatíveis.
-- [ ] Erros de recursos tratados e diagnosticáveis.
-- [ ] Pacote testado fora do ambiente de desenvolvimento.
-- [ ] Desempenho: 1280×720, p95 ≤33,3 ms como meta interna; três coletas de 120 s após 30 s de aquecimento.
-- [ ] Direitos/autoria dos modelos e texturas documentados.
-- [ ] Prazos específicos de PI confirmados.
-- [ ] Ensaio no computador de apresentação.
+## Engenharia
 
-CG 2024T2: 23/11/2026 conforme documento consultado. Os marcos anteriores de PI precisam de confirmação. Fonte: https://drive.google.com/file/d/1ysIhN584aX6Ye_HJ-5MpSdSHo0grpPk3/view
+- Base original, arquivo de atualização, hash e cópia anterior preservados.
+- Debug e Release x64 compilam com o SDK local; Release tem dependências próprias.
+- Caminhos resolvidos a partir da localização do executável; falta de recursos essenciais produz diagnóstico.
+- Testes de lógica e de geometria não certificam a experiência completa nem nota acadêmica.
+- Benchmark de três execuções é medição técnica; não prova duração de jogo ou compreensão narrativa.
+- Som, partículas e sombras dinâmicas são opcionais e não substituem as obrigações da rubrica.
