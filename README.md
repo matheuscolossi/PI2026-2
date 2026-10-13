@@ -55,4 +55,4 @@ Consulte `docs/VALIDACAO.md`, `docs/DESEMPENHO.md` e `docs/STATUS.md` para evid�
 
 Modelagem autoral no 3DS Max, Unwrap UVW, sombras por bake, detalhes finais das pistas, comparação visual rigorosa dos efeitos, validação manual completa e piloto com cinco participantes. Os gráficos melhoraram, mas os modelos atuais continuam provisórios. A duração de 5–10 minutos ainda não foi confirmada.
 
-Há repositório Git local, sem envio ao forge. Os créditos e limitações de licença estão em `docs/CREDITOS.md`. Nenhum resultado de participante foi simulado.
+Repositório publicado em 13/10/2026: [matheuscolossi/PI2026-2](https://github.com/matheuscolossi/PI2026-2), branch `main`. O histórico local foi preservado. O SDK, os backups e os pacotes compilados permanecem fora do Git. Os créditos e limitações de licença estão em `docs/CREDITOS.md`. Nenhum resultado de participante foi simulado.

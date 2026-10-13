@@ -19,7 +19,7 @@ Implementação local na Área de Trabalho, autorizada por Matheus. Debug e Rele
 | Desempenho | Medido nesta máquina | Três execuções de 30 s + 120 s; p95 de 7,15–7,31 ms. Limites em `DESEMPENHO.md`. |
 | Piloto acadêmico | Pendente | Nenhum participante ou resultado de compreensão inventado. |
 | Max / UVW / bake | Pendente | Nenhum modelo autoral .max/.3ds ou bake do grupo produzido nesta etapa; 3DS Max não localizado nas instalações consultadas. |
-| Entrega no forge | Pendente | Repositório local; nenhum envio ou publicação. |
+| Repositório remoto | Publicado em 13/10/2026 | https://github.com/matheuscolossi/PI2026-2 — branch main; histórico preservado. Confirmar separadamente a submissão exigida pela disciplina. |
 
 ## Testes concluídos
 
