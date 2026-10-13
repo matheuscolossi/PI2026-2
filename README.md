@@ -1,6 +1,27 @@
 # O Último Sinal
 
-Jogo investigativo C++/OpenGL para Projeto Integrador VI e Computação Gráfica. Projeto na Área de Trabalho: `C:\Users\mlc17\Desktop\O Último Sinal`. Base 2024T2 de 06/10/2026 UTC, com aulas 0, 1, 5 e 6 preservadas; jogo na cena 2.
+Jogo investigativo C++/OpenGL para Projeto Integrador VI e Computação Gráfica. Base 2024T2 de 06/10/2026 UTC, com aulas 0, 1, 5 e 6 preservadas; jogo na cena 2.
+
+## Primeira compilacao depois de clonar
+
+O Git nao inclui `OpenGL_SDK`: cada integrante precisa configurar sua copia do SDK do professor. Use Visual Studio Community 2026 com desenvolvimento desktop em C++, toolset v145 e Windows SDK.
+
+Na raiz do repositorio, execute no PowerShell, indicando onde extraiu o SDK:
+
+```powershell
+& .\tools\ConfigurarSDK.ps1 -Origem 'C:\OpenGL_SDK'
+& .\tools\PrepararSDKDebug.ps1
+```
+
+O primeiro script copia as dependencias para `OpenGL_SDK`, ao lado de `BaseAppOGL`, sem alterar a pasta original nem as variaveis globais do Windows. O segundo compila as bibliotecas Debug a partir dos fontes originais (precisa das ferramentas CMake do Visual Studio). Depois abra a solucao e compile **Debug | x64**. As DLLs Debug sao copiadas automaticamente para a pasta do executavel.
+
+Para compilar **Release | x64**, prepare antes as bibliotecas Release (precisa das ferramentas CMake do Visual Studio):
+
+```powershell
+& .\tools\PrepararSDKRelease.ps1
+```
+
+Debug usa as bibliotecas construidas em `OpenGL_SDK/debug`; Release usa `OpenGL_SDK/release`. Ambos reutilizam os fontes do SDK do professor. Nao misture as duas configuracoes. O SDK permanece fora do Git. Se o projeto ja estava aberto durante a configuracao, recarregue a solucao antes de compilar.
 
 ## Abrir e executar
 
@@ -8,7 +29,7 @@ Jogo investigativo C++/OpenGL para Projeto Integrador VI e Computação Gráfica
 2. Selecione **Release | x64** para jogar ou **Debug | x64** para depurar.
 3. Use **Ctrl+F5**. Para abrir a versão já compilada, execute `Jogar.cmd`.
 
-O SDK está ao lado da solução em `OpenGL_SDK`. Release usa `OpenGL_SDK/release`, compilado dos fontes locais; Debug mantém a configuração do professor. O executável encontra os recursos pela própria localização e pode ser iniciado de outra pasta.
+O SDK está ao lado da solução em `OpenGL_SDK`. Debug e Release usam bibliotecas compiladas dos fontes locais do SDK, em `OpenGL_SDK/debug` e `OpenGL_SDK/release`. O executável encontra os recursos pela própria localização e pode ser iniciado de outra pasta.
 
 O pacote local está em `dist/O-Ultimo-Sinal-Windows-x64`. Extraia/copie a pasta inteira, incluindo Scenes, Fonts e DLLs. Teste também no computador de apresentação. Requer Windows x64, driver com OpenGL 4.6 e Microsoft Visual C++ Runtime x64 compatível; o pacote não instala componentes automaticamente.
 

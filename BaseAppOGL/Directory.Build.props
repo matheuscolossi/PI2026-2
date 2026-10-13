@@ -1,6 +1,14 @@
 <Project>
   <PropertyGroup>
-    <OpenGL_SDK>$(MSBuildThisFileDirectory)..\OpenGL_SDK</OpenGL_SDK>
+    <OpenGL_SDK Condition="'$(OpenGL_SDK)' == '' Or Exists('$(MSBuildThisFileDirectory)..\OpenGL_SDK\glew\include\GL\glew.h')">$(MSBuildThisFileDirectory)..\OpenGL_SDK</OpenGL_SDK>
     <LocalDebuggerWorkingDirectory>$(MSBuildThisFileDirectory)</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
+  <Target Name="ValidateOpenGLSDK" BeforeTargets="PrepareForBuild">
+    <Error Condition="!Exists('$(OpenGL_SDK)\glew\include\GL\glew.h')"
+           Text="OpenGL_SDK ausente ou incompleto. Execute tools\ConfigurarSDK.ps1 indicando a pasta do SDK do professor. Consulte README.md." />
+    <Error Condition="'$(Configuration)' == 'Release' and !Exists('$(OpenGL_SDK)\release\include\GL\glew.h')"
+           Text="Dependencias Release ausentes. Execute tools\PrepararSDKRelease.ps1 depois de configurar o SDK. Consulte README.md." />
+    <Error Condition="'$(Configuration)' == 'Debug' and !Exists('$(OpenGL_SDK)\debug\include\GL\glew.h')"
+           Text="Dependencias Debug ausentes. Execute tools\PrepararSDKDebug.ps1 depois de configurar o SDK. Consulte README.md." />
+  </Target>
 </Project>

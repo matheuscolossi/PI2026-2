@@ -124,7 +124,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -142,9 +142,10 @@
       </SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(OpenGL_SDK)\GLFW\include;$(OpenGL_SDK)\glew\include;$(OpenGL_SDK)\GLM;$(OpenGL_SDK)\Assimp\include;$(ProjectDir);$(OpenGL_SDK)\freetype\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OpenGL_SDK)\debug\include;$(OpenGL_SDK)\debug\include\freetype2;$(OpenGL_SDK)\GLM;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <StringPooling>
       </StringPooling>
@@ -153,8 +154,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OpenGL_SDK)\glfw\lib;$(OpenGL_SDK)\glew\lib;$(OpenGL_SDK)\assimp\lib;$(OpenGL_SDK)\glm\lib;$(OpenGL_SDK)\freetype\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32d.lib;assimp-vc145-mtd.lib;glm.lib;freetype.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OpenGL_SDK)\debug\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32d.lib;assimp-vc145-mtd.lib;freetyped.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>MSVCRT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -216,5 +217,9 @@
 <Target Name="CopyReleaseDependencies" AfterTargets="Build" Condition="'$(Configuration)'=='Release'">
  <ItemGroup><RuntimeDependency Include="$(OpenGL_SDK)\release\bin\*.dll" /></ItemGroup>
  <Copy SourceFiles="@(RuntimeDependency)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+</Target>
+<Target Name="CopyDebugDependencies" AfterTargets="Build" Condition="'$(Configuration)'=='Debug'">
+ <ItemGroup><DebugRuntimeDependency Include="$(OpenGL_SDK)\debug\bin\*.dll" /></ItemGroup>
+ <Copy SourceFiles="@(DebugRuntimeDependency)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
 </Target>
 </Project>
