@@ -1,0 +1,17 @@
+{
+  "version": "2026-10-19 investigation v3 final",
+  "quality": "Média (1)",
+  "hashes": {
+    "BaseAppOGL\\bin\\InvestigacaoRelease\\BaseAppOGL.exe": "e298e9702e77d0ce22f58d1d8c6922e87fbfdda584fa5fa2bbe7fb9cf7bedf49",
+    "BaseAppOGL\\Scenes\\UltimoSinal\\Prototype.vert": "833dd0adfeb307ba984cf96937fe1532fca14d8015c41505a50c9a4c3248a5b6",
+    "BaseAppOGL\\Scenes\\UltimoSinal\\Prototype.frag": "52b94274e7ed08840f8bad79a8863b046e12c37bb1e6b91a60036709e9419bf5",
+    "BaseAppOGL\\Scenes\\UltimoSinal\\Sky.frag": "6f8542fa0f2e46f9e97fb2d59864518f1b0e520bd8d4a6e89cda8a5b12327bce"
+  },
+  "runs": [
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=797229 median_ms=0.0371 p95_ms=0.1035",
+      "GPU=NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2 Driver=4.6.0 NVIDIA 610.74"
+    ]
+  ],
+  "limits": "Carga de fundo, energia e foco não controlados. Medição técnica local; não é teste com participante."
+}

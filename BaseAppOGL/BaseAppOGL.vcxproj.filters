@@ -279,4 +279,12 @@
     <ClCompile Include="Scenes\UltimoSinal\RuntimeChecks.cpp" />
     <ClInclude Include="Engine\ResourceRoot.h" />
 </ItemGroup>
+<ItemGroup>
+<ClCompile Include="Scenes\UltimoSinal\Audio.cpp" />
+<ClCompile Include="Scenes\UltimoSinal\Persistence.cpp" />
+<ClInclude Include="Scenes\UltimoSinal\Audio.h" />
+<ClInclude Include="Scenes\UltimoSinal\Storage.h" />
+<ClCompile Include="Scenes\UltimoSinal\RenderReview.cpp" />
+</ItemGroup>
+<ItemGroup><ClCompile Include="Scenes\UltimoSinal\Inspection.cpp"><Filter>Source Files</Filter></ClCompile><None Include="Scenes\UltimoSinal\Inspection.frag" /></ItemGroup>
 </Project>

@@ -1,0 +1,19 @@
+{
+  "executable_sha256": "e2cd27f025d71dccf401d296035184acdb666b251252718e3e233ecf33760f91",
+  "quality": "Alta (2)",
+  "version": "2026-10-19 investigation v3",
+  "runs": [
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=4720 median_ms=24.4097 p95_ms=44.5028",
+      "GPU=Intel(R) UHD Graphics Driver=4.6.0 - Build 31.0.101.5081"
+    ],
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=3335 median_ms=34.8034 p95_ms=43.8955",
+      "GPU=Intel(R) UHD Graphics Driver=4.6.0 - Build 31.0.101.5081"
+    ],
+    [
+      "BENCHMARK complete=1 warmup=30s sample=120s vsync=on resolution=1280x720 count=5040 median_ms=22.9557 p95_ms=41.32",
+      "GPU=Intel(R) UHD Graphics Driver=4.6.0 - Build 31.0.101.5081"
+    ]
+  ]
+}

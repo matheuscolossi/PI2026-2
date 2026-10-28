@@ -1,0 +1,11 @@
+Native scene: C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\Scenes\Models\Mesa\mesa.max
+Objects: 5
+Units: #meters / 1.0
+UV template (ASCII path) exists: true
+Reopened saved MAX file: true
+Tampo | Box | Unwrap_UVW | Standardmaterial
+Perna1 | Box | Unwrap_UVW | Standardmaterial
+Perna2 | Box | Unwrap_UVW | Standardmaterial
+Perna3 | Box | Unwrap_UVW | Standardmaterial
+Perna4 | Box | Unwrap_UVW | Standardmaterial
+Wood restored before saving/reopening. No checker exported to 3DS.

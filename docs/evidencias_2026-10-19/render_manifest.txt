@@ -1,0 +1,8 @@
+01_exterior.bmp 1280x720 quality=2 brightness=1 screen=1 camera=0,1.7,17 yaw=-90 pitch=7 exported=1
+07_front_oblique.bmp 1280x720 quality=2 brightness=1 screen=1 camera=-1.5,1.7,12 yaw=-102 pitch=-4 exported=1
+02_service_room.bmp 1280x720 quality=2 brightness=1 screen=1 camera=0,1.7,4 yaw=-90 pitch=-4 exported=1
+03_lens_room.bmp 1280x720 quality=2 brightness=1 screen=1 camera=0,1.7,-2 yaw=-90 pitch=-4 exported=1
+04_options.bmp 1280x720 quality=2 brightness=1 screen=10 camera=0,1.7,-2 yaw=-90 pitch=-4 exported=1
+05_diary.bmp 1280x720 quality=2 brightness=1 screen=2 camera=0,1.7,-2 yaw=-90 pitch=-4 exported=1
+06_report.bmp 1280x720 quality=2 brightness=1 screen=5 camera=0,1.7,-2 yaw=-90 pitch=-4 exported=1
+Exports are internal rendering fixtures. They do not certify manual play or participant tests.

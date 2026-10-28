@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-20",
+  "cause": "Only the photograph table in the locked second room had originally been replaced. Jogar.cmd already used the correct executable.",
+  "fixed_positions": {
+    "diary": [
+      -3,
+      0.095,
+      3
+    ],
+    "maintenance": [
+      -3,
+      0.095,
+      1
+    ],
+    "register": [
+      -3,
+      0.095,
+      -3
+    ],
+    "photograph": [
+      3,
+      0.095,
+      -3
+    ],
+    "radio": [
+      3,
+      0.095,
+      2.5
+    ]
+  },
+  "shared_imported_asset_count": 1,
+  "table_instances": 5,
+  "runtime_checks": 58,
+  "failures": 0,
+  "frames": 10,
+  "preview_profile_unchanged": true,
+  "release_sha256": "9f6e8810fad8793657ed0cb84fa020076d1c3ddbc98a7b07dbf3259d30c53ba7",
+  "zip_sha256": "a932aba1a9264b6419a42ae86395240919eee4d2af1e7ba720d480336a182229",
+  "source_model_unchanged": true
+}

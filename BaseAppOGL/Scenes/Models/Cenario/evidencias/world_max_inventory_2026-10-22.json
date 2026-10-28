@@ -1,0 +1,412 @@
+{
+  "date": "2026-10-22",
+  "status": "39 Cenario exports accepted without attribute fallback plus Mesa; verified in staging runtime",
+  "source": "BaseAppOGL/Scenes/UltimoSinal/World.cpp; Spatial.h; native production evidence",
+  "root": "BaseAppOGL/Scenes/Models/Cenario",
+  "units": "meters",
+  "game_axes": "X right, Y up, Z depth",
+  "game_to_max": "[x,y,z] -> [x,-z,y]",
+  "assets": [
+    {
+      "id": "mesa",
+      "file": "../Mesa/mesa.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "e5c2a9208cb48de7d4f82bbd3963fbe8a3829d944a7690fb1ce7230e9a7135be",
+      "instances": [
+        [
+          -2.9,
+          0.095,
+          1.8
+        ],
+        [
+          -3,
+          0.095,
+          0.25
+        ],
+        [
+          -3,
+          0.095,
+          -3
+        ],
+        [
+          3,
+          0.095,
+          -3
+        ]
+      ]
+    },
+    {
+      "id": "ilha",
+      "file": "ilha.3ds",
+      "space": "baked_world",
+      "effect": "terrain_multitexture_uv",
+      "sha256": "696e763a7c6d221533ab684cd503bbe7195f87dd909a3f8a7443410f6923aa80",
+      "exported_triangles": 96
+    },
+    {
+      "id": "costa",
+      "file": "costa.3ds",
+      "space": "baked_world",
+      "effect": "rock_normal_uv",
+      "sha256": "0fc6548f073baacc43399c81c095a5fc70e3547ad9aceda8c729198d37bb2cae",
+      "exported_triangles": 6912
+    },
+    {
+      "id": "costalod",
+      "file": "costalod.3ds",
+      "space": "baked_world",
+      "effect": "rock_normal_uv",
+      "sha256": "d3031495661b1ef5f016e80721e5d5b742c352e4867406446d81675829663044",
+      "exported_triangles": 896
+    },
+    {
+      "id": "caminho",
+      "file": "caminho.3ds",
+      "space": "baked_world",
+      "effect": "rock_normal_uv",
+      "sha256": "226bfe830755c4c88b2d494a2577b68809e67b97e56a39002ef7cac20db8a9ec",
+      "exported_triangles": 156
+    },
+    {
+      "id": "cais",
+      "file": "cais.3ds",
+      "space": "baked_world",
+      "effect": "diffuse_uv",
+      "sha256": "320dc6c0910f22017b094d9aa40f1be5decc5a5085777b4a89c80c54f9e704cc",
+      "exported_triangles": 9616
+    },
+    {
+      "id": "carga",
+      "file": "carga.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "224afb13bf28d191904cba6df96addf2578b252c7ab46650a31acea212a0e1d8",
+      "exported_triangles": 444
+    },
+    {
+      "id": "caisbox",
+      "file": "caisbox.3ds",
+      "space": "baked_world",
+      "effect": "diffuse_uv",
+      "sha256": "7e20f3ff1dfb4449f64ee1e5d3a670d09befea16364414d229305024551729a1",
+      "exported_triangles": 2408
+    },
+    {
+      "id": "anexo",
+      "file": "anexo.3ds",
+      "space": "baked_world",
+      "effect": "diffuse_uv",
+      "sha256": "3bd99314ecfd9f73cbd67543e94a0eda766a9d8f46cb967ce4867165ca6eb6c9",
+      "exported_triangles": 1260
+    },
+    {
+      "id": "piso",
+      "file": "piso.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "d2384d79337b3cb56d9c3fa85c2447798a79735720f7bd32d09e6e7b037fa62f",
+      "exported_triangles": 12
+    },
+    {
+      "id": "torre",
+      "file": "torre.3ds",
+      "space": "baked_world",
+      "effect": "diffuse_uv",
+      "sha256": "83378c727cfce2bccefabad8ae17405b256f0592d2aa83af24bbff8b4eb9cdbf",
+      "exported_triangles": 15436
+    },
+    {
+      "id": "porta",
+      "file": "porta.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "897dde446bca7f7c78e363e0169e4a6afc263ad250aee6cfd23b7ba17a1b6ad1",
+      "exported_triangles": 2928
+    },
+    {
+      "id": "cadeira",
+      "file": "cadeira.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "0f25c2cf4d31c7f1cc8d2b90febf18117fc65f7ca08a6c9f881cfbabda33a277",
+      "exported_triangles": 2712
+    },
+    {
+      "id": "caneca",
+      "file": "caneca.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "1f61e700b16dce39b1d8346ac88994a37327fea93d623b7745671d9443d15763",
+      "exported_triangles": 688
+    },
+    {
+      "id": "armario",
+      "file": "armario.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "0f0e6cb1fff01364a9dbfda2ce8585854f5171dee6baecfd0ad40fe6accd07dd",
+      "exported_triangles": 1632
+    },
+    {
+      "id": "armporta",
+      "file": "armporta.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "31345e457e78d2560ef9cbf85539f7f70bc57ca6582a942d7a1fae0859718a52",
+      "exported_triangles": 864
+    },
+    {
+      "id": "botas",
+      "file": "botas.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "79d2e6d4f7c754749104aeb09bf3028da37df51f7a1da43129b3ac2298648eee",
+      "exported_triangles": 4136
+    },
+    {
+      "id": "escada",
+      "file": "escada.3ds",
+      "space": "baked_world",
+      "effect": "diffuse_uv",
+      "sha256": "6a1b0b3cb7a501b12750c2dc6115d7581f806d3ff0ac7b027c77fa7663f7824c",
+      "exported_triangles": 4256,
+      "center_xz": [
+        0,
+        -3
+      ],
+      "risers": 36,
+      "rise_m": 0.2,
+      "turns": 2,
+      "ground_y": 0.095,
+      "upper_y": 7.295
+    },
+    {
+      "id": "radio",
+      "file": "radio.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "810576989855e48fa0123dfe96f04fdceb447c8a1b36a60e864ad66c663da26f",
+      "exported_triangles": 2328
+    },
+    {
+      "id": "quadro",
+      "file": "quadro.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "2120c1ac9eef589e2e4ac67927175e8271e641864eaac43f21bab91a89090530",
+      "exported_triangles": 1772
+    },
+    {
+      "id": "botao",
+      "file": "botao.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv_state_tint",
+      "sha256": "8fabe98287a5d51d72658294a5a011180807fd9391881e70ef5e269c329b7553",
+      "exported_triangles": 176
+    },
+    {
+      "id": "mapa",
+      "file": "mapa.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "eb526b3cfb53a8216f2ed4617bd2ff19073265f370f0c92da3ec710edbb59587",
+      "exported_triangles": 232
+    },
+    {
+      "id": "papel",
+      "file": "papel.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "8f8438482cff672983bc90b2bb02e77eb9a71e529a71924c77fe0a3614a9ed91",
+      "exported_triangles": 68
+    },
+    {
+      "id": "relogio",
+      "file": "relogio.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "405ab013cc13287f34d47a0279b6757bc28c2cf39742b06b90bb26643be28c36",
+      "exported_triangles": 752
+    },
+    {
+      "id": "arquivo",
+      "file": "arquivo.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "28149482eb411caa89a10d9c6e7a713b983dc463949d6ca6adc23f1910bb526f",
+      "exported_triangles": 2796
+    },
+    {
+      "id": "lumin",
+      "file": "lumin.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "8c7267c8f68d6aaed4d5b885b0af3d7472eda5d5b59762983a12eda6fcfd1a89",
+      "exported_triangles": 336
+    },
+    {
+      "id": "lampada",
+      "file": "lampada.3ds",
+      "space": "local_origin",
+      "effect": "emissive6",
+      "sha256": "8e6053bece33c38b9ab0c1ae209bf082220bba252cc16a1f3a4db8556ea5ab3e",
+      "exported_triangles": 96
+    },
+    {
+      "id": "diario",
+      "file": "diario.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "ecea9d545234f2845fbe96a76ab227b40c8ae697c824fc9eaf0f5ddef004b5be",
+      "exported_triangles": 2984
+    },
+    {
+      "id": "alicate",
+      "file": "alicate.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "aa6e65edca227b1ae1c1cc84bd1cfb90ace4fb9618d0e49ccbe137516b3ce784",
+      "exported_triangles": 1384
+    },
+    {
+      "id": "marcas",
+      "file": "marcas.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "983adc2c4e417692be1bc0a48ec131a657a1987a1f21b9029aac8bfd6fac763b",
+      "exported_triangles": 552
+    },
+    {
+      "id": "chave",
+      "file": "chave.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "e617bc212d73226fcac0a9bae585810286ca553059d2efd576a648149d92e4d3",
+      "exported_triangles": 852
+    },
+    {
+      "id": "foto",
+      "file": "foto.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "6db85b342f23bd27ae8c4d66af567c3e0d56f102f40447ef093ad543b518394d",
+      "exported_triangles": 206
+    },
+    {
+      "id": "agua",
+      "file": "agua.3ds",
+      "space": "local_origin",
+      "effect": "water4",
+      "sha256": "827737443d4498c89f143bdbd72c809f81921e318ea030c1da1b5380fcc0e1fa",
+      "exported_triangles": 2
+    },
+    {
+      "id": "janvid",
+      "file": "janvid.3ds",
+      "space": "local_origin",
+      "effect": "glass5",
+      "sha256": "a24f300def9a6cf0bc50ac21b8b1e75c7b4ac32f9f9b468fda6dd4061e054dec",
+      "exported_triangles": 2
+    },
+    {
+      "id": "vidfar",
+      "file": "vidfar.3ds",
+      "space": "baked_world",
+      "effect": "glass5",
+      "sha256": "55d477f3d42dc574a46b29af9ac7df0afac947b727eeabad5edab088e10aa7aa",
+      "exported_triangles": 3264
+    },
+    {
+      "id": "led",
+      "file": "led.3ds",
+      "space": "local_origin",
+      "effect": "emissive6_state_color",
+      "sha256": "da9da1b89519fa474457d71757909956bc322dc2e8f357044fdf1ec1e4d55f61",
+      "exported_triangles": 44
+    },
+    {
+      "id": "fragment",
+      "file": "fragment.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "e11b9444d9ea63178e874a5f50e0b4bb622dbdc5b292f4ed6ff2d37e8abd926f",
+      "exported_triangles": 44
+    },
+    {
+      "id": "radioluz",
+      "file": "radioluz.3ds",
+      "space": "local_origin",
+      "effect": "emissive6_state_color",
+      "sha256": "b0fbf9f2833b4318fff48d51f17d76530e4fe28ebabc14ec3fb054032400e595",
+      "exported_triangles": 44
+    },
+    {
+      "id": "escrivan",
+      "file": "escrivan.3ds",
+      "space": "local_origin",
+      "effect": "diffuse_uv",
+      "sha256": "e5c06bcb63bcc96b93e8a77d8fb4b67d90646665207274f6450b2b5289ae864a",
+      "exported_triangles": 2544,
+      "center_game": [
+        3,
+        0.595,
+        2.5
+      ],
+      "fitted_dimensions": [
+        1.6,
+        1,
+        1.95
+      ]
+    },
+    {
+      "id": "decor",
+      "file": "decor.3ds",
+      "space": "baked_world",
+      "effect": "diffuse_uv",
+      "sha256": "54235fc2f6eeb33a99e42fafd9fdeb68dee7924783c93e2b94edcb0d0699b91c",
+      "exported_triangles": 15748
+    }
+  ],
+  "transform_rules": [
+    "Keep world-space exports at identity; do not recenter staircase, annex, tower, glass or decor.",
+    "Prop bounds fit and explicit collision volumes are defined in World.cpp; full architecture AABBs are not colliders.",
+    "CAsset uses exported UVs and Standard bitmap materials. Floor CompleteMap alone uses shader13."
+  ],
+  "playable_areas": [
+    "Sala de serviço",
+    "Arquivo do farol",
+    "Sala óptica"
+  ],
+  "material_provenance": "wood.jpg and photo.jpg generated with built-in image generation; other base and Max textures credited in docs/CREDITOS.md",
+  "floor_bake": {
+    "date": "2026-10-22",
+    "native_renderer": "Default Scanline Render To Texture",
+    "element": "CompleteMap",
+    "uv_channel": 1,
+    "size": [
+      1024,
+      1024
+    ],
+    "shadow_toggle_changed_pixels_gt12": 322424,
+    "mean_abs_rgb_difference": [
+      6.41071891784668,
+      3.682326316833496,
+      1.9216537475585938
+    ],
+    "floor_sha256": "d2384d79337b3cb56d9c3fa85c2447798a79735720f7bd32d09e6e7b037fa62f",
+    "bitmap_sha256": "e22cbf7f0ebafdfcd38d557af12c1bd36017bd541452cba3b2770f1c8eea2481",
+    "shadow_on_sha256": "e22cbf7f0ebafdfcd38d557af12c1bd36017bd541452cba3b2770f1c8eea2481",
+    "shadow_off_sha256": "5d8b34527258ff6e282d77c7e791f88e55896d3ca798cb1bc65e06f016db5fe7",
+    "dynamic_shadow_casters_excluded": [
+      "porta",
+      "armporta",
+      "chave"
+    ],
+    "source_evidence": "spatial_2026-10-22/producao.txt",
+    "scope": "floor only",
+    "changes": "36-step spiral, true roof opening, moved furniture, clear upper landing, revised lamp and fine wood",
+    "limitation": "Static CompleteMap: floor does not receive runtime Point/Spot relighting; other meshes keep dynamic lighting."
+  },
+  "master": "Cenario/cenario.max; old hidden groups retained, no claim of integral manual student modeling"
+}

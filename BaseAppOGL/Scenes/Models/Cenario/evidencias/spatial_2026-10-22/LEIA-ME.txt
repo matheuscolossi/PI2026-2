@@ -1,0 +1,8 @@
+Registros reais da revisão de 22/10/2026.
+Os scripts foram executados no 3ds Max 2027, na sequência rebuild, post, final_bake.
+São histórico de produção assistida, com caminhos e dependências da estação original.
+Não executar cegamente sobre o master final: rebuild parte da cena anterior; post/final_bake dependem do estado nativo e das funções da primeira etapa.
+O backup anterior contém a cena de partida. Para editar agora, abra Cenario/cenario.max.
+Os grupos OLD_US_ estão ocultos e excluídos do render/sombras; preservam versões anteriores.
+Texturas finais: wood.jpg e photo.jpg ao lado de cenario.max. Em outra máquina, resolver caminhos locais no Asset Tracking.
+Escada, torre, anexo, vidro e decor usam coordenadas de mundo; não recentrar ao importar.

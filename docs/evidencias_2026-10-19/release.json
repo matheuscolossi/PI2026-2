@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-19",
+  "baseline_commit": "ced5941",
+  "package": "dist\\O-Ultimo-Sinal-Investigacao-v3.zip",
+  "package_bytes": 49116921,
+  "package_sha256": "b215e2471c31fb073c481ee3e5b29498e5bcabdef3cefc310bd858a28209e9fd",
+  "interactive_ui_report": "ui_checks_2026-10-19.json",
+  "limits": "Automated checks, internal frame exports, and authorized interactive UI checks. No full human playthrough, listening evaluation or participant study."
+}

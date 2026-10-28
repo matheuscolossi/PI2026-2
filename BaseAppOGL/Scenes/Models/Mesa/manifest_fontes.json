@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-21",
+  "files": {
+    "mesa.max": {
+      "bytes": 1290240,
+      "sha256": "85969f779ffffa2dff03c40be503a35bc724363147d1234aee4cd84c241a3552"
+    },
+    "mesa.3ds": {
+      "bytes": 96120,
+      "sha256": "e5c2a9208cb48de7d4f82bbd3963fbe8a3829d944a7690fb1ce7230e9a7135be"
+    },
+    "wood.jpg": {
+      "bytes": 915211,
+      "sha256": "2a6b31601595f94d4d33f24095be9611b45f364d692051c4ed8eb307d3c1145b"
+    },
+    "criar_mesa.ms": {
+      "bytes": 4786,
+      "sha256": "d254f0a6f5d52d549d1b8f13414a1794a77b4953c440546f85d22e7c5817d207"
+    },
+    "finalizar_mesa.ms": {
+      "bytes": 2404,
+      "sha256": "9c1b340b0657abdb80a5ccecfc24b69c10060d4d08d43ad283b108effd3a4a5e"
+    },
+    "verificar_mesa.ms": {
+      "bytes": 3335,
+      "sha256": "f3ce9a6d5013e4263728128d55289ae56779edc4745f8242f22d1fa4604005fc"
+    },
+    "ORIGEM_TEXTURA.txt": {
+      "bytes": 316,
+      "sha256": "fdefd29765bad5bfc45e35505705e75c0993ca5419c6b4787acd802a531f7a0f"
+    },
+    "LEIA-ME.md": {
+      "bytes": 2691,
+      "sha256": "d1542f84b123d354bf09d4e8bef6d61c42f7265d9dec98952797eb0c8cc832d7"
+    },
+    "evidencias/checker.png": {
+      "bytes": 33647,
+      "sha256": "fd99ca549c88bea7672ea48d4771a6008e8d7bd7bba47e0e3b2db8aa101b598c"
+    },
+    "evidencias/conferencia_max.txt": {
+      "bytes": 493,
+      "sha256": "4cfc85fcc62eae6e0ae5ac34cdc09907b6633164d06af47371347c57f597b79f"
+    },
+    "evidencias/modelo.png": {
+      "bytes": 38471,
+      "sha256": "695768b7673bc69da26bd0c6138b966acf2b2b109fba10708456dc804dc9cb35"
+    },
+    "evidencias/modelo_editor.jpg": {
+      "bytes": 169878,
+      "sha256": "e90eae89f4e56c8881ae856a74ca4a2209367b866c6b1ac0c867d5ca66b098dd"
+    },
+    "evidencias/producao_max.txt": {
+      "bytes": 1073,
+      "sha256": "ff0d546e0400b1e385fc58cc296ed644f4a4267564d3ab0e2ac737f45954031c"
+    },
+    "evidencias/uv.png": {
+      "bytes": 10520,
+      "sha256": "04f05535a503d3865774d8abff34c531635848be74f22b20ccb35afa91960d0a"
+    },
+    "evidencias/uv_editor.jpg": {
+      "bytes": 234634,
+      "sha256": "ac107ae1a0a9b9b10d843ff4ec5aae54375b42031fac8908aedb28a65635d17a"
+    }
+  },
+  "polish_note": "Five original editable Boxes retained, with native Chamfer and new Unwrap. 2940 exported triangles. Previous 60-triangle source is preserved in the pre-polish backup; old checker images are historical."
+}

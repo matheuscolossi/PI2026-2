@@ -1,7 +1,7 @@
 @echo off
 cd /d "%~dp0BaseAppOGL"
-if exist "bin\Release\BaseAppOGL.exe" (
-  "bin\Release\BaseAppOGL.exe"
+if exist "bin\InvestigacaoRelease\BaseAppOGL.exe" (
+  "bin\InvestigacaoRelease\BaseAppOGL.exe"
 ) else (
   "bin\Debug\BaseAppOGL.exe"
 )

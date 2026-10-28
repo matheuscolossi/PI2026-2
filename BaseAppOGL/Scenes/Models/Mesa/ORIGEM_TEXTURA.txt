@@ -1,0 +1,5 @@
+Revisão 22/10/2026: wood.jpg foi substituída por madeira de veios finos gerada com a ferramenta de imagens integrada do Codex.
+Não é fotografia externa, pintura manual do grupo nem bake. Prompt: Cenario/evidencias/spatial_2026-10-22/wood_prompt.txt.
+SHA256 atual: 6aa07426ae959d93af39411b3c5a40bb490e87c30538c5f334648d7b87fca689
+A versão anterior usava P1.jpg da aula (SHA256 2a6b31601595f94d4d33f24095be9611b45f364d692051c4ed8eb307d3c1145b).
+O recurso original P1.jpg permanece em Scenes/Textures e a antiga wood.jpg está no backup antes_cenario_20261022.

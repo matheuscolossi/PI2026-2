@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-22",
+  "native_renderer": "Default Scanline Render To Texture",
+  "element": "CompleteMap",
+  "uv_channel": 1,
+  "size": [
+    1024,
+    1024
+  ],
+  "shadow_toggle_changed_pixels_gt12": 322424,
+  "mean_abs_rgb_difference": [
+    6.41071891784668,
+    3.682326316833496,
+    1.9216537475585938
+  ],
+  "floor_sha256": "d2384d79337b3cb56d9c3fa85c2447798a79735720f7bd32d09e6e7b037fa62f",
+  "bitmap_sha256": "e22cbf7f0ebafdfcd38d557af12c1bd36017bd541452cba3b2770f1c8eea2481",
+  "shadow_on_sha256": "e22cbf7f0ebafdfcd38d557af12c1bd36017bd541452cba3b2770f1c8eea2481",
+  "shadow_off_sha256": "5d8b34527258ff6e282d77c7e791f88e55896d3ca798cb1bc65e06f016db5fe7",
+  "dynamic_shadow_casters_excluded": [
+    "porta",
+    "armporta",
+    "chave"
+  ],
+  "source_evidence": "spatial_2026-10-22/producao.txt",
+  "scope": "floor only",
+  "changes": "36-step spiral, true roof opening, moved furniture, clear upper landing, revised lamp and fine wood",
+  "limitation": "Static CompleteMap: floor does not receive runtime Point/Spot relighting; other meshes keep dynamic lighting."
+}

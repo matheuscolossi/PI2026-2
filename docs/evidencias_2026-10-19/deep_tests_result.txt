@@ -1,0 +1,1 @@
+436 verificacoes aprovadas; 184 estados de progresso alcancaveis; 8 circuitos e 16 canais.

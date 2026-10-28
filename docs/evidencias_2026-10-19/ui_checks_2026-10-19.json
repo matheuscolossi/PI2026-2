@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-19",
+  "method": "Interactive Windows app control through sky; observed screenshots after individual actions. This was not a human participant study.",
+  "tested_executable_sha256": "a017b2bfa11a25148935ed4104a8602d4a99de798e907c9977b7a17fb8054ece",
+  "passed": [
+    "Title opens Options; brightness1.00 to1.20 changes value and image.",
+    "After quitting from Title and reopening, brightness1.20 and remapped Q are loaded.",
+    "Before Continue, progress.v3 SHA256 remained identical to original backup during menu tests and restart.",
+    "New investigation shows confirmation; Keep my progress returns to Title without reset.",
+    "Duplicate W for Interact rejected; free Q accepted; original E restored.",
+    "Sensitivity slider0.060 to0.079 to0.060; qualityHigh toMedium toHigh.",
+    "Scroll reveals Apply and return; button returns to invoking menu.",
+    "Continue loads existing exterior pose; J opens and closes notebook.",
+    "Short vertical mouse drags change view in both directions.",
+    "F1 shows help without automatically revealing hints; Escape returns.",
+    "Tab pauses and resumes without an apparent orientation jump in the observed views.",
+    "Pause quit closes the application and saves the active session.",
+    "Final options.v1 bytes equal original backup, including WASD E J and all settings."
+  ],
+  "not_verified": [
+    "Sustained walking/diagonal speed/collision comfort by window control: API provides key taps, not held movement.",
+    "Physical DPI or comfort of a human mouse user.",
+    "World interaction using Q: current world target was beyond interaction range.",
+    "Full investigative playthrough by native controls; the47 automated runtime checks cover the geometric route.",
+    "Human listening, sound mix comfort, human comprehension, or participant study."
+  ],
+  "backup": "Workspace work/ui_backup_2026-10-19 contains original progress.v3 and options.v1. After Continue, ordinary saves updated elapsed time/camera; no reset or deletion was performed.",
+  "fix": "Save now requires sessionActive.47runtime checks include3 regressions forOptions/Controls/Help beforeContinue."
+}

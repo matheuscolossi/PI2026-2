@@ -1,0 +1,14 @@
+3ds Max version: #(29000, 70, 0, 29, 2, 0, 20588, 2027, ".2")
+Language: #(9, 1, "ENU", "English (United States)", "en-US")
+Units: display meters; 1 system unit = 1 meter.
+Five editable Box primitives created.
+Tampo: Box 1.6 x 0.9 x 0.12; triangles=12; UVvertices=24; Unwrap_UVW retained
+Perna1: Box 0.1 x 0.1 x 0.88; triangles=12; UVvertices=24; Unwrap_UVW retained
+Perna2: Box 0.1 x 0.1 x 0.88; triangles=12; UVvertices=24; Unwrap_UVW retained
+Perna3: Box 0.1 x 0.1 x 0.88; triangles=12; UVvertices=24; Unwrap_UVW retained
+Perna4: Box 0.1 x 0.1 x 0.88; triangles=12; UVvertices=24; Unwrap_UVW retained
+ERROR: -- Runtime error: The function needed argument with value: #view_left | #view_right | #view_top | #view_bottom | #view_front | #view_back | #view_iso_user | #view_persp_user | #view_camera | #view_grid | #view_none | #view_spot | #view_shape, got: #view_persp
+Saved native mesa.max.
+Exported mesa.3ds with native 3D Studio exporter.
+Native UV template saved to evidencias/uv.png.
+SUCCESS: geometry, editable UVs, Standard bitmap, MAX and 3DS saved.

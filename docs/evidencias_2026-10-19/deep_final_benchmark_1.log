@@ -1,0 +1,12 @@
+OpenGL info written to OpenGL_Info.txt
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Successfully loaded shader: 'Prototype'
+Successfully loaded shader: 'SkyBox'
+Maximum texture image units supported by the GPU: 32
+Maximum combined texture units supported by the GPU: 192
+Successfully loaded shader: 'Prototype'
+Successfully loaded shader: 'SkyBox'
+BENCHMARK framebuffer_nonuniform=1 first_and_last=checked
+BENCHMARK complete=1 mode=offscreen-msaa4 warmup=30s sample=120s vsync=not_applicable resolution=1280x720 count=35189 median_ms=3.0136 p95_ms=6.6885
+GPU=NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2 Driver=4.6.0 NVIDIA 610.74

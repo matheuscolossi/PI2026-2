@@ -125,12 +125,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)bin\Debug\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)bin\InvestigacaoRelease\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -222,4 +222,14 @@
  <ItemGroup><DebugRuntimeDependency Include="$(OpenGL_SDK)\debug\bin\*.dll" /></ItemGroup>
  <Copy SourceFiles="@(DebugRuntimeDependency)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
 </Target>
+<ItemGroup>
+ <ClCompile Include="Scenes\UltimoSinal\Audio.cpp" />
+ <ClCompile Include="Scenes\UltimoSinal\Persistence.cpp" />
+ <ClInclude Include="Scenes\UltimoSinal\Audio.h" />
+ <ClInclude Include="Scenes\UltimoSinal\Storage.h" />
+</ItemGroup>
+<ItemGroup><ClCompile Include="Scenes\UltimoSinal\RenderReview.cpp" /></ItemGroup>
+<ItemGroup><ClInclude Include="Scenes\UltimoSinal\Experience.h" /><ClCompile Include="Scenes\UltimoSinal\Experience.cpp" /></ItemGroup>
+<ItemGroup><ClCompile Include="Scenes\UltimoSinal\Inspection.cpp" /><None Include="Scenes\UltimoSinal\Inspection.frag" /></ItemGroup>
+<ItemGroup><ClInclude Include="Scenes\UltimoSinal\Spatial.h" /></ItemGroup>
 </Project>

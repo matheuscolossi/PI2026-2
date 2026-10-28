@@ -1,37 +1,69 @@
-# O Último Sinal — roteiro de implementação
+# O Último Sinal — narrativa de implementação
 
-Definido na conversa com Matheus em 07/10/2026 e autorizado para continuidade. O arquivo `Scenes/UltimoSinal/Narrative.h` contém os textos exibidos no jogo.
+Revisão de **19/10/2026**. O conteúdo exibido na aplicação está em `Scenes/UltimoSinal/Narrative.h`; as regras ficam em `Investigation.h`.
 
-## A luz que guiou para a morte
+## Pergunta central
 
-Há três anos, Helena, filha do faroleiro Augusto, morreu num naufrágio perto da Ilha das Brumas. A investigação culpou a tempestade. Augusto permaneceu na ilha e descobriu que sinais clandestinos do farol orientavam embarcações de contrabando. O navio de Helena seguiu aquela luz em direção aos recifes.
+**Por que o farol transmitiu sete minutos depois da chamada que informou a queda de Augusto?**
 
-Augusto reuniu provas e anunciou que faria uma denúncia. Recebeu ameaças. Na última noite, alguém desembarcou, sabotou o cabo de segurança do corrimão e provocou sua queda na escada. Depois, usou o farol para emitir três flashes longos: desembarque liberado.
+O jogador chega à Ilha das Brumas às 05h40. Augusto foi encontrado morto junto à escada interditada. Sua filha, Helena, morreu num naufrágio próximo aos recifes três anos antes. O faroleiro investigava o uso clandestino da luz para orientar desembarques do Aurora e anunciou que entregaria provas.
 
-O jogador chega depois da morte para recolher os registros. A escada está interditada e não é uma terceira área navegável. A investigação não exige corpo visível, violência gráfica, combate ou NPCs. O encerramento do rádio está apresentado em texto; não há dublagem nesta versão.
+O diário apresenta ameaças e a denúncia planejada. Um alicate e o corte recente no cabo sustentam a sabotagem da proteção da escada. As marcas não correspondem às botas de Augusto. O rádio e o registro mecânico tornam verificável a hipótese: o último sinal não veio do temporizador avariado e ocorreu depois da chamada de emergência.
 
-## Matriz de evidências
+## Cronologia demonstrada
 
-| Pista | Evidência observável no texto de exame | Relação com a hipótese |
-|---|---|---|
-| Diário | Ameaças, denúncia planejada, comparação dos flashes com o naufrágio | Motivo para silenciar Augusto; intenção de interromper a operação |
-| Ferramenta | Alicate partido, fragmento correspondente no cabo cortado | Sabotagem da proteção da escada |
-| Pegadas | Solas diferentes das botas de Augusto | Presença de outra pessoa, com ligação ao cais |
-| Chave | Encontrada junto às marcas, abre a sala da lente | Acesso do visitante ao mecanismo de sinalização |
-| Fotografia | Aurora descarregando caixas antes do naufrágio; código anotado no verso | Operação preexistente e significado dos três flashes |
+| Horário | Registro |
+|---|---|
+| 22h40 | Sistema automático desligado por avaria |
+| 23h10 | Brumas recebe a chamada informando a queda e a falta de resposta de Augusto |
+| 23h17 | Registro mecânico aponta comando manual com três pulsos longos |
 
-As pistas sustentam a hipótese de homicídio e encobrimento em conjunto. Não provam a identidade do executor. A produção artística ainda precisa representar os detalhes dos sulcos, do corte e da fotografia, hoje descritos na inspeção textual.
+A fotografia associa três pulsos longos a **desembarque liberado**. Juntos, registros de origem distinta sustentam que outra pessoa operou o equipamento para manter uma operação clandestina. O jogo não fornece identificação confiável do executor.
 
-## Alternativas
+## Registros
 
-1. Acidente durante a preparação de um pedido de socorro.
-2. Homicídio para impedir a denúncia, seguido de um sinal para desembarque clandestino. **Gabarito.**
-3. Sabotagem do próprio Augusto por vingança, com morte durante a tentativa.
+| Entrada | Conteúdo e função |
+|---|---|
+| Diário de Augusto | Ameaças, fotografia que seria entregue e orientação para conferir o registro manual |
+| Alicate partido | Fragmento correspondente ao encontrado no cabo cortado; indício de sabotagem |
+| Marcas no acesso ao cais | Solas diferentes das botas de Augusto e caixa azul molhada por água salgada |
+| Chave de serviço | Guardada em armário cuja trava depende de alimentação auxiliar; libera a sala da lente |
+| Fotografia do Aurora | Operação anterior ao naufrágio e significado dos três pulsos |
+| Ficha de manutenção | Procedimento de isolamento do ramal molhado e identificação dos ramais |
+| Carta de navegação | Distingue canal de chamada e canal de registros locais de Brumas |
+| Transmissão de Brumas | Horários da chamada, do sinal e da avaria; possui transcrição |
+| Registro mecânico da lente | Confirma o modo manual e o horário da sequência |
+| Carta não enviada a Helena | Memória pessoal opcional, associada à cadeira voltada para o mar |
 
-O formulário exige cinco pistas descobertas, uma hipótese, duas evidências marcadas e justificativa não vazia. Respostas incorretas também recebem feedback; não são bloqueadas. O texto é preservado em memória e pode ser consultado após o envio. O programa verifica apenas preenchimento e alternativa; a qualidade da justificativa deve ser avaliada por uma pessoa. Fechar ou reiniciar a sessão apaga o relatório. O piloto deve usar o formulário do observador, conforme o planejamento.
+As cinco primeiras entradas preservam os identificadores clássicos, mas o avanço exige também interpretar os documentos e operar os mecanismos. A carta pessoal aprofunda o luto sem abrir mecanismos obrigatórios.
 
-O feedback explica a sabotagem, as ameaças, a presença externa e o código. Depois da transmissão do relatório, uma voz pergunta: “O farol já pode voltar a acender?” A identidade de quem fala permanece desconhecida.
+## Progressão e enigmas — contém soluções
 
-## Limites acadêmicos
+1. **Observação inicial:** investigar sala de serviço, acesso ao cais e objetos pessoais. Não existe indicação permanente para procurar uma chave exposta.
+2. **Alimentação:** relacionar o procedimento da ficha ao ramal azul com água salgada. Isolar o cais, manter rádio e serviço ligados e rearmar. A manutenção e as marcas devem ter sido examinadas; acertar interruptores ao acaso não dispensa evidências.
+3. **Consequência:** a alimentação permite usar o rádio e libera a trava do armário de segurança. A chave permite a passagem para a segunda sala.
+4. **Rádio:** a carta identifica o canal 6 como origem dos registros de Brumas; canal 16 é chamada. O jogo exige consultar a carta antes de arquivar a transmissão.
+5. **Revelação:** cruzar 23h10 com 23h17, confirmar comando manual no registro e interpretar os pulsos pelo verso da fotografia.
+6. **Conclusão:** apresentar hipótese, escolher evidências e escrever a justificativa antes de consultar o resultado.
 
-A duração pretendida é de 5–10 minutos, ainda sem confirmação por participantes. Testes técnicos não são dados de piloto e não medem compreensão, diversão ou clareza narrativa.
+Os enigmas não acrescentam senhas aleatórias. O painel responde às tentativas e o rádio distingue falta de alimentação, falta de referência e canal inadequado. A ajuda parte de orientação, passa por indicação específica e revela a solução somente sob solicitação. O caderno reúne o que foi encontrado, sem exibir uma lista completa antecipada.
+
+## Relatório e desfecho
+
+As alternativas são:
+
+1. Queda acidental e sinal automático da tempestade.
+2. Augusto foi silenciado; outra pessoa usou a luz para liberar desembarque clandestino. **Gabarito.**
+3. Augusto preparou a própria queda e usou o farol para se despedir.
+
+A entrega exige cinco evidências clássicas, transmissão e registro mecânico descobertos, além de hipótese, dois registros selecionados e justificativa não vazia. Respostas incorretas podem ser enviadas e recebem explicação. O preenchimento e a alternativa são verificados por código; **a qualidade da argumentação exige avaliação humana, sem correção por IA**.
+
+A resposta anterior ao feedback é preservada no salvamento versionado. Reiniciar exige confirmação. A escolha da hipótese não inventa outra pessoa culpada nem altera a verdade das evidências.
+
+Se a carta pessoal foi encontrada, o encerramento reconhece o lugar que Augusto reservava para Helena. Sem ela, o relatório termina com uma compreensão mais limitada da vida do faroleiro. Em ambos os casos, uma mensagem de origem desconhecida pergunta se o farol já pode voltar a acender. Esse encerramento é textual; os efeitos de rádio não são dublagem.
+
+## Escopo e avaliação
+
+Uma ilha, duas salas, escada interditada e investigação em primeira pessoa. Não há necessidade de corpo visível, violência gráfica, combate ou personagens animados.
+
+A meta de 5–10 minutos ainda depende de teste. Testes técnicos de estados e percurso não demonstram compreensão, clareza, suspense ou diversão. O piloto deve registrar a resposta antes do feedback e utilizar dados reais.

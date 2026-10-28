@@ -1,0 +1,12 @@
+
+  CSceneManager.cpp
+  main.cpp
+  Interface.cpp
+  Persistence.cpp
+  RenderReview.cpp
+  RuntimeChecks.cpp
+  UltimoSinal.cpp
+  World.cpp
+  Gerando Código...
+     Criando biblioteca C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\bin\Debug\BaseAppOGL.lib e objeto C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\bin\Debug\BaseAppOGL.exp
+  BaseAppOGL.vcxproj -> C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\bin\Debug\BaseAppOGL.exe

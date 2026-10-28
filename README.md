@@ -1,79 +1,46 @@
 # O Último Sinal
 
-Jogo investigativo C++/OpenGL para Projeto Integrador VI e Computação Gráfica. Base 2024T2 de 06/10/2026 UTC, com aulas 0, 1, 5 e 6 preservadas; jogo na cena 2.
+Jogo de investigação em C++/OpenGL para Projeto Integrador e Computação Gráfica. Revisão atual: **22/10/2026**. A base do professor e as cenas 0, 1, 5 e 6 foram preservadas; o jogo ocupa a cena 2.
 
-## Primeira compilacao depois de clonar
+Abra **Jogar.cmd**, na raiz da pasta O Último Sinal. O Release instalado usa os modelos atualizados. O HUD mostra ETAPA 1/3 na sala de serviço, 2/3 no arquivo e 3/3 na sala óptica, acessível pela escada em espiral com 36 degraus. São três áreas conectadas no mesmo cenário.
 
-O Git nao inclui `OpenGL_SDK`: cada integrante precisa configurar sua copia do SDK do professor. Use Visual Studio Community 2026 com desenvolvimento desktop em C++, toolset v145 e Windows SDK.
+![Revisão atual no jogo](docs/evidencias_2026-10-22/visao_geral.png)
 
-Na raiz do repositorio, execute no PowerShell, indicando onde extraiu o SDK:
+## Jogar e apresentar
 
-```powershell
-& .\tools\ConfigurarSDK.ps1 -Origem 'C:\OpenGL_SDK'
-& .\tools\PrepararSDKDebug.ps1
-```
+WASD: andar; mouse: olhar; E: examinar; J: caderno; Esc/Tab: pausa/voltar; F1: ajuda gradual; F2: opções. No menu, Continuar preserva a investigação. Nova investigação pede confirmação quando há progresso.
 
-O primeiro script copia as dependencias para `OpenGL_SDK`, ao lado de `BaseAppOGL`, sem alterar a pasta original nem as variaveis globais do Windows. O segundo compila as bibliotecas Debug a partir dos fontes originais (precisa das ferramentas CMake do Visual Studio). Depois abra a solucao e compile **Debug | x64**. As DLLs Debug sao copiadas automaticamente para a pasta do executavel.
+Investigue a morte de Augusto e explique por que o farol emitiu um sinal após a notícia da queda. Compare documentos, vestígios e horários; resolva energia, rádio e o ensaio local da lente no alto da torre. Fundamente uma hipótese com evidências e justificativa. A qualidade do texto final é avaliada por uma pessoa, sem correção por IA.
 
-Para compilar **Release | x64**, prepare antes as bibliotecas Release (precisa das ferramentas CMake do Visual Studio):
+O armário fica na sala de serviço. Recupere a energia para abri-lo e pegar a chave. Depois atravesse a porta do arquivo e use a escada. O caderno registra apenas o que foi descoberto. Quatro pistas oferecem inspeção 3D com rotação/inclinação/zoom. Volume, brilho, sensibilidade, inversão vertical, redução de movimentos e comandos estão nas opções.
 
-```powershell
-& .\tools\PrepararSDKRelease.ps1
-```
+O progresso fica em `%LOCALAPPDATA%/UltimoSinal/progress.v3`; opções em options.v1. Partidas antigas preservam as descobertas. Posições incompatíveis com a nova arquitetura são recolocadas em um ponto seguro. Os testes usam perfis isolados.
 
-Debug usa as bibliotecas construidas em `OpenGL_SDK/debug`; Release usa `OpenGL_SDK/release`. Ambos reutilizam os fontes do SDK do professor. Nao misture as duas configuracoes. O SDK permanece fora do Git. Se o projeto ja estava aberto durante a configuracao, recarregue a solucao antes de compilar.
+## Documentação atual
 
-## Abrir e executar
+- [Procedimentos, código, apresentação e pendências de 22/10](docs/Revisao_cenario_22-10-2026.md).
+- [Investigação, enigmas e inspeção de 21/10](docs/Revisao_profunda_21-10-2026.md).
+- [Autoria e procedência dos recursos](docs/CREDITOS.md).
+- [Requisitos](docs/REQUISITOS.md) e [validação](docs/VALIDACAO.md).
 
-1. Abra `BaseAppOGL/BaseAppOGL.sln` no Visual Studio Community 2026.
-2. Selecione **Release | x64** para jogar ou **Debug | x64** para depurar.
-3. Use **Ctrl+F5**. Para abrir a versão já compilada, execute `Jogar.cmd`.
+## Visual Studio e dependências
 
-O SDK está ao lado da solução em `OpenGL_SDK`. Debug e Release usam bibliotecas compiladas dos fontes locais do SDK, em `OpenGL_SDK/debug` e `OpenGL_SDK/release`. O executável encontra os recursos pela própria localização e pode ser iniciado de outra pasta.
+Abra BaseAppOGL/BaseAppOGL.sln no Visual Studio Community com desenvolvimento desktop em C++, toolset v145 e Windows SDK. O SDK do professor deve ficar em OpenGL_SDK ao lado de BaseAppOGL. Ele não é incluído no Git. Os scripts ConfigurarSDK.ps1, PrepararSDKDebug.ps1 e PrepararSDKRelease.ps1, em tools, documentam a configuração local das bibliotecas; é necessário usar o SDK do professor. Não misturar bibliotecas Debug e Release.
 
-O pacote local está em `dist/O-Ultimo-Sinal-Windows-x64`. Extraia/copie a pasta inteira, incluindo Scenes, Fonts e DLLs. Teste também no computador de apresentação. Requer Windows x64, driver com OpenGL 4.6 e Microsoft Visual C++ Runtime x64 compatível; o pacote não instala componentes automaticamente.
+Compile Debug | x64 para depurar em BaseAppOGL/bin/Debug. Jogar.cmd abre BaseAppOGL/bin/InvestigacaoRelease/BaseAppOGL.exe. Os recursos são localizados pela posição do executável, independentemente da pasta de trabalho. A distribuição requer Windows x64, OpenGL 4.6 e Microsoft Visual C++ Runtime x64 compatível. Testar no computador da apresentação ainda é necessário.
 
-## Controles
+Atalhos acadêmicos: Ctrl+0/1/5/6 abre aulas; Ctrl+2 recria o jogo; Ctrl+V alterna VSync. Números sem Ctrl não trocam cenas durante a exploração.
 
-| Tecla | Ação |
-|---|---|
-| Enter na abertura | Iniciar |
-| WASD / mouse | Andar / olhar |
-| E | Examinar / fechar leitura |
-| J | Caderno; clique numa pista descoberta para reler |
-| Tab | Pausa / voltar à tela anterior |
-| R na pausa ou no resultado | Reiniciar |
-| Enter após cinco pistas | Abrir formulário de conclusão |
-| Esc | Sair; durante digitação de justificativa os atalhos globais são bloqueados |
-| 0, 1, 5, 6 | Aulas do professor |
-| 2 | Recriar a cena do jogo |
-| V / Caps Lock | VSync / wireframe, herdados da base |
+## Código e testes
 
-As opções de câmera estão na abertura e na pausa: sensibilidade, inversão vertical e restaurar padrão. As configurações duram até fechar/recriar a cena. A pausa oferece comparações dos efeitos gráficos.
+Narrative.h contém a história; Investigation.h define as regras; UltimoSinal.cpp processa entradas, caminhada e interação; Spatial.h calcula o apoio da escada/andares; World.cpp desenha o cenário; Interface.cpp e Experience.cpp mostram telas/objetivos; Storage.h e Persistence.cpp salvam; Audio.cpp sintetiza o som; os shaders preservam as técnicas da base.
 
-## Investigação
+Execute tools/Testar.py com Python ou abra os quatro projetos de tests no Visual Studio. Resultados atuais: 3.446 verificações de lógica/1.632 estados, 46 de apresentação, 38 de áudio PCM e 185 de apoio espacial. Release e Debug passaram em 306 verificações de runtime cada, sem falhas; cinco cenas desenharam sem erro GL. Foram conferidos 38 quadros e 39 recursos nativos do cenário sem fallback, além da mesa. Logs em logs/spatial_2026-10-22.
 
-Augusto morreu após uma queda no farol. A chave encontrada perto das pegadas abre a sala da lente. Examine diário, ferramenta, pegadas, chave e fotografia. Ao reunir tudo, escolha uma hipótese, marque duas evidências e explique sua conclusão antes de receber o feedback. O programa não corrige semanticamente a justificativa; no piloto, o observador registra e avalia a resposta.
+## Modelos e distribuição
 
-## Organização
+Cenario/cenario.max e Mesa/mesa.max são fontes editáveis. A produção foi assistida por MAXScript executado no 3ds Max 2027, sem alegação de modelagem manual integral. São 40 arquivos .3DS: quatro instâncias da mesa, uma escrivaninha nova e o conjunto do cenário. wood.jpg e photo.jpg foram geradas com a ferramenta de imagens integrada; P1.jpg da aula foi preservada. Apenas o piso possui CompleteMap nativo 1024×1024 em UV1.
 
-- `Scenes/UltimoSinal/Narrative.h`: conteúdo e hipóteses.
-- `Investigation.h`: regras e estados.
-- `UltimoSinal.cpp`: entrada, movimento, colisão e seleção.
-- `Interface.cpp`: menus, caderno, opções e relatório.
-- `World.cpp` e shaders: geometria e materiais.
-- `Engine/MouseMotion.h`: acumulação de eventos, testável sem janela.
-- `tests`: 5.068 verificações de regras e geometria.
-- `docs`: requisitos, narrativa, origem da base, resultados e pendências.
+Pacote jogável: dist/O-Ultimo-Sinal-Investigacao-v3.zip. Fontes do Max: dist/Cenario-3dsMax-Fontes.zip. Geradores: tools/Empacotar.py e tools/EmpacotarFontes.py. Versões anteriores ficam em backups e dist/backups.
 
-## Testes
-
-`tools/Testar.ps1` ou o projeto `tests/Testes.vcxproj`: testes puros. O executável aceita `--verify-game` para percorrer automaticamente a geometria real e renderizar todas as cenas. Aceita `--benchmark` para 30 s de aquecimento e 120 s de coleta em 1280×720, VSync ligado; escreve `benchmark_frames.csv` na raiz dos recursos. O modo de benchmark usa uma trajetória técnica repetível e não é piloto com jogadores.
-
-Consulte `docs/VALIDACAO.md`, `docs/DESEMPENHO.md` e `docs/STATUS.md` para evidências e limites.
-
-## O que ainda falta
-
-Modelagem autoral no 3DS Max, Unwrap UVW, sombras por bake, detalhes finais das pistas, comparação visual rigorosa dos efeitos, validação manual completa e piloto com cinco participantes. Os gráficos melhoraram, mas os modelos atuais continuam provisórios. A duração de 5–10 minutos ainda não foi confirmada.
-
-Repositório publicado em 13/10/2026: [matheuscolossi/PI2026-2](https://github.com/matheuscolossi/PI2026-2), branch `main`. O histórico local foi preservado. O SDK, os backups e os pacotes compilados permanecem fora do Git. Os créditos e limitações de licença estão em `docs/CREDITOS.md`. Nenhum resultado de participante foi simulado.
+Ainda faltam teste humano completo, audição em dispositivo real, avaliação em outros DPIs/computador e polimento artístico. O estado atual não declara a entrega acadêmica concluída. Os documentos datados mantêm os resultados históricos.

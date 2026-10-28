@@ -1,0 +1,42 @@
+UV anexo nodes=72
+  20
+  40
+  60
+EXPORTED anexo
+UV torre nodes=54
+  20
+  40
+EXPORTED torre
+UV escada nodes=90
+  20
+  40
+  60
+  80
+EXPORTED escada
+UV vidfar nodes=16
+EXPORTED vidfar
+UV escrivan nodes=19
+EXPORTED escrivan
+UV radio nodes=29
+  20
+EXPORTED radio
+UV diario nodes=15
+EXPORTED diario
+UV alicate nodes=15
+EXPORTED alicate
+UV armario nodes=8
+EXPORTED armario
+UV armporta nodes=5
+EXPORTED armporta
+UV decor nodes=14
+EXPORTED decor
+COMPLETE
+OPTICAL CONSOLE moved clear of landing: 3 nodes
+UV cadeira nodes=24
+  20
+EXPORTED cadeira
+PHOTOGRAPH: explicit full image UV, paper back, native source saved.
+BAKE begin for corrected furniture and stair positions
+POST COMPLETE
+FINAL WOOD BAKE begin
+FINAL WOOD BAKE complete

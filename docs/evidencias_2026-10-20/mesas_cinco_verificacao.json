@@ -1,0 +1,13 @@
+{
+  "runtime_checks": 58,
+  "runtime_failures": 0,
+  "release_files_unchanged_after_Debug": 15,
+  "release_sha256": "9f6e8810fad8793657ed0cb84fa020076d1c3ddbc98a7b07dbf3259d30c53ba7",
+  "Release_dependencies_without_Debug": true,
+  "Debug_dependencies_match_Debug": true,
+  "review_frame_count": 10,
+  "new_review_frames": [
+    "09_mesas_sala_inicial.bmp",
+    "10_bancada_radio.bmp"
+  ]
+}

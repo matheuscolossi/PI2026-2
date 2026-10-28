@@ -1,0 +1,250 @@
+ERROR: -- Runtime error: The current Mesa scene has unsaved changes; save it before building the new master.
+Started separate cenario.max from saved Mesa; source mesa.max preserved. Units 1m; original table moved to diary station.
+Standard materials prepared; procedural maps rendered by native Max to portable bitmap files.
+EXPORTED ilha nodes=1 triangles=96
+ERROR architecture costa: -- Runtime error: Attempt to access deleted scene object
+STATUS costa pending=96 objects=6
+undefined
+BEFORE nodes=6
+US_MesaDiario
+Tampo
+Perna1
+Perna2
+Perna3
+Perna4
+BOX valid=true count=7
+UNWRAP valid=true count=7
+PREEXPORT true count=7
+POSTEXPORT true count=7
+POSTGROUP true count=8
+POSTSAVE true count=8
+BUILD ilha
+BUILT ilha valid=1 objects=9
+BUILD costa
+BUILT costa valid=96 objects=106
+UV costa 1/96
+UV costa 11/96
+UV costa 21/96
+UV costa 31/96
+UV costa 41/96
+UV costa 51/96
+UV costa 61/96
+UV costa 71/96
+UV costa 81/96
+UV costa 91/96
+EXPORTED costa nodes=96 triangles=6912
+BUILD costalod
+BUILT costalod valid=28 objects=135
+UV costalod 1/28
+UV costalod 11/28
+UV costalod 21/28
+EXPORTED costalod nodes=28 triangles=896
+BUILD caminho
+BUILT caminho valid=13 objects=149
+UV caminho 1/13
+UV caminho 11/13
+EXPORTED caminho nodes=13 triangles=156
+BUILD cais
+BUILT cais valid=32 objects=182
+UV cais 1/32
+UV cais 11/32
+UV cais 21/32
+UV cais 31/32
+EXPORTED cais nodes=32 triangles=1104
+BUILD caisbox
+BUILT caisbox valid=19 objects=202
+UV caisbox 1/19
+UV caisbox 11/19
+EXPORTED caisbox nodes=19 triangles=808
+BUILD piso
+BUILT piso valid=1 objects=204
+UV piso 1/1
+EXPORTED piso nodes=1 triangles=12
+BUILD anexo
+BUILT anexo valid=69 objects=274
+UV anexo 1/69
+UV anexo 11/69
+UV anexo 21/69
+UV anexo 31/69
+UV anexo 41/69
+UV anexo 51/69
+UV anexo 61/69
+EXPORTED anexo nodes=69 triangles=1044
+BUILD torre
+BUILT torre valid=71 objects=346
+UV torre 1/71
+UV torre 11/71
+UV torre 21/71
+UV torre 31/71
+UV torre 41/71
+UV torre 51/71
+UV torre 61/71
+UV torre 71/71
+EXPORTED torre nodes=71 triangles=4496
+BUILD escada
+BUILT escada valid=10 objects=357
+UV escada 1/10
+EXPORTED escada nodes=10 triangles=228
+Architecture stage complete
+--	thread data: threadID:24476
+--	------------------------------------------------------
+--	[stack level: 0]
+--	In key loop; filename: C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\Scenes\Models\Cenario\fix_cones.ms; position: 289; line: 10
+--	member of: anonymous codeblock
+--		Parameters:
+--			key: "costa"
+--		Locals:
+--			Fixed: undefined
+--			key: "costa"
+--			root: $Dummy:US_costa @ [0.043439,-0.089790,-0.480000]
+--			nodes: undefined
+--		Externals:
+--			USNote: Global:USNote : USNote()
+--			USScratch: Global:USScratch : "C:\Users\mlc17\Documents\Codex\2026-09-08\https-drive-google-com-drive-u\work\cenario_2026-10-20\bake_temp\"
+--			owner: <CodeBlock:anonymous>
+--	------------------------------------------------------
+--	[stack level: 1]
+--	called from anonymous codeblock; filename: C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\Scenes\Models\Cenario\fix_cones.ms; position: 724; line: 21
+--		Locals:
+--		Externals:
+--			USFolder: Global:USFolder : "C:\Users\mlc17\Desktop\O Último Sinal\BaseAppOGL\Scenes\Models\Cenario\"
+--	------------------------------------------------------
+--	[stack level: 2]
+--	called from top-level
+
+REPAIRED cone apex costa nodes=48 export=C:\Users\mlc17\Documents\Codex\2026-09-08\https-drive-google-com-drive-u\work\cenario_2026-10-20\bake_temp\costa_fix.3ds
+REPAIRED cone apex torre nodes=1 export=C:\Users\mlc17\Documents\Codex\2026-09-08\https-drive-google-com-drive-u\work\cenario_2026-10-20\bake_temp\torre_fix.3ds
+UV carga 1/13
+UV carga 11/13
+EXPORTED carga nodes=13 triangles=444
+UV porta 1/17
+UV porta 11/17
+EXPORTED porta nodes=17 triangles=768
+UV cadeira 1/11
+UV cadeira 11/11
+EXPORTED cadeira nodes=11 triangles=496
+UV caneca 1/4
+EXPORTED caneca nodes=4 triangles=624
+UV armario 1/25
+UV armario 11/25
+UV armario 21/25
+EXPORTED armario nodes=25 triangles=1012
+UV armporta 1/6
+EXPORTED armporta nodes=6 triangles=276
+UV botas 1/32
+UV botas 11/32
+UV botas 21/32
+UV botas 31/32
+EXPORTED botas nodes=32 triangles=3176
+UV radio 1/42
+UV radio 11/42
+UV radio 21/42
+UV radio 31/42
+UV radio 41/42
+EXPORTED radio nodes=42 triangles=1384
+UV quadro 1/13
+UV quadro 11/13
+EXPORTED quadro nodes=13 triangles=492
+UV botao 1/4
+EXPORTED botao nodes=4 triangles=176
+UV mapa 1/6
+EXPORTED mapa nodes=6 triangles=232
+UV papel 1/3
+EXPORTED papel nodes=3 triangles=68
+UV relogio 1/18
+UV relogio 11/18
+EXPORTED relogio nodes=18 triangles=752
+UV arquivo 1/16
+UV arquivo 11/16
+EXPORTED arquivo nodes=16 triangles=716
+UV lumin 1/3
+EXPORTED lumin nodes=3 triangles=336
+UV lampada 1/1
+EXPORTED lampada nodes=1 triangles=96
+UV diario 1/11
+UV diario 11/11
+EXPORTED diario nodes=11 triangles=452
+UV alicate 1/15
+UV alicate 11/15
+EXPORTED alicate nodes=15 triangles=424
+UV marcas 1/30
+UV marcas 11/30
+UV marcas 21/30
+EXPORTED marcas nodes=30 triangles=552
+UV chave 1/4
+EXPORTED chave nodes=4 triangles=372
+UV foto 1/8
+EXPORTED foto nodes=8 triangles=136
+UV agua 1/1
+EXPORTED agua nodes=1 triangles=2
+UV janvid 1/1
+EXPORTED janvid nodes=1 triangles=2
+UV vidfar 1/1
+EXPORTED vidfar nodes=1 triangles=64
+UV led 1/1
+EXPORTED led nodes=1 triangles=44
+UV fragment 1/1
+EXPORTED fragment nodes=1 triangles=44
+UV radioluz 1/1
+EXPORTED radioluz nodes=1 triangles=44
+Props stage complete
+BAKE begin native Scanline CompleteMap 1024 UV1, paired shadows on/off, static room lights
+BAKE complete native outputs and piso_baked.3ds; original floor export is preserved until image/runtime verification
+SOURCE AUDIT groups=37 nodes=628 nodes_missing_UV=0
+SOURCE AUDIT groups=37 nodes=628 nodes_missing_UV=0
+REOPEN verified cenario.max; native piso UV template exported; UV1 atlas supports CompleteMap.
+Standard materials prepared; procedural maps rendered by native Max to portable bitmap files.
+STAIR REPAIR complete: local export pending validation, Master updated; floor rebake required.
+STAIR BAKE begin: existing floor UV1, paired native CompleteMap.
+STAIR BAKE complete: paired images and piso_stair.3ds pending promotion.
+SOURCE AUDIT groups=37 nodes=628 nodes_missing_UV=0
+STAIR SOURCE reopened and native audit completed.
+POLISH begin anexo
+POLISH complete anexo changed=69
+POLISH begin torre
+POLISH complete torre changed=41
+POLISH begin cais
+POLISH complete cais changed=32
+POLISH begin caisbox
+POLISH complete caisbox changed=10
+POLISH begin escada
+POLISH complete escada changed=9
+POLISH begin porta
+POLISH complete porta changed=15
+POLISH begin cadeira
+POLISH complete cadeira changed=8
+POLISH begin caneca
+POLISH complete caneca changed=2
+POLISH begin armario
+POLISH complete armario changed=7
+POLISH begin armporta
+POLISH complete armporta changed=5
+POLISH begin botas
+POLISH complete botas changed=6
+POLISH begin radio
+POLISH complete radio changed=10
+POLISH begin quadro
+POLISH complete quadro changed=8
+POLISH begin arquivo
+POLISH complete arquivo changed=13
+POLISH begin lumin
+POLISH complete lumin changed=0
+POLISH begin diario
+POLISH complete diario changed=6
+POLISH begin alicate
+POLISH complete alicate changed=7
+POLISH begin chave
+POLISH complete chave changed=3
+POLISH begin relogio
+POLISH complete relogio changed=0
+POLISH table US_MesaDiario
+POLISH table US_MesaManut
+POLISH table US_MesaReg
+POLISH table US_MesaFoto
+POLISH table US_MesaRadio
+POLISH all native exports ready for acceptance checks; originals retained in pre-polish ZIP.
+Standard materials prepared; procedural maps rendered by native Max to portable bitmap files.
+POLISH BAKE begin: existing floor UV1, paired native CompleteMap.
+POLISH BAKE complete: paired images and piso_pro.3ds pending promotion.
+SOURCE AUDIT groups=37 nodes=628 nodes_missing_UV=0
+Standard materials prepared; procedural maps rendered by native Max to portable bitmap files.

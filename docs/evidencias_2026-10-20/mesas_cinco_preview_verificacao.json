@@ -1,0 +1,10 @@
+{
+  "native_preview": "first accessible room, diary and maintenance tables",
+  "player_profile_unchanged": true,
+  "player_profile_sha256": {
+    "progress.v3": "01b168ad7238e5a04599b24c75d5a6c94cc762026497ac4ad0e1591d7ba4b8ba",
+    "options.v1": "fc6b595a01da2e11d7654dca888ff11f6a24782d7d96c7adbe52cb6bc6cf9551"
+  },
+  "asset_accepted": true,
+  "table_instances": 5
+}

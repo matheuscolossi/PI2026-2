@@ -1,0 +1,15 @@
+{
+  "model_sha256": {
+    "mesa.3ds": "184c47b4ade71d78a899bf4cf4b27866b16114de02afd2dfa99fdea59bfe7b10",
+    "wood.jpg": "2a6b31601595f94d4d33f24095be9611b45f364d692051c4ed8eb307d3c1145b"
+  },
+  "casset_accepted": true,
+  "table_instances": 5,
+  "evidence_folders_excluded": true,
+  "zip_sha256": "a932aba1a9264b6419a42ae86395240919eee4d2af1e7ba720d480336a182229",
+  "zip_bytes": 50036012,
+  "previous_zip_backup": "C:\\Users\\mlc17\\Desktop\\O \u00daltimo Sinal\\dist\\backups\\O-Ultimo-Sinal-Investigacao-v3-20261020T102410569832Z.zip",
+  "previous_runtime_backup": "C:\\Users\\mlc17\\Desktop\\O \u00daltimo Sinal\\dist\\backups\\O-Ultimo-Sinal-Investigacao-v3-20261020T102410569832Z",
+  "runtime_log": "mesa_package_runtime.log",
+  "missing_resource_log": "mesa_package_missing_resource.log"
+}

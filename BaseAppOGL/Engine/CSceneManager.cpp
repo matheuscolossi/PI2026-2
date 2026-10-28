@@ -34,64 +34,16 @@ void CSceneManager::DrawScene(float deltaTime)
 	this->Scene->DrawScene(deltaTime);
 }
 
-void CSceneManager::ProcessSceneInput(GLFWwindow* window, float deltaTime)
-{
-	InputManager& input = InputManager::GetInstance();
-
-	if (ImGui::GetIO().WantTextInput) { Scene->ProcessSceneInput(window, deltaTime); return; }
-
-	// Close window on ESC
-	if (input.IsKeyJustPressed(GLFW_KEY_ESCAPE))
-		glfwSetWindowShouldClose(window, true);
-
-	
-
-
-	// Toggle cursor mode with TAB or VSync
-	if (input.IsKeyJustPressed(GLFW_KEY_V))
-	{
-		bVsyncEnabled = !bVsyncEnabled;
-		glfwSwapInterval(bVsyncEnabled);
-
-		std::cout << "Vsync: '" << bVsyncEnabled << "'" << std::endl;
-	}
-
-	if (input.IsKeyJustPressed(GLFW_KEY_CAPS_LOCK))
-	{
-		// Toggle wireframe mode
-		bWireframeMode = !bWireframeMode;
-
-		std::cout << "Wireframe: '" << bWireframeMode << "'" << std::endl;
-	}
-	if (bWireframeMode)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Wireframe mode
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // Fill mode
-	
-	// Seleciona a cena 0
-	if (input.IsKeyJustPressed(GLFW_KEY_0))
-		ChangeScene(0);
-
-	// Seleciona a cena 1
-	if (input.IsKeyJustPressed(GLFW_KEY_1))
-		ChangeScene(1);
-	
-	if (input.IsKeyJustPressed(GLFW_KEY_2))
-		ChangeScene(2);
-
-	if (input.IsKeyJustPressed(GLFW_KEY_6)) ChangeScene(6);
-
-	// Seleciona a cena 5
-	if (input.IsKeyJustPressed(GLFW_KEY_5))
-		ChangeScene(5);
-
-
-
-
-	// Processa input da cena atual
-	Scene->ProcessSceneInput(window, deltaTime);
+void CSceneManager::ProcessSceneInput(GLFWwindow* window,float dt){
+ auto& input=InputManager::GetInstance();
+ bool control=input.IsKeyPressed(GLFW_KEY_LEFT_CONTROL)||input.IsKeyPressed(GLFW_KEY_RIGHT_CONTROL);
+ if(control&&!ImGui::GetIO().WantTextInput){
+  for(auto pair:{std::pair<int,unsigned>{GLFW_KEY_0,0}, {GLFW_KEY_1,1},{GLFW_KEY_2,2},{GLFW_KEY_5,5},{GLFW_KEY_6,6}})if(input.IsKeyJustPressed(pair.first))ChangeScene(pair.second);
+  if(input.IsKeyJustPressed(GLFW_KEY_V)){bVsyncEnabled=!bVsyncEnabled;glfwSwapInterval(bVsyncEnabled);}
+ }
+ if(uiCurrentScene!=2&&input.IsKeyJustPressed(GLFW_KEY_ESCAPE))glfwSetWindowShouldClose(window,true);
+ glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);Scene->ProcessSceneInput(window,dt);
 }
-
 
 void CSceneManager::ChangeScene(unsigned int _uiCurrentScene)
 {

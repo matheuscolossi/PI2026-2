@@ -1,0 +1,1 @@
+Native Chamfer/ChamferBox3/cylinder32 and Unwrap applied; table retains 5 editable Boxes. Master saved and reloaded.
