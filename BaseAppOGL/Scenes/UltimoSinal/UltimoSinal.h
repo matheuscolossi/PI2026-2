@@ -12,6 +12,8 @@
 #include "Settings.h"
 #include "Audio.h"
 #include "Experience.h"
+#include "Atmosphere.h"
+#include "Drama.h"
 #include <memory>
 #include <chrono>
 #include <unordered_map>
@@ -21,9 +23,24 @@ public:
  void ProcessSceneInput(GLFWwindow*,float)override;void DrawScene(float)override;
  bool VerifyRuntime();bool RenderReview();void PreviewTables();void BenchmarkPose(float);
 private:
+ // Optional HDR targets and passes (PostFx.cpp). A failure only clears `active`.
+ struct PostFx{
+  GLuint program=0,vao=0,sceneFbo=0,sceneColor=0,sceneDepth=0,resolveFbo=0,resolveColor=0,resolveDepth=0,occlusionFbo=0,occlusionTexture=0;
+  std::array<GLuint,5> bloomFbo{},bloomTexture{};std::array<int,5> bloomWidth{},bloomHeight{};
+  int width=0,height=0,samples=0;GLint previousDraw=0,previousRead=0;bool failed=false,active=false;
+ };
+ PostFx post;ultimo::Drama drama;
+ glm::mat4 lastProjection{1.f};
+ glm::vec3 velocity{0.f},focusPosition{0.f},gradeShadow{1.f},gradeHighlight{1.f};
+ float gradeSaturation=1,focusFade=0,smoothEyeY=1.7f,renderLift=0,renderZoom=0,bobPhase=0,bobAmount=0;
+ bool postEnabled=true,aoEnabled=true,bloomEnabled=true,techniquePanel=false,mouseHeld=false,sprinting=false;
+ ultimo::AtmosphereMoment beatMoment=ultimo::AtmosphereMoment::None;
+ void RenderWorld();bool BeginPost();void EndPost();bool PreparePost(int,int);void ReleasePost(bool keepProgram);
+ void UpdateViewFeel(float);void DrawTechniquePanel();
  struct Block{ultimo::Bounds bounds;glm::vec3 color;bool solid;};
  struct DeskInstance{glm::mat4 model{1.f};ultimo::Bounds bounds;};
  ultimo::Experience experience;
+ ultimo::Atmosphere atmosphere;
  ultimo::Investigation investigation;ultimo::Settings settings;ultimo::Audio audio;
  CCamera camera{glm::vec3(0,1.7f,17)};CShader shader;CTextures textures;std::unique_ptr<CSkybox> skybox;
  CPrimitives cube,cylinder,cone,waterPlane;std::vector<Block> blocks;
@@ -42,7 +59,7 @@ private:
  float evidenceYaw=0,evidencePitch=0,evidenceZoom=1,lensPlaybackTime=-1;
  bool RenderEvidencePreview(int);void DrawEvidencePreview(int);void StartLensPlayback();
  std::array<char,2048> answer{};std::string saveNotice;
- void Start();void SyncCursor();void Walk(glm::vec3,float);bool Blocked(glm::vec3)const;bool Visible(glm::vec3)const;void FindTarget();
+ void Start();void SyncCursor();void Walk(glm::vec3,float,float speed=2.6f);bool Blocked(glm::vec3)const;bool Visible(glm::vec3)const;void FindTarget();
  void Interact();void Save();bool Load();void DeleteSave();void LoadSettings();void SaveSettings();
  void LoadDesk();void LoadWorldAssets();void BuildWorld();void Render(CPrimitives&,glm::vec3,glm::vec3,glm::vec3,int material=0,float alpha=1);
  void DrawWorld();void DrawInterface();void DrawSettings();

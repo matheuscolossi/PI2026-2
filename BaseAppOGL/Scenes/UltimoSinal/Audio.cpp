@@ -48,8 +48,8 @@ float DistanceGain(float distance) {
 }
 
 float CueLength(int kind) {
-    constexpr float lengths[] = { .18f, .55f, .86f, .64f, .28f, LensPlaybackDuration };
-    if (kind >= 0 && kind <= 5) return lengths[kind];
+    constexpr float lengths[] = { .18f, .55f, .86f, .64f, .28f, LensPlaybackDuration, 3.2f };
+    if (kind >= 0 && kind <= 6) return lengths[kind];
     return kind == 10 ? .20f : (kind == 11 ? 1.10f : 0.f);
 }
 
@@ -77,6 +77,7 @@ struct Voice {
     float left = 0.f;
     float right = 0.f;
     float noiseLow = 0.f;
+    float rumble = 0.f;
     float variation = 1.f;
     float surface = 0.f;
     float lastSample = 0.f;
@@ -120,10 +121,21 @@ float VoiceSample(Voice& voice, std::uint32_t& random) {
                 * Envelope(pulseTime, LensPulseDuration, .022f);
         }
         break;
+    case 6: { // Distant thunder after sheet lightning: a soft crack, then a long roll.
+        voice.rumble += .022f * (noise - voice.rumble);
+        const float roll = .58f + .42f * std::sin(2.f * Pi * 2.3f * voice.variation * t + 1.1f);
+        // Indoors the walls keep the crack out and leave mostly the low roll.
+        const float open = 1.f - .55f * Unit(voice.surface);
+        sample = .075f * voice.noiseLow * std::exp(-7.f * t) * open
+            + .86f * voice.rumble * roll * std::exp(-1.15f * t) * (.70f + .30f * open);
+        break;
+    }
     case 10: { // Stone/gravel outside, a softer wooden impact inside.
         const float pitch = (78.f + voice.surface * 18.f) * voice.variation;
         sample = (.18f - voice.surface * .07f) * voice.noiseLow * std::exp(-24.f * t)
-            + (.055f + voice.surface * .025f) * std::sin(2.f * Pi * pitch * t) * std::exp(-32.f * t);
+            + (.055f + voice.surface * .025f) * std::sin(2.f * Pi * pitch * t) * std::exp(-32.f * t)
+            + .025f * (voice.surface > 1.f ? voice.surface - 1.f : 0.f)
+                * std::sin(2.f * Pi * 294.f * t) * std::exp(-19.f * t);
         break;
     }
     case 11: // Infrequent structural creak, below the investigation cues.
@@ -149,6 +161,7 @@ struct MixParameters {
     bool indoors = false, walking = false, perspective = false, powered = false, playbackActive = true;
     float master = .65f, ambient = .65f, effects = .75f;
     float radioDistance = 1000.f, radioPan = 0.f, panelDistance = 1000.f, panelPan = 0.f;
+    int area = 0; float focus = 0.f;
     unsigned generation = 0;
 };
 
@@ -162,7 +175,7 @@ struct Mixer {
     double phase = 0.0;
     float insideMix = 0.f, masterMix = 0.f, ambientMix = 0.f, effectsMix = 0.f;
     float radioGain = 0.f, panelGain = 0.f, radioPan = 0.f, panelPan = 0.f, powerMix = 0.f;
-    float playbackMix = 1.f;
+    float playbackMix = 1.f, archiveMix = 0.f, upperMix = 0.f, focusMix = 0.f;
     float stepClock = 0.f, structureClock = 19.f;
     bool previousWalking = false, leftStep = false;
     unsigned renderedGeneration = 0;
@@ -180,7 +193,7 @@ struct Mixer {
         slot->left = std::sqrt(.5f * (1.f - Pan(pan)));
         slot->right = std::sqrt(.5f * (1.f + Pan(pan)));
         slot->variation = .94f + .12f * Unit(.5f + .5f * Noise(random));
-        slot->surface = insideMix;
+        slot->surface = insideMix + upperMix;
     }
 
     void Render(std::array<std::int16_t, Frames * 2>& samples, const MixParameters& p,
@@ -208,6 +221,9 @@ struct Mixer {
             ambientMix += .001f * (p.ambient - ambientMix);
             effectsMix += .002f * (p.effects - effectsMix);
             insideMix += .00010f * (targetInside - insideMix);
+            archiveMix += .00006f * ((p.area == 2 ? 1.f : 0.f) - archiveMix);
+            upperMix += .00008f * (((p.area == 3 || p.area == 4) ? 1.f : 0.f) - upperMix);
+            focusMix += .00008f * (Unit(p.focus) - focusMix);
             radioGain += .0006f * (targetRadio - radioGain);
             panelGain += .0006f * (targetPanel - panelGain);
             radioPan += .0006f * (p.radioPan - radioPan);
@@ -235,7 +251,7 @@ struct Mixer {
             const float wave = .58f + .24f * static_cast<float>(std::sin(phase * .67))
                 + .16f * static_cast<float>(std::sin(phase * 1.13 + .8));
             const float wind = .55f + .35f * static_cast<float>(std::sin(phase * .23 + 1.7));
-            const float outdoorGain = 1.f - insideMix * .78f;
+            const float outdoorGain = 1.f - insideMix * .78f + upperMix * .32f;
             float left = (seaL * wave * .65f + windL * wind * .11f) * outdoorGain;
             float right = (seaR * wave * .65f + windR * wind * .11f) * outdoorGain;
 
@@ -246,9 +262,17 @@ struct Mixer {
                 + .003f * static_cast<float>(std::sin(phase * 2. * Pi * 110.)));
             const float swell = Unit(static_cast<float>(std::sin(phase * .41) + std::sin(phase * .73 + 1.4)) - .85f);
             const float radio = .026f * powerMix * radioGain * swell * (windL + windR) * .5f;
+            // Rain on the service roof, a low archive resonance and air around
+            // the optical gallery. These are ambient synthesis, never voices,
+            // Morse messages, footsteps of an unseen character or puzzle cues.
+            const float roof = (1.f - upperMix) * insideMix * .018f;
+            const float gallery = upperMix * .025f;
+            const float archive = archiveMix * .0023f * static_cast<float>(std::sin(phase * 2. * Pi * 61.));
+            left += roof * windL + gallery * windL * (.65f + .2f * wind) + archive;
+            right += roof * windR + gallery * windR * (.65f + .2f * wind) + archive;
             left += room + panel * std::sqrt(.5f * (1.f - panelPan)) + radio * std::sqrt(.5f * (1.f - radioPan));
             right += room + panel * std::sqrt(.5f * (1.f + panelPan)) + radio * std::sqrt(.5f * (1.f + radioPan));
-            if (insideMix > .65f && p.master > 0.f && p.ambient > 0.f) {
+            if (p.playbackActive && insideMix > .65f && p.master > 0.f && p.ambient > 0.f) {
                 structureClock -= SampleTime;
                 if (structureClock <= 0.f) {
                     structure = Voice{};
@@ -267,8 +291,9 @@ struct Mixer {
                 left += sample * structure.left;
                 right += sample * structure.right;
             }
-            left *= p.ambient == 0.f ? 0.f : ambientMix;
-            right *= p.ambient == 0.f ? 0.f : ambientMix;
+            const float emotionalSpace = 1.f - .58f * focusMix;
+            left *= p.ambient == 0.f ? 0.f : ambientMix * emotionalSpace;
+            right *= p.ambient == 0.f ? 0.f : ambientMix * emotionalSpace;
 
             for (auto& voice : voices) {
                 if (!voice.active) continue;
@@ -308,6 +333,7 @@ struct Audio::Impl {
 
     Mixer mixer;
     std::atomic<bool> perspective{ false }, powered{ false }, playbackActive{ true };
+    std::atomic<int> area{0}; std::atomic<float> focus{0.f};
     std::atomic<float> radioDistance{ 1000.f }, radioPan{ 0.f }, panelDistance{ 1000.f }, panelPan{ 0.f };
 
     Impl() {
@@ -342,6 +368,7 @@ struct Audio::Impl {
         p.perspective = perspective.load(std::memory_order_acquire);
         p.powered = powered.load(std::memory_order_relaxed);
         p.playbackActive = playbackActive.load(std::memory_order_relaxed);
+        p.area = area.load(std::memory_order_relaxed); p.focus = focus.load(std::memory_order_relaxed);
         p.radioDistance = radioDistance.load(std::memory_order_relaxed);
         p.radioPan = radioPan.load(std::memory_order_relaxed);
         p.panelDistance = panelDistance.load(std::memory_order_relaxed);
@@ -439,8 +466,13 @@ void Audio::SetPlaybackActive(bool active) {
     impl->playbackActive.store(active, std::memory_order_relaxed);
 }
 
+void Audio::SetAtmosphere(int area, float focus) {
+    impl->area.store(area >= 0 && area <= 4 ? area : 0, std::memory_order_relaxed);
+    impl->focus.store(Unit(focus), std::memory_order_relaxed);
+}
+
 void Audio::Cue(int kind, float pan) {
-    if (kind < 0 || kind > 5 || impl->master.load(std::memory_order_relaxed) == 0.f
+    if (kind < 0 || kind > 6 || impl->master.load(std::memory_order_relaxed) == 0.f
         || impl->effects.load(std::memory_order_relaxed) == 0.f) return;
     std::lock_guard<std::mutex> guard(impl->queueMutex);
     if (impl->commandCount < impl->commands.size())

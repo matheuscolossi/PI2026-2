@@ -30,7 +30,11 @@ public:
     void SetPerspective(float radioDistance, float radioPan, float panelDistance, float panelPan, bool powered);
     // Freeze interaction cue clocks while paused or unfocused. Ambient sound remains.
     void SetPlaybackActive(bool active);
-    // 0: inspect; 1: switch; 2: receiver tuning; 3: door; 4: invalid; 5: local lens test.
+    // 0 coast, 1 service, 2 archive, 3 optics, 4 metal stair. Focus gently
+    // lowers ambience only; interaction and clue pulses retain their levels.
+    void SetAtmosphere(int area, float focus);
+    // 0: inspect; 1: switch; 2: receiver tuning; 3: door; 4: invalid; 5: local lens test;
+    // 6: distant thunder that follows a lightning strike (presentation only).
     // pan=-1 is left; pan=+1 is right. Cue never waits for the audio device.
     void Cue(int kind, float pan = 0.f);
     bool Available() const;

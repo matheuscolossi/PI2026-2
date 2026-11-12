@@ -73,6 +73,7 @@ O bake foi comparado com sombras ligadas/desligadas. Isso nao significa que todo
 Acabamento, testes humanos, piloto e desempenho no computador de apresentacao continuam pendentes.
 O conjunto editavel, scripts, texturas e evidencias sao entregues separadamente em Cenario-3dsMax-Fontes.zip.
 Tres areas fisicas conectadas: sala de servico, arquivo e sala optica. A escada em espiral tem 36 degraus transitaveis.
+Revisao artistica de 08/11/2026: luz/cor e acustica por area, chuva no exterior e vidros, desgaste procedural e reflexoes apos descobertas. O silencio emocional baixa somente o ambiente. Reducao de movimentos remove a chuva em queda. Modelos Max e bake do piso sao os anteriores; esta etapa acrescenta codigo/shaders.
 A investigacao inclui energia, radio e ensaio local da lente no alto da torre. O radio tem sintonia sintetizada e transcricao; o ensaio local tem tres pulsos longos, sem nova transmissao para o mar. Diario, alicate, chave e foto oferecem Ver objeto, com rotacao/inclinacao/zoom. O caderno agrupa evidencias e horarios conhecidos. Nao ha dublagem. Progresso/opcoes: pasta UltimoSinal em LOCALAPPDATA. Confirme antes de substituir uma investigacao salva. Leia CREDITOS.md antes de redistribuicao externa.
 '''
 run=subprocess.run([str(dest/'BaseAppOGL.exe'),'--verify-game'],cwd=Path(__file__).parent,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=90)
@@ -85,6 +86,7 @@ instance_lines=[line for line in text.splitlines() if 'Mobiliario Max aplicado:'
 if not instance_lines or not all(re.search(r'\bmesa_instances=4 escrivan_instances=1\b',line) for line in instance_lines):raise RuntimeError('O runtime nao confirmou as quatro mesas e a escrivaninha: '+str(instance_lines))
 runtime=re.search(r'Runtime: (\d+) checks; failures=0',text)
 if not runtime:raise RuntimeError('O percurso executavel nao confirmou failures=0.')
+if 'Render review 45_movimento_reduzido.bmp exported=1' not in text:raise RuntimeError('Conferencia artistica de 45 quadros nao confirmada.')
 accepted=set(re.findall(r'Max world asset accepted: ([a-z0-9_]+) triangles=\d+',text))
 if accepted!=set(cenario_names) or 'Max world asset rejected' in text:raise RuntimeError('Conjunto Max aceito pelo runtime difere dos 39 esperados: '+str(sorted(accepted)))
 libraries=re.findall(r'Max world library: (\d+)/39 assets',text)

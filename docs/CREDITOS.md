@@ -1,6 +1,8 @@
 # Recursos e autoria
 
-Atualização: 22/10/2026. Os documentos datados preservam as etapas anteriores e os resultados válidos em cada data.
+Atualização: 12/11/2026. Os documentos datados preservam as etapas anteriores e os resultados válidos em cada data.
+
+A revisão de 12/11/2026 (pós-processamento HDR, oclusão de ambiente, bloom, gradação, movimento, painel de técnicas e momentos de apresentação: `PostFx.cpp`, `Drama.h`, `Post.vert`, `Post.frag` e as alterações listadas em `docs/Melhorias_12-11-2026.md`) foi escrita com assistência do Claude, da Anthropic, a pedido do aluno. É código e shader; não é novo trabalho no 3ds Max, novo bake nem nova textura. O trovão é síntese no mesmo mixer de áudio.
 
 O código do jogo em Scenes/UltimoSinal foi desenvolvido para o projeto com assistência do Codex. A produção do conjunto de modelos e UVs utilizou MAXScript nativo gerado com a mesma assistência e executado no 3ds Max 2027. Não representa modelagem manual integral do aluno. O master atual é Cenario/cenario.max; Mesa/mesa.max mantém a mesa editável. Há 39 exports do cenário mais mesa.3ds, quatro instâncias dessa mesa e uma nova escrivaninha no rádio. Grupos anteriores ocultos no master e backups preservam o histórico.
 
@@ -29,3 +31,8 @@ O áudio é sintetizado localmente por Audio.cpp, incluindo mar, vento, passos e
 O vídeo fornecido pelo usuário, [Room & Exits Escape Room Wicked Games — level 2](https://www.youtube.com/watch?v=Q-eZ4QR0ObA), orientou composição, distribuição e leitura dos objetos. Nenhuma imagem ou modelo desse jogo foi copiado.
 
 Cenario-3dsMax-Fontes.zip reúne masters, scripts, exports, mapas e evidências. O pacote jogável omite .max, .ms e pastas de evidências. Os scripts de revisão preservam os caminhos/estado da estação de produção; para editar a versão atual, abrir o master e resolver os bitmaps locais se necessário. Consulte [Revisão do cenário](Revisao_cenario_22-10-2026.md) para procedimento, validação e limites.
+
+
+## Acabamento de 08/11/2026
+
+Acabamento procedural de materiais, chuva, graduação por área, acústica e momentos de reflexão foram implementados no código/shaders com a assistência do Codex já declarada. Não são novo trabalho manual no 3ds Max, novos mapas PBR ou novo bake. Foram mantidos os 40 arquivos de modelos e os masters anteriores. Os ambientes e efeitos continuam sintetizados localmente, sem gravações externas/dublagem. Testes de emoção com participantes e audição humana permanecem pendentes. Consulte Acabamento_artistico_08-11-2026.md.

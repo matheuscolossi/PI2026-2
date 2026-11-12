@@ -287,4 +287,5 @@
 <ClCompile Include="Scenes\UltimoSinal\RenderReview.cpp" />
 </ItemGroup>
 <ItemGroup><ClCompile Include="Scenes\UltimoSinal\Inspection.cpp"><Filter>Source Files</Filter></ClCompile><None Include="Scenes\UltimoSinal\Inspection.frag" /></ItemGroup>
+<ItemGroup><ClInclude Include="Scenes\UltimoSinal\Drama.h"><Filter>Scenes\UltimoSinal</Filter></ClInclude><ClCompile Include="Scenes\UltimoSinal\PostFx.cpp"><Filter>Scenes\UltimoSinal</Filter></ClCompile><None Include="Scenes\UltimoSinal\Post.vert"><Filter>Scenes\UltimoSinal</Filter></None><None Include="Scenes\UltimoSinal\Post.frag"><Filter>Scenes\UltimoSinal</Filter></None></ItemGroup>
 </Project>

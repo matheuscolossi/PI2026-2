@@ -26,6 +26,8 @@ void UltimoSinal::ResetExperience(bool resumed) {
  // Start/Load have already selected the player's pose. A stale menu camera
  // backup must never overwrite that newly selected position.
  experience.Reset(investigation,resumed);
+ atmosphere.Reset(investigation,resumed,camera.Position.x,camera.Position.y,camera.Position.z);
+ drama.Reset(investigation);beatMoment=ultimo::AtmosphereMoment::None;velocity=glm::vec3(0);smoothEyeY=camera.Position.y;renderLift=renderZoom=0;
  if(!resumed&&!benchmarkMode)experience.BeginIntro();
 }
 void UltimoSinal::FinishIntro() {
@@ -66,6 +68,8 @@ void UltimoSinal::UpdateExperience(float dt) {
  const bool inLensRoom=explore&&camera.Position.z< -1.05f&&camera.Position.z> -5.6f&&std::abs(camera.Position.x)<4.6f;
  experience.Observe(investigation,inLensRoom);
  experience.Tick(dt,explore,settings.reduceMotion);
+ atmosphere.Observe(investigation,camera.Position.x,camera.Position.y,camera.Position.z,explore);
+ atmosphere.Tick(dt,explore,experience.activeEvent==ultimo::ExperienceEvent::None,settings.reduceMotion);
 }
 void UltimoSinal::DrawExperience(bool allowBenchmark) {
  if((benchmarkMode&&!allowBenchmark)||investigation.screen!=Screen::Explore)return;
@@ -96,6 +100,17 @@ void UltimoSinal::DrawExperience(bool allowBenchmark) {
   ImGui::SetNextWindowSize(ImVec2((std::min)(590.f,(std::max)(180.f,display.x-40)),0));
   ImGui::Begin("##experience_event",nullptr,flags);
   ImGui::TextColored(ImVec4(.80f,.65f,.39f,1),"%s",event.label);ImGui::TextWrapped("%s",event.text);
+  ImGui::End();ImGui::PopStyleVar();
+ }
+ if(atmosphere.captionVisible&&experience.activeEvent==ultimo::ExperienceEvent::None) {
+  const auto moment=ultimo::DescribeMoment(atmosphere.moment);
+  const float fade=Ease(atmosphere.age/.85f)*Ease((ultimo::Atmosphere::MomentDuration-atmosphere.age)/1.15f);
+  ImGui::PushStyleVar(ImGuiStyleVar_Alpha,fade);
+  ImGui::SetNextWindowPos(ImVec2(display.x*.5f,display.y-155),ImGuiCond_Always,ImVec2(.5f,1));
+  ImGui::SetNextWindowSize(ImVec2((std::min)(620.f,(std::max)(180.f,display.x-40)),0));
+  ImGui::Begin("##quiet_moment",nullptr,flags);
+  ImGui::TextColored(ImVec4(.80f,.65f,.39f,1),"%s",moment.title);
+  ImGui::Spacing();ImGui::TextWrapped("%s",moment.text);
   ImGui::End();ImGui::PopStyleVar();
  }
  ImGui::PopStyleVar(2);ImGui::PopStyleColor(2);

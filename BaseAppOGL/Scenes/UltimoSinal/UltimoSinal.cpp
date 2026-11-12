@@ -50,12 +50,12 @@ void UltimoSinal::LoadDesk(){
  mesa=std::move(candidate);
  std::cout<<"Mobiliario Max aplicado: mesa_instances=4 escrivan_instances=1; collision_volumes="<<desks.size()<<std::endl;
 }
-UltimoSinal::~UltimoSinal(){Save();SaveSettings();if(evidenceDepth)glDeleteRenderbuffers(1,&evidenceDepth);if(evidenceTexture)glDeleteTextures(1,&evidenceTexture);if(evidenceFbo)glDeleteFramebuffers(1,&evidenceFbo);cube.cleanup();cylinder.cleanup();cone.cleanup();waterPlane.cleanup();}
+UltimoSinal::~UltimoSinal(){Save();SaveSettings();ReleasePost(false);if(evidenceDepth)glDeleteRenderbuffers(1,&evidenceDepth);if(evidenceTexture)glDeleteTextures(1,&evidenceTexture);if(evidenceFbo)glDeleteFramebuffers(1,&evidenceFbo);cube.cleanup();cylinder.cleanup();cone.cleanup();waterPlane.cleanup();}
 void UltimoSinal::Start(){
  experience=ultimo::Experience{};inspectedEvidence=previewEvidence=-1;lensPlaybackTime=-1;
  investigation.Start();sessionActive=true;camera=CCamera({0,1.7f,17});camera.Zoom=58;answer.fill(0);target=-1;duration=0;worldTime=0;doorAmount=0;autosave=0;skipMouse=true;Save();ResetExperience(false);if(experience.introPending)investigation.screen=Screen::Intro;SyncCursor();
 }
-void UltimoSinal::SyncCursor(){bool desired=investigation.screen==Screen::Explore&&!benchmarkMode;if(captured!=desired){captured=desired;skipMouse=true;InputManager::GetInstance().SetCursorMode(captured?GLFW_CURSOR_DISABLED:GLFW_CURSOR_NORMAL);}}
+void UltimoSinal::SyncCursor(){bool desired=investigation.screen==Screen::Explore&&!benchmarkMode&&!techniquePanel;if(captured!=desired){captured=desired;skipMouse=true;InputManager::GetInstance().SetCursorMode(captured?GLFW_CURSOR_DISABLED:GLFW_CURSOR_NORMAL);}}
 bool UltimoSinal::Blocked(glm::vec3 p)const{
  if(std::abs(p.x)>12.5f||std::abs(p.z)>20.5f)return true;
  if(std::hypot(p.x,p.z+3.f)<.61f)return true;
@@ -99,6 +99,10 @@ void UltimoSinal::Interact(){
 }
 void UltimoSinal::ProcessSceneInput(GLFWwindow* window,float deltaTime){
  auto& in=InputManager::GetInstance();walking=false;
+ // Edge of the left button, tracked on every screen so a click that closes a
+ // document or a device panel is not read again as "examine" on the next frame.
+ const bool mouseDown=in.IsMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT);const bool clicked=mouseDown&&!mouseHeld;mouseHeld=mouseDown;
+ if(investigation.screen!=Screen::Explore){velocity=glm::vec3(0);sprinting=false;}
  if(!IsMenuBackdrop())RestorePlayerCamera();
  const bool timingActive=investigation.screen==Screen::Explore||investigation.screen==Screen::Reading||investigation.screen==Screen::Journal||investigation.screen==Screen::Panel||investigation.screen==Screen::Radio||investigation.screen==Screen::LensConsole||investigation.screen==Screen::Conclusion;
  if(glfwGetWindowAttrib(window,GLFW_FOCUSED)&&timingActive&&!investigation.submitted&&std::isfinite(deltaTime))duration+=(std::max)(0.f,deltaTime);
@@ -111,6 +115,8 @@ void UltimoSinal::ProcessSceneInput(GLFWwindow* window,float deltaTime){
   }return;
  }
  if(ImGui::GetIO().WantTextInput){if(investigation.screen==Screen::Conclusion){autosave+=(std::max)(0.f,deltaTime);if(autosave>5){autosave=0;Save();}}return;}
+ // Classroom aid: compare each graphics technique live. Cursor is released.
+ if(in.IsKeyJustPressed(GLFW_KEY_F3)){techniquePanel=!techniquePanel;SyncCursor();}
  auto before=investigation.screen;
  if(before==Screen::Title){if(in.IsKeyJustPressed(GLFW_KEY_ENTER)&&!ImGui::GetIO().NavVisible){if(sessionActive){if(experience.introPending)FinishIntro();else{RestorePlayerCamera();investigation.screen=investigation.submitted?Screen::Complete:Screen::Explore;}}else if(hasSave)Load();else Start();}return;}
  if(before!=Screen::Help&&before!=Screen::Options&&before!=Screen::Controls&&before!=Screen::ConfirmNew&&in.IsKeyJustPressed(GLFW_KEY_F1)){menuReturn=int(before);investigation.screen=Screen::Help;SyncCursor();return;}
@@ -126,18 +132,31 @@ void UltimoSinal::ProcessSceneInput(GLFWwindow* window,float deltaTime){
  if(investigation.screen!=before){SyncCursor();return;}
  if(before==Screen::Intro){if(in.IsKeyJustPressed(GLFW_KEY_ENTER))FinishIntro();return;}
  if(before!=Screen::Explore)return;
- auto mouse=in.GetMouseDelta();camera.MouseSensitivity=settings.Sensitivity();if(skipMouse)skipMouse=false;else camera.ProcessMouseMovement(mouse.x,settings.invertY?-mouse.y:mouse.y);
+ auto mouse=in.GetMouseDelta();camera.MouseSensitivity=settings.Sensitivity();if(skipMouse)skipMouse=false;else if(captured)camera.ProcessMouseMovement(mouse.x,settings.invertY?-mouse.y:mouse.y);
  glm::vec3 forward=camera.Front;forward.y=0;forward=glm::normalize(forward);glm::vec3 right=camera.Right;right.y=0;right=glm::normalize(right);glm::vec3 move(0);
  if(in.IsKeyPressed(settings.forward))move+=forward;if(in.IsKeyPressed(settings.back))move-=forward;if(in.IsKeyPressed(settings.right))move+=right;if(in.IsKeyPressed(settings.left))move-=right;
- auto old=camera.Position;Walk(move,deltaTime);walking=glm::length(camera.Position-old)>.0001f;
+ // Planar velocity eases toward the requested direction. Walk keeps the same
+ // collision and stair-support rules; only the distance per frame is eased.
+ const float frame=std::isfinite(deltaTime)?(std::clamp)(deltaTime,0.f,.1f):0.f;
+ const float feet=camera.Position.y-ultimo::spatial::Eye;
+ const bool onStairs=feet>ultimo::spatial::Ground+.05f&&feet<ultimo::spatial::Upper-.05f;
+ const bool wantsMove=glm::length(move)>.001f;
+ sprinting=wantsMove&&!onStairs&&(in.IsKeyPressed(GLFW_KEY_LEFT_SHIFT)||in.IsKeyPressed(GLFW_KEY_RIGHT_SHIFT));
+ const glm::vec3 wish=wantsMove?glm::normalize(move)*(sprinting?3.7f:onStairs?2.2f:2.6f):glm::vec3(0);
+ velocity+=(wish-velocity)*(1.f-std::exp(-frame*(wantsMove?12.f:16.f)));
+ auto old=camera.Position;const float speed=glm::length(velocity);
+ if(speed>.03f)Walk(velocity,frame,speed);else velocity=glm::vec3(0);
+ const glm::vec3 moved=camera.Position-old;walking=std::hypot(moved.x,moved.z)>.0001f;
+ // A wall absorbs the blocked component instead of storing a push against it.
+ if(frame>0.f&&speed>.03f){const glm::vec3 actual(moved.x/frame,0,moved.z/frame);if(glm::length(actual)<speed*.98f)velocity=glm::mix(velocity,actual,.5f);}
  // Vertical position follows actual stair support, not a fixed eye height.
  // No forced vertical bob: it would overwrite the first stair's support height.
- FindTarget();if(in.IsKeyJustPressed(settings.interact))Interact();
+ FindTarget();if(in.IsKeyJustPressed(settings.interact)||(clicked&&captured&&!ImGui::GetIO().WantCaptureMouse))Interact();
  if(in.IsKeyJustPressed(GLFW_KEY_ENTER))investigation.BeginConclusion();
  autosave+=deltaTime;if(autosave>5){autosave=0;Save();}SyncCursor();
 }
-void UltimoSinal::Walk(glm::vec3 move,float dt){
- if(glm::length(move)<.001f)return;dt=(std::clamp)(dt,0.f,.1f);int steps=(std::max)(1,int(std::ceil(dt/.016f)));move=glm::normalize(move)*2.6f*dt/float(steps);
+void UltimoSinal::Walk(glm::vec3 move,float dt,float speed){
+ if(glm::length(move)<.001f)return;dt=(std::clamp)(dt,0.f,.1f);speed=(std::clamp)(speed,0.f,4.f);int steps=(std::max)(1,int(std::ceil(dt/.016f)));move=glm::normalize(move)*speed*dt/float(steps);
  for(int n=0;n<steps;++n){
   auto attempt=[&](glm::vec3 p){
    auto floor=ultimo::spatial::Support(p.x,p.z,camera.Position.y-ultimo::spatial::Eye);
@@ -153,9 +172,24 @@ void UltimoSinal::DrawScene(float dt){
  const bool focused=benchmarkMode||glfwGetWindowAttrib(glfwGetCurrentContext(),GLFW_FOCUSED);
  if(focused&&(investigation.screen==Screen::Explore||investigation.screen==Screen::Intro))worldTime+=dt;
  UpdateExperience(dt);
+ if(!benchmarkMode&&focused){
+  // Presentation clock: storm, lamp stutter, lens test glow and clearing sky.
+  const bool explore=investigation.screen==Screen::Explore,intro=investigation.screen==Screen::Intro;
+  if(intro&&experience.introTime>=3.2f&&!drama.introStruck){drama.introStruck=true;drama.Beat(-.35f);}
+  // Two discoveries are answered by the sky: the photograph that names the
+  // Aurora and the first view from the optical room. Grief stays quiet.
+  if(!atmosphere.captionVisible)beatMoment=ultimo::AtmosphereMoment::None;
+  else if(atmosphere.moment!=beatMoment){
+   beatMoment=atmosphere.moment;
+   if(beatMoment==ultimo::AtmosphereMoment::Photograph)drama.Beat(.45f);
+   else if(beatMoment==ultimo::AtmosphereMoment::Optics)drama.Beat(-.20f);
+  }
+  if(drama.Tick(dt,explore||intro,explore,settings.reduceMotion,investigation,lensPlaybackTime))audio.Cue(6,drama.thunderPan);
+ }
+ UpdateViewFeel(dt);
  float desired=investigation.DoorOpen()?1.f:0.f;
  if(focused&&investigation.screen==Screen::Explore){doorAmount+=(std::clamp)(desired-doorAmount,-dt*1.8f,dt*1.8f);toastTime=(std::max)(0.f,toastTime-dt);}
- const bool playbackActive=focused&&(investigation.screen==Screen::Explore||investigation.screen==Screen::LensConsole||investigation.screen==Screen::Panel||investigation.screen==Screen::Radio||investigation.screen==Screen::Reading||investigation.screen==Screen::Journal||investigation.screen==Screen::Conclusion||investigation.screen==Screen::Complete);
+ const bool playbackActive=focused&&(investigation.screen==Screen::Explore||investigation.screen==Screen::LensConsole||investigation.screen==Screen::Panel||investigation.screen==Screen::Radio||investigation.screen==Screen::Reading||investigation.screen==Screen::Journal||investigation.screen==Screen::Conclusion||investigation.screen==Screen::Complete||investigation.screen==Screen::Intro);
  audio.SetPlaybackActive(playbackActive);
  if(playbackActive&&lensPlaybackTime>=0){
   lensPlaybackTime+=playbackDelta;if(lensPlaybackTime>ultimo::LensPlaybackDuration)lensPlaybackTime=-1;
@@ -163,6 +197,9 @@ void UltimoSinal::DrawScene(float dt){
  const auto radioOffset=interactionPositions[11]-camera.Position,panelOffset=interactionPositions[10]-camera.Position;
  auto pan=[&](glm::vec3 v){return glm::length(v)>.01f?glm::dot(glm::normalize(v),camera.Right):0.f;};
  audio.SetPerspective(glm::length(radioOffset),pan(radioOffset),glm::length(panelOffset),pan(panelOffset),investigation.powerSolved);
- bool inside=std::abs(camera.Position.x)<5.f&&camera.Position.z<5.f&&camera.Position.z> -6.f;audio.Update(dt,inside,walking&&investigation.screen==Screen::Explore,settings.master,settings.ambient,settings.effects);
- glClearColor(.13f,.18f,.20f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);DrawWorld();DrawInterface();DrawExperience();
+ const auto acousticArea=ultimo::AreaAt(camera.Position.x,camera.Position.y,camera.Position.z);
+ audio.SetAtmosphere(static_cast<int>(acousticArea),atmosphere.quiet);
+ bool inside=acousticArea!=ultimo::AcousticArea::Coast;audio.Update(dt,inside,walking&&investigation.screen==Screen::Explore,settings.master,settings.ambient,settings.effects);
+ glClearColor(.13f,.18f,.20f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);RenderWorld();DrawInterface();DrawExperience();
+ if(techniquePanel&&!benchmarkMode)DrawTechniquePanel();
 }

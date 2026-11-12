@@ -49,13 +49,13 @@ void UltimoSinal::PreviewTables(){
 }
 
 bool UltimoSinal::RenderReview(){
-    const auto oldInvestigation=investigation;const auto oldExperience=experience;const auto oldCamera=camera;const auto oldSettings=settings;
-    const auto oldAnswer=answer;const auto oldNotice=saveNotice;
+    const auto oldInvestigation=investigation;const auto oldAtmosphere=atmosphere;const auto oldExperience=experience;const auto oldCamera=camera;const auto oldSettings=settings;
+    const auto oldAnswer=answer;const auto oldNotice=saveNotice;const auto oldDrama=drama;
     const bool oldBenchmark=benchmarkMode,oldHasSave=hasSave,oldWalking=walking;
     const float oldTime=worldTime,oldDoor=doorAmount,oldToast=toastTime;
     const int oldTarget=target,oldMenu=menuReturn,oldInspected=inspectedEvidence,oldPreview=previewEvidence;const float oldLensPlayback=lensPlaybackTime;const double oldDuration=duration;
     struct Restore{std::function<void()> run;~Restore(){run();}} restore{[&]{
-        investigation=oldInvestigation;experience=oldExperience;camera=oldCamera;settings=oldSettings;answer=oldAnswer;
+        investigation=oldInvestigation;atmosphere=oldAtmosphere;experience=oldExperience;camera=oldCamera;settings=oldSettings;answer=oldAnswer;drama=oldDrama;
         benchmarkMode=oldBenchmark;hasSave=oldHasSave;walking=oldWalking;worldTime=oldTime;
         doorAmount=oldDoor;toastTime=oldToast;target=oldTarget;duration=oldDuration;
         inspectedEvidence=oldInspected;previewEvidence=oldPreview;lensPlaybackTime=oldLensPlayback;menuReturn=oldMenu;saveNotice=oldNotice;captured=false;SyncCursor();
@@ -64,7 +64,7 @@ bool UltimoSinal::RenderReview(){
         const auto folder=std::filesystem::path("../logs/deep_frames");
         std::filesystem::create_directories(folder);
         std::ofstream manifest(folder/"manifest.txt",std::ios::trunc);
-        benchmarkMode=true;hasSave=false;walking=false;saveNotice.clear();toastTime=0;target=-1;
+        benchmarkMode=true;hasSave=false;walking=false;saveNotice.clear();toastTime=0;target=-1;drama=ultimo::Drama{};
         settings.brightness=1.f;settings.quality=2;settings.reduceMotion=true;
         investigation.Start();worldTime=0;doorAmount=0;duration=260;
         auto pose=[&](glm::vec3 position,float yaw,float pitch=0.f){camera=CCamera(position,{0,1,0},yaw,pitch);camera.Zoom=58;};
@@ -77,7 +77,7 @@ bool UltimoSinal::RenderReview(){
                 // Review is deterministic internal rendering, not an input replay.
                 auto& io=ImGui::GetIO();io.AddMousePosEvent(-FLT_MAX,-FLT_MAX);
                 for(int button=0;button<5;++button)io.AddMouseButtonEvent(button,false);
-                ImGui::NewFrame();if(investigation.screen==ultimo::Screen::Explore)FindTarget();if(presentationFrame){glClearColor(.13f,.18f,.20f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);DrawWorld();DrawInterface();DrawExperience(true);}else DrawScene(0);ImGui::Render();ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+                ImGui::NewFrame();if(investigation.screen==ultimo::Screen::Explore)FindTarget();if(presentationFrame){glClearColor(.13f,.18f,.20f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);RenderWorld();DrawInterface();DrawExperience(true);}else DrawScene(0);ImGui::Render();ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
             }
             const auto error=glGetError();if(error!=GL_NO_ERROR){std::cerr<<"Render review draw GL error="<<error<<std::endl;return false;}
             bool ok=WriteBackBufferBmp(folder/name,width,height);
@@ -169,6 +169,34 @@ bool UltimoSinal::RenderReview(){
         face({1.4f,1.65f,3.7f},{3.2f,1.28f,2.5f});ok=frame("37_escrivaninha_radio.bmp")&&ok;
         face({-.8f,1.50f,2.4f},{-2.9f,1.15f,1.8f});ok=frame("38_diario_couro.bmp")&&ok;
         manifest<<"Exports are internal rendering fixtures. They do not certify manual play or participant tests.\n";
+        // Phase art review, including a quiet letter moment and reduced motion.
+        presentationFrame=true;investigation.screen=ultimo::Screen::Explore;
+        experience.activeEvent=ultimo::ExperienceEvent::None;experience.chapterAge=ultimo::ChapterCardDuration;
+        atmosphere=ultimo::Atmosphere{};settings.reduceMotion=false;worldTime=43.f;
+        pose({0,1.7f,4.2f},-31,-8);ok=frame("39_arte_servico.bmp")&&ok;
+        pose({1.9f,1.7f,-1.25f},-119,6);ok=frame("40_arte_arquivo.bmp")&&ok;
+        investigation.lensSolved=false;pose({1.25f,8.9f,-4.30f},135,-9);ok=frame("41_arte_optica.bmp")&&ok;
+        investigation.lensSolved=true;atmosphere.resolution=1.f;pose({1.25f,8.9f,-4.30f},135,-9);ok=frame("42_arte_optica_resolvida.bmp")&&ok;
+        pose({1.7f,1.7f,3.5f},-34,-14);
+        atmosphere.moment=ultimo::AtmosphereMoment::Letter;atmosphere.captionVisible=true;atmosphere.age=2.3f;atmosphere.quiet=1.f;
+        ok=frame("43_momento_carta.bmp")&&ok;
+        atmosphere.moment=ultimo::AtmosphereMoment::Optics;atmosphere.age=2.3f;
+        pose({1.25f,8.9f,-4.30f},135,-9);ok=frame("44_chegada_optica.bmp")&&ok;
+        atmosphere.captionVisible=false;settings.reduceMotion=true;
+        pose({1.25f,8.9f,-4.30f},135,-9);ok=frame("45_movimento_reduzido.bmp")&&ok;
+        // Presentation states of the 12/11 revision. Each value is set directly,
+        // so the frame documents the look of a state, not a recorded session.
+        settings.reduceMotion=false;atmosphere=ultimo::Atmosphere{};investigation.lensSolved=false;
+        pose({0,1.7f,17},-90,7);drama.storm=1.f;ok=frame("46_relampago_chegada.bmp")&&ok;drama.storm=0;
+        investigation.lensSolved=true;atmosphere.resolution=1.f;drama.lensFlash=1.f;
+        pose({1.25f,8.9f,-4.30f},135,-9);ok=frame("47_ensaio_lente_pulso.bmp")&&ok;drama.lensFlash=0;
+        drama.dawn=1.f;face({6.6f,2.8f,13.45f},{-.7f,2.8f,-1});ok=frame("48_ceu_apos_relatorio.bmp")&&ok;drama.dawn=0;
+        face({-.8f,1.50f,2.4f},{-2.9f,1.15f,1.8f});ok=frame("49_mira_destaque.bmp")&&ok;
+        settings.quality=0;pose({0,1.7f,4.2f},-31,-8);ok=frame("50_qualidade_baixa_direto.bmp")&&ok;settings.quality=2;
+        const bool hadPost=postEnabled;postEnabled=false;
+        pose({0,1.7f,4.2f},-31,-8);ok=frame("51_sem_pos_processamento.bmp")&&ok;postEnabled=hadPost;
+        pose({0,1.7f,4.2f},-31,-8);ok=frame("52_com_pos_processamento.bmp")&&ok;
+        manifest<<"Frames 46-52: storm fill, local lens glow, clearing sky, aim feedback and the direct/HDR paths.\n";
         return ok&&bool(manifest);
     }catch(const std::exception& error){std::cerr<<"Render review: "<<error.what()<<std::endl;return false;}
 }

@@ -1,3 +1,11 @@
+## Revisão atual — 08/11/2026: acabamento artístico e emocional
+
+Primeira passagem de luz, cor, desgaste, chuva e acústica nas três áreas. Reflexões após descobertas aguardam o fechamento da leitura e não alteram enigmas. Continuar não repete descobertas conhecidas. O áudio reduz apenas o ambiente durante esses momentos; pulsos e efeitos de interação são preservados. Redução de movimentos remove a chuva em queda.
+
+Release/Debug e executável instalado: 306 verificações por execução, sem falhas. Testes: 3.446 de lógica/1.632 estados, 46 de apresentação, 44 de áudio PCM, 185 espaciais e 24 de atmosfera. Conferência: 45 quadros, 39 imports do cenário sem fallback mais a mesa. Os modelos/masters do Max e o bake do piso não foram refeitos nesta etapa. A validação emocional com pessoas e a audição real permanecem pendentes.
+
+Detalhes, procedimentos e imagens: [Acabamento artístico e emocional](Acabamento_artistico_08-11-2026.md). Os registros datados abaixo são históricos.
+
 # Áudio local — O Último Sinal
 
 O módulo `BaseAppOGL/Scenes/UltimoSinal/Audio.h/.cpp` sintetiza PCM estéreo, 16 bits, 22.050 Hz, pelo Windows WaveOut. Não baixa arquivos, não depende de serviço externo e não contém gravações de terceiros.

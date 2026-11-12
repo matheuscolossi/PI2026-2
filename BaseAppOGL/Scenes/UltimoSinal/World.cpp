@@ -79,6 +79,7 @@ void UltimoSinal::DrawWorld(){
     LoadWorldAssets();
     int width,height;glfwGetFramebufferSize(glfwGetCurrentContext(),&width,&height);if(benchmarkMode){width=SCR_WIDTH;height=SCR_HEIGHT;}if(width<=0||height<=0)return;
     const auto projection=glm::perspective(glm::radians(camera.Zoom),float(width)/height,.1f,240.f);
+    lastProjection=projection;
     const int quality=std::clamp(settings.quality,0,2);
     glEnable(GL_DEPTH_TEST);glDisable(GL_CULL_FACE);glDisable(GL_BLEND);
     shader.Use("Prototype");shader.SetMat4("view",camera.GetViewMatrix());shader.SetMat4("projection",projection);
@@ -86,10 +87,27 @@ void UltimoSinal::DrawWorld(){
     const float visualTime=settings.reduceMotion?0.f:experience.VisualTime(worldTime);
     shader.SetFloat("time",visualTime);shader.SetFloat("brightness",std::clamp(settings.brightness,.75f,1.35f));
     shader.SetFloat("powerPulse",settings.reduceMotion?0.f:experience.powerPulse);
+    shader.SetFloat("resolutionWarmth",benchmarkMode?(investigation.lensSolved?1.f:0.f):atmosphere.resolution);
+    shader.SetBool("rainMotion",!settings.reduceMotion);
     shader.SetInt("quality",quality);shader.SetBool("powered",investigation.powerSolved);
     shader.SetBool("useNormal",normalEnabled&&quality>0);shader.SetBool("useFog",fogEnabled);
-    shader.SetBool("usePoint",pointEnabled);shader.SetBool("useSpot",spotEnabled);
+    // The hand torch belongs to the player; title and prologue cameras carry none.
+    const bool cinematicCamera=IsMenuBackdrop()||investigation.screen==Screen::Intro;
+    shader.SetBool("usePoint",pointEnabled);shader.SetBool("useSpot",spotEnabled&&!cinematicCamera);
     shader.SetBool("useEnvironment",environmentEnabled);shader.SetBool("useMulti",multiEnabled);
+    // Presentation state: linear HDR output when the post passes are active,
+    // storm fill, lamp stutter, local lens glow, clearing sky and aim feedback.
+    shader.SetBool("hdrOutput",post.active);shader.SetFloat("emissiveBoost",3.4f);
+    shader.SetFloat("storm",drama.storm);shader.SetFloat("lensFlash",drama.lensFlash);
+    shader.SetFloat("dawn",drama.dawn);shader.SetFloat("lampSurge",drama.lampSurge);
+    {
+        // Same footprints FindTarget uses for aiming, so the glow matches the prop.
+        constexpr std::array<float,13> reach{{.32f,.24f,.60f,.16f,.28f,.29f,.60f,0.f,.29f,.29f,.50f,.44f,.40f}};
+        const float breathe=settings.reduceMotion?.82f:.74f+.18f*std::sin(worldTime*3.1f);
+        const bool aimed=target>=0&&target<int(reach.size())&&investigation.screen==Screen::Explore;
+        shader.SetVec4("focusPoint",glm::vec4(focusPosition,focusFade*breathe));
+        shader.SetFloat("focusRadius",aimed?reach[target]*.85f+.10f:.35f);
+    }
     for(int i=0;i<3;++i){glActiveTexture(GL_TEXTURE0+i);textures.ApplyTexture(i);}
     shader.SetInt("grassTex",0);shader.SetInt("stoneTex",1);shader.SetInt("normalTex",2);
     glActiveTexture(GL_TEXTURE3);glBindTexture(GL_TEXTURE_CUBE_MAP,skybox->GetSkyboxTexture());shader.SetInt("environment",3);
@@ -270,9 +288,13 @@ void UltimoSinal::DrawWorld(){
     for(int j=0;j<7;++j)Render(cylinder,{0,7.68f+j*.13f,-3},{.65f,.035f,.65f},{.43f,.54f,.48f},11);
     Render(cylinder,{0,8.85f,-3},{1.75f,.18f,1.75f},Iron,8);Render(cone,{0,9.38f,-3},{2.02f,.94f,2.02f},Rust,8);Render(cylinder,{0,10.03f,-3},{.035f,.55f,.035f},Iron);
     }
-    const auto lensColor=investigation.powerSolved?glm::vec3(.98f,.61f,.23f):glm::vec3(.38f,.42f,.39f);
-    if(!native("lampada",placed({0,8.10f,-3},{.38f,1.05f,.38f}),investigation.powerSolved?6:12,glm::vec4(lensColor,1)))
-        Render(cylinder,{0,8.10f,-3},{.38f,1.05f,.38f},lensColor,investigation.powerSolved?6:0);
+    const float lensBreath=settings.reduceMotion?1.f:.985f+.015f*std::sin(visualTime*.57f);
+    // Before any investigation exists, the title backdrop shows the lit optic
+    // of the case's premise. It is a cover image, not a state of the session.
+    const bool opticLit=investigation.powerSolved||(IsMenuBackdrop()&&!sessionActive);
+    const glm::vec3 lensColor=opticLit?lensBreath*glm::vec3(.98f,.61f,.23f):glm::vec3(.38f,.42f,.39f);
+    if(!native("lampada",placed({0,8.10f,-3},{.38f,1.05f,.38f}),opticLit?6:12,glm::vec4(lensColor,1)))
+        Render(cylinder,{0,8.10f,-3},{.38f,1.05f,.38f},lensColor,opticLit?6:0);
 
     // Hinged leaf: unlocking animates the physical object instead of hiding it.
     {
@@ -461,7 +483,8 @@ void UltimoSinal::DrawWorld(){
             shader.SetMat4("model",desk.model);mesa->Draw(shader.GetProgram("Prototype"),options);
         }
     }
-    shader.Use("SkyBox");shader.SetMat4("view",glm::mat4(glm::mat3(camera.GetViewMatrix())));shader.SetMat4("projection",projection);shader.SetInt("skyboxTextures",0);shader.SetFloat("brightness",settings.brightness);shader.SetFloat("time",visualTime);skybox->DrawSkybox();glDisable(GL_CULL_FACE);
+    shader.Use("SkyBox");shader.SetMat4("view",glm::mat4(glm::mat3(camera.GetViewMatrix())));shader.SetMat4("projection",projection);shader.SetInt("skyboxTextures",0);shader.SetFloat("brightness",settings.brightness);shader.SetFloat("time",visualTime);
+    shader.SetBool("hdrOutput",post.active);shader.SetFloat("storm",drama.storm);shader.SetFloat("clearing",drama.dawn);skybox->DrawSkybox();glDisable(GL_CULL_FACE);
     shader.Use("Prototype");for(int i=0;i<3;++i){glActiveTexture(GL_TEXTURE0+i);textures.ApplyTexture(i);}glActiveTexture(GL_TEXTURE3);glBindTexture(GL_TEXTURE_CUBE_MAP,skybox->GetSkyboxTexture());
     glEnable(GL_BLEND);glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);glDepthMask(GL_FALSE);
     if(!native("agua",placed({0,-.40f,0},{220,1,220}),4,glm::vec4(.09f,.19f,.21f,.96f)))Render(waterPlane,{0,-.40f,0},{220,1,220},{.09f,.19f,.21f},4,.96f);
@@ -478,7 +501,7 @@ void UltimoSinal::DrawWorld(){
     // not described as volumetric ray tracing or a shadow-map contribution.
     // The beam appears only after actual power restoration and freezes with
     // the world clock in a pause screen or with reduced motion enabled.
-    if(investigation.powerSolved){
+    if(opticLit){
         const glm::vec3 origin(0,8.10f,-3);
         const glm::vec3 direction=glm::normalize(glm::vec3(std::cos(visualTime*.18f+.47f),-.14f,std::sin(visualTime*.18f+.47f)));
         const auto midpoint=origin+direction*29.5f;
@@ -487,6 +510,16 @@ void UltimoSinal::DrawWorld(){
         glm::mat4 frame(1.f);frame[0]=glm::vec4(side,0);frame[1]=glm::vec4(glm::cross(direction,side),0);frame[2]=glm::vec4(direction,0);frame[3]=glm::vec4(midpoint,1);
         shader.SetMat4("model",glm::scale(frame,glm::vec3(7.2f,1,56.f)));
         shader.SetVec4("Color",glm::vec4(.92f,.74f,.39f,.105f));shader.SetInt("material",14);waterPlane.render();
+        // The rotating optic throws a second, fainter arm on the opposite side.
+        if(quality>0){
+            const auto opposite=glm::vec3(-direction.x,direction.y,-direction.z);
+            const auto tip=origin+opposite*29.5f;
+            auto across=glm::cross(opposite,camera.Position-tip);
+            across=glm::length(across)>.001f?glm::normalize(across):glm::normalize(glm::cross(opposite,glm::vec3(0,1,0)));
+            glm::mat4 arm(1.f);arm[0]=glm::vec4(across,0);arm[1]=glm::vec4(glm::cross(opposite,across),0);arm[2]=glm::vec4(opposite,0);arm[3]=glm::vec4(tip,1);
+            shader.SetMat4("model",glm::scale(arm,glm::vec3(7.2f,1,56.f)));
+            shader.SetVec4("Color",glm::vec4(.92f,.74f,.39f,.060f));shader.SetInt("material",14);waterPlane.render();
+        }
     }
     // Only a few warm motes in the lamp pools, with no collision or clue ID.
     // No camera displacement, random flashes, or changed puzzle conditions.
@@ -498,10 +531,56 @@ void UltimoSinal::DrawWorld(){
             const float room=i%2==0?2.5f:-3.f;
             glm::vec3 position(1.75f*std::sin(i*4.71f+visualTime*.041f),
                 .55f+2.05f*fraction(seed+visualTime*.016f),room+1.3f*std::cos(i*7.31f+visualTime*.035f));
+            if(i%3==0&&camera.Position.y>6.f)position={1.65f*std::sin(i*4.71f+visualTime*.041f),7.6f+.95f*fraction(seed+visualTime*.016f),-3.f+1.65f*std::cos(i*7.31f)};
             if(glm::length(camera.Position-position)>9.f)continue;
             glm::mat4 facing(1.f);facing[0]=glm::vec4(camera.Right,0);facing[1]=glm::vec4(-camera.Front,0);facing[2]=glm::vec4(camera.Up,0);facing[3]=glm::vec4(position,1);
             shader.SetMat4("model",glm::scale(facing,glm::vec3(.018f+seed*.015f,1,.018f+seed*.015f)));
             shader.SetVec4("Color",glm::vec4(.74f,.66f,.46f,investigation.powerSolved?.095f:.045f));shader.SetInt("material",15);waterPlane.render();
+        }
+    }
+    // Soft halos read the fixtures as light sources; the bloom pass widens
+    // them. They are camera-facing cards, nudged forward to clear the ceiling.
+    if(quality>0){
+        const float supply=(investigation.powerSolved?1.f:.48f)*(std::max)(0.f,1.f+drama.lampSurge);
+        auto halo=[&](glm::vec3 position,float size,glm::vec3 color,float opacity){
+            const auto toEye=camera.Position-position;const float distance=glm::length(toEye);
+            if(distance<.6f||distance>42.f)return;
+            position+=toEye/distance*(std::min)(.30f,distance*.25f);
+            glm::mat4 facing(1.f);facing[0]=glm::vec4(camera.Right,0);facing[1]=glm::vec4(-camera.Front,0);facing[2]=glm::vec4(camera.Up,0);facing[3]=glm::vec4(position,1);
+            shader.SetMat4("model",glm::scale(facing,glm::vec3(size,1,size)));
+            shader.SetVec4("Color",glm::vec4(color,opacity));shader.SetInt("material",15);waterPlane.render();
+        };
+        halo({0,2.73f,2.5f},.90f,{.98f,.67f,.31f},.22f*supply);
+        halo({2.4f,2.73f,-1.8f},.90f,{.80f,.80f,.78f},.18f*supply);
+        halo({3.48f,1.69f,3.02f},.52f,{1.f,.62f,.26f},.30f*supply);
+        if(opticLit)halo({0,8.10f,-3},2.4f,{1.f,.66f,.27f},.20f+.30f*drama.lensFlash);
+    }
+    // Window shafts are depth-tested scattering cards, not new architecture
+    // or true volumetric light. They remain within their own room.
+    if(quality>0&&fogEnabled&&std::abs(camera.Position.x)<5.2f&&camera.Position.y<3.2f){
+        for(float z:{2.f,-3.5f}){
+            const glm::vec3 origin(4.90f,2.28f,z),direction=glm::normalize(glm::vec3(-1,-.32f,.12f));
+            const auto midpoint=origin+direction*2.2f;auto side=glm::cross(direction,camera.Position-midpoint);
+            if(glm::length(side)<.001f)continue;side=glm::normalize(side);
+            glm::mat4 frame(1);frame[0]=glm::vec4(side,0);frame[1]=glm::vec4(glm::cross(direction,side),0);frame[2]=glm::vec4(direction,0);frame[3]=glm::vec4(midpoint,1);
+            shader.SetMat4("model",glm::scale(frame,glm::vec3(1.15f,1,4.4f)));
+            shader.SetVec4("Color",glm::vec4(.43f,.62f,.74f,.012f));shader.SetInt("material",14);waterPlane.render();
+        }
+    }
+    // Rain falls only outside: no particles through the roof or in the shaft.
+    // Reduced motion removes falling streaks; moisture on glass remains static.
+    if(quality>0&&!settings.reduceMotion){
+        const int drops=quality==2?132:66;
+        auto fraction=[](float v){return v-std::floor(v);};
+        for(int i=0;i<drops;++i){
+            float a=fraction(std::sin(i*12.9898f+2.1f)*43758.5453f),b=fraction(std::sin(i*7.812f+8.2f)*19341.231f);
+            glm::vec3 p(-9.f+a*18.f,12.f*fraction(b-visualTime*.36f),-10.f+b*25.f);
+            if(std::abs(p.x)<5.7f&&p.z<5.6f&&p.z> -6.6f)continue;
+            const float distance=glm::length(p-camera.Position);if(distance>18.f)continue;
+            glm::vec3 side=camera.Right;side.y=0;if(glm::length(side)<.001f)continue;side=glm::normalize(side);
+            glm::mat4 frame(1);frame[0]=glm::vec4(side,0);frame[1]=glm::vec4(glm::cross(glm::vec3(0,1,0),side),0);frame[2]=glm::vec4(0,1,0,0);frame[3]=glm::vec4(p,1);
+            shader.SetMat4("model",glm::scale(frame,glm::vec3(.012f,1,.34f)));
+            shader.SetVec4("Color",glm::vec4(.52f,.67f,.73f,.13f*(1.f-distance/18.f)));shader.SetInt("material",16);waterPlane.render();
         }
     }
     glDisable(GL_CULL_FACE);glDepthMask(GL_TRUE);glDisable(GL_BLEND);glActiveTexture(GL_TEXTURE0);

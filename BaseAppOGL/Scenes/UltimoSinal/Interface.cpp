@@ -167,7 +167,7 @@ void UltimoSinal::DrawInterface() {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding,ImVec2(0,0));
         ImGui::Begin("##intro-controls",nullptr,fixed|ImGuiWindowFlags_NoBackground|ImGuiWindowFlags_AlwaysAutoResize);
         if(ImGui::Button("Começar investigação  [Enter]",ImVec2(-1,36)))FinishIntro();ImGui::End();ImGui::PopStyleVar();
-        if(display.x>1000.f){const std::string controls=KeyLabel(settings.forward)+KeyLabel(settings.left)+KeyLabel(settings.back)+KeyLabel(settings.right)+"  mover     Mouse  observar     "+KeyLabel(settings.interact)+"  examinar";
+        if(display.x>1000.f){const std::string controls=KeyLabel(settings.forward)+KeyLabel(settings.left)+KeyLabel(settings.back)+KeyLabel(settings.right)+"  mover     Shift  correr     Mouse  observar     "+KeyLabel(settings.interact)+" / clique  examinar";
             Letter(d,ImVec2(safe,display.y-bar*.5f-7),12.f,Ink(151,174,178),controls.c_str());}
     } else if(investigation.screen==Screen::Complete) {
         auto* d=ImGui::GetBackgroundDrawList();d->AddRectFilled(ImVec2(0,0),display,Ink(4,11,16,.86f));
@@ -192,7 +192,13 @@ void UltimoSinal::DrawInterface() {
         if(Action("Nova investigação"))newGame();
         if(!saveNotice.empty()){ImGui::Separator();ImGui::TextWrapped("%s",saveNotice.c_str());}ImGui::End();
     } else if(investigation.screen==Screen::Explore) {
-        ImGui::GetForegroundDrawList()->AddCircleFilled(ImVec2(display.x*.5f,display.y*.5f),1.5f,IM_COL32(238,224,187,180));
+        {
+            // The aiming dot opens into a ring while an interaction is in reach.
+            auto* aim=ImGui::GetForegroundDrawList();const ImVec2 centre(display.x*.5f,display.y*.5f);
+            const float reach=Unit(focusFade);
+            aim->AddCircleFilled(centre,1.6f,IM_COL32(238,224,187,reach>.5f?235:175));
+            if(reach>.02f)aim->AddCircle(centre,4.f+5.f*reach,IM_COL32(226,191,129,int(185*reach)),28,1.4f);
+        }
         ImGui::SetNextWindowPos(ImVec2(20,display.y-20),ImGuiCond_Always,ImVec2(0,1));ImGui::SetNextWindowBgAlpha(.48f);
         ImGui::Begin("##fieldnotes",nullptr,fixed|ImGuiWindowFlags_AlwaysAutoResize|ImGuiWindowFlags_NoInputs);
         ImGui::TextColored(muted,"%s  Caderno    Tab  Pausa",KeyLabel(settings.journal).c_str());ImGui::End();
@@ -401,7 +407,8 @@ void UltimoSinal::DrawInterface() {
                     if(ImGui::Button(remapping==i?"Pressione uma tecla":KeyLabel(keys[i]).c_str(),ImVec2(-1,32)))remapping=i;ImGui::PopID();}
                 ImGui::EndTable();
             }
-            ImGui::Spacing();Paragraph("Tab / Esc: pausa e retorno. F1: ajuda gradual. F2: opções. Enter: preparar o relatório quando a investigação estiver fundamentada.");
+            ImGui::Spacing();Paragraph("Shift: andar mais rápido fora da escada. Clique esquerdo: examinar, como a tecla de interação. Tab / Esc: pausa e retorno. F1: ajuda gradual. F2: opções. Enter: preparar o relatório quando a investigação estiver fundamentada.");
+            ImGui::TextDisabled("F3 abre o painel de demonstração das técnicas gráficas.");
             ImGui::TextDisabled("Teclas em uso ou reservadas não podem ser repetidas.");
             if(Action("Restaurar controles")){settings.forward='W';settings.back='S';settings.left='A';settings.right='D';settings.interact='E';settings.journal='J';remapping=-1;SaveSettings();}
             if(Action("Aplicar e voltar",true)){remapping=-1;SaveSettings();returnMenu();}break;
@@ -440,6 +447,6 @@ void UltimoSinal::DrawSettings() {
     for(int i=0;i<5;++i){float v=(.04f+.045f*i)*settings.brightness;
         ImGui::ColorButton((std::string("##shade")+std::to_string(i)).c_str(),ImVec4(v,v,v,1),ImGuiColorEditFlags_NoTooltip|ImGuiColorEditFlags_NoDragDrop,ImVec2(sampleWidth,25));if(i<4)ImGui::SameLine();}
     ImGui::Combo("Qualidade",&settings.quality,"Baixa\0Média\0Alta\0");
-    ImGui::TextDisabled("A qualidade ajusta o detalhamento e o custo dos efeitos.");
+    ImGui::TextWrapped("Média e Alta aplicam o acabamento HDR (oclusão de ambiente e bloom). Baixa desenha a cena diretamente, sem esses passes.");
     ImGui::Spacing();if(Action("Restaurar opções padrão"))settings.Reset();
 }

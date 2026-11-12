@@ -1,3 +1,17 @@
+## Revisão em conferência — 12/11/2026: gráficos, jogabilidade e momentos
+
+Fontes alterados; **compilação no Visual Studio e execução no Windows pendentes**. Pós-processamento HDR opcional (SSAO e bloom), clima de 05h40, movimento com aceleração, corrida, escada suavizada, clique para examinar, painel de técnicas (F3) e momentos de apresentação em `Drama.h`. Em build de conferência para Linux com renderização por software: 306 verificações de runtime sem falhas, 52 quadros sem erro OpenGL, 3.446 de lógica/1.632 estados, 46 de apresentação, 46 de áudio PCM, 185 espaciais, 24 de atmosfera, 46 de momentos e 18 de percurso simulado. Esses números não certificam o MSVC, GPU real, desempenho, áudio audível nem partida humana. Os executáveis em `bin` e o pacote em `dist` continuam sendo os de 08/11; o executável em `bin` já lê os shaders novos da pasta `Scenes`.
+
+Detalhes, limites, procedimento no Windows e retorno: [Melhorias de 12/11](Melhorias_12-11-2026.md).
+
+## Revisão compilada mais recente — 08/11/2026: acabamento artístico e emocional
+
+Primeira passagem de luz, cor, desgaste, chuva e acústica nas três áreas. Reflexões após descobertas aguardam o fechamento da leitura e não alteram enigmas. Continuar não repete descobertas conhecidas. O áudio reduz apenas o ambiente durante esses momentos; pulsos e efeitos de interação são preservados. Redução de movimentos remove a chuva em queda.
+
+Release/Debug e executável instalado: 306 verificações por execução, sem falhas. Testes: 3.446 de lógica/1.632 estados, 46 de apresentação, 44 de áudio PCM, 185 espaciais e 24 de atmosfera. Conferência: 45 quadros, 39 imports do cenário sem fallback mais a mesa. Os modelos/masters do Max e o bake do piso não foram refeitos nesta etapa. A validação emocional com pessoas e a audição real permanecem pendentes.
+
+Detalhes, procedimentos e imagens: [Acabamento artístico e emocional](Acabamento_artistico_08-11-2026.md). Os registros datados abaixo são históricos.
+
 ## Revisão atual — 22/10/2026: cenário e percurso vertical
 
 Escada em espiral com 36 degraus transitáveis, abertura real na cobertura, patamar e sala óptica acessível. Três áreas conectadas no mesmo cenário: sala de serviço, arquivo e sala óptica. Acesso ao armário liberado, móveis reposicionados e 14 exports do Max atualizados, incluindo rádio, escrivaninha, diário, cadeira e fotografia. Conjunto: 39 modelos do cenário sem fallback mais mesa.3ds (40 arquivos); quatro mesas e uma escrivaninha.

@@ -42,7 +42,7 @@ int main() {
     Check(ultimo::DistanceGain(std::numeric_limits<float>::quiet_NaN()) == 0.f, "invalid distance is silent");
     Check(ultimo::Pan(std::numeric_limits<float>::infinity()) == 0.f && ultimo::Pan(8.f) == 1.f, "invalid/bounded pan");
     std::uint32_t random = 12345u;
-    for (int kind : { 0, 1, 2, 3, 4, 5, 10, 11 }) {
+    for (int kind : { 0, 1, 2, 3, 4, 5, 6, 10, 11 }) {
         ultimo::Voice voice;
         voice.active = true; voice.kind = kind; voice.length = ultimo::CueLength(kind);
         int samples = 0; float peak = 0.f; bool finite = true;
@@ -121,5 +121,32 @@ int main() {
     p.playbackActive = true;
     mixer.Render(block, p);
     Check(mixer.voices[0].time > pausedAt && mixer.voices[0].time < pausedAt + .024f, "lens resumes from held time without skipping a pulse");
+    // Phase ambience changes gradually and emotional quieting affects only
+    // ambient samples, never the timing/level of the local lens test.
+    ultimo::Mixer areas; ultimo::MixParameters areaP;
+    areaP.master=1; areaP.ambient=1; areaP.effects=0; areaP.indoors=true;areaP.area=2;
+    for(int i=0;i<400;++i)areas.Render(block,areaP);
+    Check(areas.archiveMix>.99f&&areas.upperMix<.01f,"archive layer settles");
+    areaP.area=3;
+    for(int i=0;i<400;++i)areas.Render(block,areaP);
+    Check(areas.upperMix>.99f&&areas.archiveMix<.01f,"optical ambience crossfades without stale archive tone");
+    auto normal=areas,hushed=areas;double normalEnergy=0,hushedEnergy=0;
+    for(int i=0;i<400;++i){
+        areaP.focus=0;normal.Render(block,areaP);if(i>300)for(auto v:block)normalEnergy+=double(v)*v;
+        areaP.focus=1;hushed.Render(block,areaP);if(i>300)for(auto v:block)hushedEnergy+=double(v)*v;
+    }
+    Check(normalEnergy>0&&hushedEnergy<normalEnergy*.25,"quiet moment lowers ambient energy smoothly");
+    ultimo::Mixer plainCue,focusedCue;ultimo::MixParameters cueP;cueP.master=1;cueP.ambient=0;cueP.effects=1;
+    std::array<std::int16_t,ultimo::Frames*2> plainBlock{},focusBlock{};
+    for(int i=0;i<300;++i){cueP.focus=0;plainCue.Render(plainBlock,cueP);cueP.focus=1;focusedCue.Render(focusBlock,cueP);}
+    const ultimo::Command lensEvent{5,0,0};bool equal=true;
+    for(int i=0;i<150;++i){
+        cueP.focus=0;plainCue.Render(plainBlock,cueP,i==0?&lensEvent:nullptr,i==0?1:0);
+        cueP.focus=1;focusedCue.Render(focusBlock,cueP,i==0?&lensEvent:nullptr,i==0?1:0);equal=equal&&plainBlock==focusBlock;
+    }
+    Check(equal,"emotional quieting preserves every lens cue sample");
+    areaP.focus=std::numeric_limits<float>::quiet_NaN();areas.Render(block,areaP);
+    Check(std::isfinite(areas.focusMix),"invalid focus does not contaminate PCM");
+    areaP.master=0;areas.Render(block,areaP);Check(Silent(block),"mute remains immediate in upper room");
     std::cout << "ambient/steps peak=" << peak << "; " << checks << " offline PCM checks passed; no device opened.\n";
 }

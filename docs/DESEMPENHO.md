@@ -1,3 +1,11 @@
+## Sanidade de 08/11/2026
+
+BENCHMARK framebuffer_nonuniform=1 first_and_last=checked
+BENCHMARK complete=1 mode=offscreen-msaa4 warmup=2s sample=3s vsync=not_applicable resolution=1280x720 count=595 median_ms=5.1977 p95_ms=6.7245
+GPU=NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2 Driver=4.6.0 NVIDIA 610.74
+
+Amostra curta offscreen 1280×720/MSAA4, 2 s de aquecimento e 3 s de coleta. Não inclui apresentação no monitor. Coleta completa e teste em outra máquina permanecem pendentes. Log: logs/art_2026-11-08/benchmark_smoke.log. Registros abaixo são históricos.
+
 ## Sanidade da revisão de 22/10/2026
 
 BENCHMARK framebuffer_nonuniform=1 first_and_last=checked

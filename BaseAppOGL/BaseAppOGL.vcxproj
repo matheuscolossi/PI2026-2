@@ -229,7 +229,9 @@
  <ClInclude Include="Scenes\UltimoSinal\Storage.h" />
 </ItemGroup>
 <ItemGroup><ClCompile Include="Scenes\UltimoSinal\RenderReview.cpp" /></ItemGroup>
-<ItemGroup><ClInclude Include="Scenes\UltimoSinal\Experience.h" /><ClCompile Include="Scenes\UltimoSinal\Experience.cpp" /></ItemGroup>
+<ItemGroup><ClInclude Include="Scenes\UltimoSinal\Experience.h" />
+    <ClInclude Include="Scenes\UltimoSinal\Atmosphere.h" /><ClCompile Include="Scenes\UltimoSinal\Experience.cpp" /></ItemGroup>
 <ItemGroup><ClCompile Include="Scenes\UltimoSinal\Inspection.cpp" /><None Include="Scenes\UltimoSinal\Inspection.frag" /></ItemGroup>
 <ItemGroup><ClInclude Include="Scenes\UltimoSinal\Spatial.h" /></ItemGroup>
+<ItemGroup><ClInclude Include="Scenes\UltimoSinal\Drama.h" /><ClCompile Include="Scenes\UltimoSinal\PostFx.cpp" /><None Include="Scenes\UltimoSinal\Post.vert" /><None Include="Scenes\UltimoSinal\Post.frag" /></ItemGroup>
 </Project>

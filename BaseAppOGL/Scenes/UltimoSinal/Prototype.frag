@@ -14,7 +14,14 @@ uniform int material,quality,blockerCount,surfaceClass;
 uniform vec3 blockerMin[32],blockerMax[32];
 uniform vec3 shadowBoundsMin,shadowBoundsMax;
 uniform bool useNormal,useFog,usePoint,useSpot,useEnvironment,useMulti,powered;
-uniform float time,brightness,powerPulse;
+uniform float time,brightness,powerPulse,resolutionWarmth;
+uniform bool rainMotion;
+// Presentation uniforms. All default to zero: the direct path below then
+// reproduces the previous single-pass image when post-processing is off.
+uniform bool hdrOutput;
+uniform float emissiveBoost,storm,lensFlash,dawn,lampSurge;
+uniform vec4 focusPoint; // xyz: aimed interaction in world space, w: strength
+uniform float focusRadius;
 
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){
@@ -22,12 +29,18 @@ float noise(vec2 p){
     return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
 }
 vec3 linearColor(vec3 c){return pow(max(c,vec3(0)),vec3(2.2));}
-vec3 horizonColor(){return vec3(.39,.46,.49);}
+vec3 horizonColor(){return vec3(.25,.32,.385);}
 vec3 safeUnit(vec3 v){return v/max(length(v),.00001);}
 vec3 filmic(vec3 c){
     // A restrained display curve, applied once after the linear lighting pass.
     c=max(c,vec3(0));
     return clamp((c*(2.51*c+.03))/(c*(2.43*c+.59)+.14),0.0,1.0);
+}
+// With post-processing the scene target keeps linear HDR radiance; exposure,
+// bloom, the display curve and gamma are then applied once in Post.frag.
+vec4 present(vec3 radiance,float opacity){
+    if(hdrOutput)return vec4(max(radiance,vec3(0)),opacity);
+    return vec4(pow(filmic(radiance),vec3(1.0/2.2)),opacity);
 }
 vec2 coordinates(vec3 n){
     vec3 a=abs(n);
@@ -65,6 +78,12 @@ vec3 pointLight(vec3 n,vec3 location,vec3 tint,vec3 albedo,float roughness){
     float specular=pow(max(dot(n,halfVector),0.0),mix(120.0,14.0,roughness))*(1.0-roughness)*.32;
     return (albedo*diffuse+vec3(specular))*tint*shadow/(1.0+.10*dist+.052*dist*dist);
 }
+// Pendant and desk lamps sit under a shade: most of their light leaves
+// downward, so ceilings and upper walls fall away from the lit pool.
+float lampHood(vec3 location,float low,float high){
+    vec3 fromLamp=safeUnit(worldPos-location);
+    return smoothstep(low,high,-fromLamp.y);
+}
 vec3 mappedNormal(vec3 n,vec2 tc,sampler2D normalSampler){
     vec3 p1=dFdx(worldPos),p2=dFdy(worldPos);vec2 t1=dFdx(tc),t2=dFdy(tc);
     float det=t1.x*t2.y-t1.y*t2.x;
@@ -78,14 +97,18 @@ vec3 mappedNormal(vec3 n,vec2 tc,sampler2D normalSampler){
 void main(){
     // Small camera-facing atmospheric particles and soft beam cards. Their
     // depth is tested against actual scenery; they never replace evidence art.
-    if(material==14||material==15){
+    if(material==14||material==15||material==16){
         vec2 p=uv*2.0-1.0;
         float spread=max(.025,uv.y);
         float mask=material==15?exp(-dot(p,p)*5.5):exp(-p.x*p.x/(spread*spread)*4.5)*(1.0-smoothstep(.08,1.0,uv.y));
         float edge=material==15?1.0-smoothstep(.72,1.0,length(p)):smoothstep(0.0,.025,uv.y);
+        if(material==16){mask=exp(-p.x*p.x*7.0)*(1.0-smoothstep(.25,1.0,abs(p.y)));edge=1.0;}
         float opacity=Color.a*mask*edge;
         if(opacity<.002)discard;
-        FragColor=vec4(pow(filmic(linearColor(Color.rgb)*brightness),vec3(1.0/2.2)),opacity);
+        // Scattering cards carry a little extra energy for the bloom pass only.
+        float glow=hdrOutput?(material==14?2.4:material==15?1.7:1.0):1.0;
+        if(material==16)opacity*=1.0-.92*dawn;
+        FragColor=present(linearColor(Color.rgb)*brightness*glow*(1.0+.9*storm),opacity);
         return;
     }
     vec3 geometricNormal=normalize(worldNormal),n=geometricNormal;
@@ -150,7 +173,8 @@ void main(){
         albedo*=bitmap.rgb;alpha*=bitmap.a;roughness=.76;
         if(material==12&&uImportedMaterial&&uHasNormal&&useNormal)n=mappedNormal(n,uv,uNormalMap);
         if(material==12){
-            // Per-object response preserves the authored bitmap and UV chart.
+            // Per-object response preserves UV charts. Surface wear below is a
+            // restrained procedural finish over the bitmap, not new Max baking.
             // It is a material approximation, not measured PBR texture data.
             if(surfaceClass==1)roughness=.68; // timber
             if(surfaceClass==2)roughness=.38; // painted/rusted metal
@@ -159,6 +183,18 @@ void main(){
             if(surfaceClass==5)roughness=.82; // masonry
             bool exterior=abs(worldPos.x)>5.1||worldPos.z>5.15||worldPos.z< -6.15;
             if(exterior&&surfaceClass!=4){wetness=.28*(1.0-smoothstep(.1,1.3,worldPos.y));roughness=mix(roughness,.30,wetness);}
+            if(quality>0){
+                float age=noise(worldPos.xz*2.1+worldPos.y*.71);
+                float vertical=1.0-smoothstep(.40,.78,abs(n.y));
+                if(surfaceClass==3){
+                    float risingDamp=exp(-max(worldPos.y-.10,0.0)*2.1)*vertical;
+                    float salt=smoothstep(.66,.91,noise(vec2(worldPos.x+worldPos.z,worldPos.y)*8.0));
+                    albedo*=mix(vec3(1),vec3(.62,.69,.66),risingDamp*(.10+.15*age));
+                    albedo*=.985+.015*age;albedo+=vec3(.006,.006,.004)*salt*vertical;
+                }
+                if(surfaceClass==2){float patina=smoothstep(.60,.86,age);albedo*=1.0-patina*.08;roughness=clamp(roughness+patina*.17,.2,.95);}
+                if(surfaceClass==1){albedo*=.98+.02*age;roughness=clamp(roughness+(age-.5)*.12,.3,.9);}
+            }
         }
     }
 
@@ -167,9 +203,23 @@ void main(){
     // Upward faces receive the overcast sky; down-facing ceilings retain the
     // weaker bounced light. A normal-dependent term gives rounded edges depth.
     float skyFacing=clamp(n.y*.5+.5,0.0,1.0);
-    vec3 ambient=indoors?mix(vec3(.10,.12,.15),vec3(.25,.30,.35),skyFacing)
-                         :mix(vec3(.18,.205,.21),vec3(.46,.57,.63),skyFacing);
-    vec3 lighting=material==13?albedo:albedo*ambient;
+    // 05h40 under a retreating storm: a dim, cold sky fill. The rooms rely on
+    // their own lamps, so walls fall off toward the corners instead of reading
+    // as evenly lit planes.
+    vec3 ambient=indoors?mix(vec3(.046,.060,.088),vec3(.105,.140,.190),skyFacing)
+                         :mix(vec3(.080,.100,.128),vec3(.215,.285,.365),skyFacing);
+    if(indoors){
+        // A low bounce off the lit floor keeps shaded ceilings readable: warm
+        // in the service room, cold in the archive. It is an ambient estimate.
+        float coldRoom=1.0-smoothstep(-.95,-.45,worldPos.z);
+        ambient+=mix(vec3(.060,.043,.026),vec3(.030,.044,.062),coldRoom)*(powered?1.0:.45)*(1.0+lampSurge);
+    }
+    // The epilogue clears the overcast; a lightning strike is a short cold fill.
+    ambient*=mix(vec3(1.0),indoors?vec3(1.10,1.03,.95):vec3(1.22,1.07,.90),dawn);
+    ambient+=(indoors?vec3(.085,.11,.16):vec3(.50,.62,.86)*(.35+.65*skyFacing))*storm;
+    // The floor atlas is already shaded by 3ds Max. It only receives the same
+    // exposure as the room around it; no Point/Spot term is added to the bake.
+    vec3 lighting=material==13?albedo*((powered?.84:.58)+.16*storm):albedo*ambient;
     vec3 sun=normalize(vec3(-.62,.43,.65));
     if(material!=4&&material!=5&&material!=13){
       float ndl=max(dot(n,sun),0.0);
@@ -178,26 +228,41 @@ void main(){
         // Stable, two-direction penumbra only in the high preset. No random
         // temporal dithering, so pausing and reduced motion remain stable.
         if(quality==2&&shade<.99)shade=mix(shade,visibility(n,normalize(sun+vec3(.055,.035,-.025)),70.0),.45);
-        lighting+=albedo*vec3(.66,.61,.48)*ndl*shade;
+        lighting+=albedo*mix(vec3(.34,.33,.33),vec3(1.30,.88,.50),dawn)*ndl*shade;
       }
     }
     if(usePoint&&material!=4&&material!=5&&material!=13){
         // The short settle belongs to the actual power-restoration event;
         // regular exposure does not flicker throughout the investigation.
-        float energy=(powered?1.0:.48)+powerPulse;
-        lighting+=pointLight(n,vec3(0,2.70,2.5),vec3(2.5,1.60,.82)*energy,albedo,roughness);
-        lighting+=pointLight(n,vec3(2.4,2.70,-1.8),vec3(1.9,1.42,.96)*energy,albedo,roughness);
-        lighting+=pointLight(n,vec3(3.48,1.69,3.02),vec3(2.5,1.21,.42)*energy,albedo,roughness);
-        lighting+=pointLight(n,vec3(0,8.6,-3),vec3(1.85,1.36,.65)*energy,albedo,roughness);
-        lighting+=pointLight(n,vec3(-4.65,1.95,2),vec3(.30,.62,1.1),albedo,roughness);
+        float energy=max(0.0,((powered?1.0:.48)+powerPulse)*(1.0+lampSurge));
+        lighting+=pointLight(n,vec3(0,2.70,2.5),vec3(2.9,1.62,.68)*energy*lampHood(vec3(0,2.70,2.5),-.22,.50),albedo,roughness);
+        lighting+=pointLight(n,vec3(2.4,2.70,-1.8),vec3(.98,1.36,1.90)*energy*lampHood(vec3(2.4,2.70,-1.8),-.22,.50),albedo,roughness);
+        lighting+=pointLight(n,vec3(3.48,1.69,3.02),vec3(3.6,1.52,.46)*energy*(.30+.70*lampHood(vec3(3.48,1.69,3.02),-.05,.55)),albedo,roughness);
+        lighting+=pointLight(n,vec3(0,8.6,-3),mix(vec3(1.65,1.06,.38),vec3(2.0,1.42,.65),resolutionWarmth)*energy*(1.0+2.4*lensFlash),albedo,roughness);
+        lighting+=pointLight(n,vec3(-4.65,1.95,2),vec3(.24,.48,.88),albedo,roughness);
+        lighting+=pointLight(n,vec3(4.70,2.10,-3.5),vec3(.26,.50,.82),albedo,roughness);
     }
     if(useSpot&&material!=4&&material!=5&&material!=13){
-        vec3 fromEye=worldPos-eye;float cone=smoothstep(.83,.97,dot(normalize(fromEye),normalize(look)));
-        // Flashlight is deliberately broad and weak enough to preserve room light.
-        if(cone>.002)lighting+=pointLight(n,eye+vec3(0,-.10,0),vec3(1.0,1.13,1.14)*cone,albedo,roughness);
+        // Hand torch: a soft outer cone with a tighter, warmer core, so the
+        // Spot reads as a beam on the wall instead of an even room fill.
+        vec3 fromEye=worldPos-eye;float axis=dot(normalize(fromEye),normalize(look));
+        float cone=smoothstep(.875,.972,axis),core=smoothstep(.958,.996,axis);
+        if(cone>.002)lighting+=pointLight(n,eye+vec3(0,-.10,0),vec3(1.0,.98,.90)*(cone*.62+core*.50),albedo,roughness);
     }
     if(material==4||material==5){
         vec3 I=safeUnit(worldPos-eye);
+        float rain=0.0;
+        if(material==5&&quality>0){
+            // World-anchored moisture never swims with the camera. Only the
+            // droplet clock is frozen by reduced motion, not the sky horizon.
+            vec2 glass=vec2(worldPos.z*.73+worldPos.x*.51,worldPos.y);
+            float lane=floor(glass.x*18.0),seed=hash(vec2(lane,3.4));
+            float across=abs(fract(glass.x*18.0)-.5);
+            float drop=fract(glass.y*.62+(rainMotion?time*.13:0.0)+seed*7.0);
+            rain=pow(max(0.0,1.0-across*13.0),2.0)*smoothstep(.46,.70,drop)*(1.0-smoothstep(.78,1.0,drop));
+            n=normalize(n+vec3(rain*.025,-rain*.035,rain*.018));
+            alpha=clamp(alpha+rain*.18,0.0,.47);
+        }
         if(material==4){
             // Two swell directions and a short wind ripple. Mesh and camera
             // stay fixed; reduced motion freezes this supplied simulation time.
@@ -214,6 +279,7 @@ void main(){
             vec3 refraction=linearColor(texture(environment,refract(I,n,1.0/1.5)).rgb)*vec3(.40,.56,.61);
             float fresnel=.04+.96*pow(1.0-clamp(dot(-I,n),0.0,1.0),5.0);
             lighting=material==4?mix(lighting,reflection,.40+.45*fresnel):mix(refraction,reflection,fresnel)*surface.rgb;
+            if(material==5)lighting+=vec3(.055,.078,.085)*rain;
             if(material==4){
                 float glint=pow(max(dot(reflect(-sun,n),normalize(eye-worldPos)),0.0),110.0);
                 lighting+=vec3(.30,.29,.23)*glint;
@@ -241,15 +307,38 @@ void main(){
         float lum=dot(reflected,vec3(.2126,.7152,.0722));
         lighting+=linearColor(mix(vec3(lum),reflected,.25)*vec3(.55,.64,.67))*wetness*fresnel*.46;
     }
-    if(material==6)lighting=linearColor(surface.rgb)*1.6;
+    if(material==6){
+        // Emissive lamps exceed display white only in the HDR target, where the
+        // bloom pass turns that excess into a soft halo around the fixture.
+        float emission=hdrOutput?emissiveBoost:1.6;
+        emission*=max(.15,1.0+lampSurge);
+        if(distance(worldPos,vec3(0,8.10,-3))<1.25)emission*=1.0+2.2*lensFlash;
+        lighting=linearColor(surface.rgb)*emission;
+    }
+    // Aim feedback: a warm pool around the interaction the player is facing.
+    // It is an interface affordance, so the baked floor atlas is left untouched.
+    if(focusPoint.w>.001&&material!=4&&material!=5&&material!=6&&material!=13){
+        vec3 toFocus=worldPos-focusPoint.xyz;
+        float pool=focusPoint.w*exp(-dot(toFocus,toFocus)/max(focusRadius*focusRadius,.0004));
+        vec3 toEye=safeUnit(eye-worldPos);
+        float rim=pow(1.0-clamp(dot(n,toEye),0.0,1.0),2.0);
+        lighting+=(albedo*vec3(1.0,.72,.34)*.95+vec3(.90,.60,.22)*rim*.22)*pool;
+    }
     // Exposure applies to scenery and sky, but never makes text illegible.
+    // Room grading is a color treatment over both baked floor and real-time
+    // objects; it does not claim to change the baked light/shadow solution.
+    if(indoors){
+        float archive=1.0-smoothstep(-.95,-.45,worldPos.z);
+        lighting*=mix(vec3(1.025,.965,.86),vec3(.80,.93,1.08),archive);
+    }else if(worldPos.y>7.25&&length(worldPos.xz-vec2(0,-3))<2.5){
+        lighting*=mix(vec3(.86,.96,1.05),vec3(1.0,.98,.91),resolutionWarmth*.48);
+    }
     lighting*=brightness*(indoors?.78:1.0);
     float distanceToEye=length(eye-worldPos);
     float lowMist=1.0-smoothstep(.0,7.5,(eye.y+worldPos.y)*.5);
-    float fog=useFog?1.0-exp(-distanceToEye*(.0038+.009*lowMist)):0.0;
+    float fog=useFog?1.0-exp(-distanceToEye*(.0050+.0125*lowMist)*(1.0-.42*dawn)):0.0;
     if(indoors)fog*=.25;
-    vec3 fogColor=linearColor(horizonColor());
+    vec3 fogColor=linearColor(mix(horizonColor(),vec3(.66,.58,.48),dawn*.85))*(1.0+1.4*storm);
     vec3 result=mix(lighting,fogColor*brightness,fog);
-    result=filmic(result);
-    FragColor=vec4(pow(max(result,vec3(0)),vec3(1.0/2.2)),alpha);
+    FragColor=present(result,alpha);
 }
